@@ -8,3 +8,4 @@ C++ implementation of a bitcoin wallet.
  - Configurable Scripts/Smart Contracts
  - Timelock Contracts
  - Lightening Network Dashboard
+ 

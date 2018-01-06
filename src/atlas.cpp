@@ -43,6 +43,8 @@ main(int argc, char * argv[])
     // If new config file create, suggest to user that they either check config.
     // if first time loading wallet, go through steps to creating HD keys
     // asynchronously check for utxo matching addresses
+
+    // TODO add better entropy (mouse cursor mvmt?)
     bc::data_chunk entropyChunk = bc::data_chunk(16);
     bc::pseudo_random_fill(entropyChunk);
     Wallet wallet(entropyChunk);

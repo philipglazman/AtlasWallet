@@ -9,6 +9,7 @@
 
 std::queue<std::string> Error::m_ErrorMsgs;
 
+
 /**/
 /*
 Errors::InitErrorReporting()

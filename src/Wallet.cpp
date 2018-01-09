@@ -2,18 +2,49 @@
 #include "Wallet.h"
 #include "Error.h"
 
-Wallet::Wallet(const bc::data_chunk a_entropy)
+Wallet::Wallet()
 {
-    m_entropy = a_entropy;
+    createMnemonicCodeWords();
+}
 
-    std::cout << sizeof(a_entropy);
+/**/
+/*
+Wallet::createMnemonicCodeWords()
+NAME
+Wallet::createMnemonicCodeWords()
+SYNOPSIS
+void Wallet::createMnemonicCodeWords()
+DESCRIPTION
+Creates Mnemonic Code Words following BIP-39 Standards
+RETURNS
+Returns nothing
+AUTHOR
+Philip Glazman
+DATE
+1/8/2018
+*/
+/**/
+void
+Wallet::createMnemonicCodeWords()
+{
+    // Create vector<uint8_t> to store 128 bits.
+    std::vector<std::uint8_t> m_entropy(16); 
 
+    // Create entropy of 128 bits. 
+    bc::pseudo_random_fill(m_entropy);
+
+    // Create mnemonic words. 
     m_mnemonic = bc::wallet::create_mnemonic(m_entropy);
-    
+
+    // Create 512-bit seed.
     m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(m_mnemonic));
-    std::cout << "seed " << m_seed << std::endl;
+
+    // Create master 256-bit Private Key.
     m_privateKey = bc::wallet::hd_private(m_seed);
-    m_publicKey = m_privateKey.to_public();
+
+    // Create master 264-bit Public Key.
+    m_publicKey = m_privateKey.to_public(); 
+    
 }
 
 bc::wallet::hd_private Wallet::childPrivateKey(int index)

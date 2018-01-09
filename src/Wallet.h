@@ -11,12 +11,14 @@ class Wallet
 {
 public:
     // creates wallet using user entropy (256 bits)
-    Wallet(const bc::data_chunk m_entropy);
+    Wallet();
 
     // creates wallet from 12 phrase mneumonic phrases
     Wallet(const bc::wallet::word_list m_mneomnicSeed);
 
     ~Wallet() {}
+
+    void createMnemonicCodeWords();
 
     bc::wallet::hd_private childPrivateKey(int index);
 

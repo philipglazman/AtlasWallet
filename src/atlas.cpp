@@ -50,9 +50,10 @@ main(int argc, char * argv[])
     std::random_device engine;
     unsigned x = engine();
     std::cout << x << std::endl;
-    bc::data_chunk entropyChunk = bc::data_chunk(16);
-    bc::pseudo_random_fill(entropyChunk);
-    Wallet wallet(entropyChunk);
+    
+    //std::vector<std::uint8_t> entropyChunk(16); //) = bc::data_chunk(16);
+    //bc::pseudo_random_fill(entropyChunk);
+    Wallet wallet;
     wallet.showKeys();
 }
 

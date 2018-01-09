@@ -2,9 +2,52 @@
 #include "Wallet.h"
 #include "Error.h"
 
+/**/
+/*
+Wallet::Wallet()
+NAME
+Wallet::Wallet()
+SYNOPSIS
+Wallet::Wallet()
+DESCRIPTION
+Constructor
+RETURNS
+Returns nothing
+AUTHOR
+Philip Glazman
+DATE
+1/8/2018
+*/
+/**/
 Wallet::Wallet()
 {
-    createMnemonicCodeWords();
+    std::string passphrase = "test";
+    createMnemonicCodeWords(passphrase);
+}
+
+/**/
+/*
+Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
+NAME
+Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
+SYNOPSIS
+Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
+DESCRIPTION
+Generate wallet using 12-word mnemonic code words.
+RETURNS
+Returns nothing
+AUTHOR
+Philip Glazman
+DATE
+1/8/2018
+*/
+/**/
+Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
+{
+    m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(a_mnemonicSeed));
+    m_mnemonic = a_mnemonicSeed;
+    m_privateKey = bc::wallet::hd_private(m_seed);
+    m_publicKey = m_privateKey.to_public();
 }
 
 /**/
@@ -25,7 +68,7 @@ DATE
 */
 /**/
 void
-Wallet::createMnemonicCodeWords()
+Wallet::createMnemonicCodeWords(const std::string& a_passphrase)
 {
     // Create vector<uint8_t> to store 128 bits.
     std::vector<std::uint8_t> m_entropy(16); 
@@ -36,7 +79,8 @@ Wallet::createMnemonicCodeWords()
     // Create mnemonic words. 
     m_mnemonic = bc::wallet::create_mnemonic(m_entropy);
 
-    // Create 512-bit seed.
+    // Create 512-bit seed using mnemonic code wirds and a_passphrase as Salt.
+    // TODO - add ICU to library dependency to make it work with passphrase
     m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(m_mnemonic));
 
     // Create master 256-bit Private Key.

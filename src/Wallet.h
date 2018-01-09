@@ -14,11 +14,11 @@ public:
     Wallet();
 
     // creates wallet from 12 phrase mneumonic phrases
-    Wallet(const bc::wallet::word_list m_mneomnicSeed);
+    Wallet(const bc::wallet::word_list a_mneomnicSeed);
 
     ~Wallet() {}
 
-    void createMnemonicCodeWords();
+    void createMnemonicCodeWords(const std::string& a_passphrase);
 
     bc::wallet::hd_private childPrivateKey(int index);
 

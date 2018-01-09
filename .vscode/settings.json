@@ -12,6 +12,8 @@
         "cstddef": "cpp",
         "cstdlib": "cpp",
         "cwctype": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     }
 }

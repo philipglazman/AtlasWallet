@@ -1,11 +1,17 @@
 #include "stdafx.h"
 #include "Wallet.h"
+#include "Error.h"
 
 Wallet::Wallet(const bc::data_chunk a_entropy)
 {
     m_entropy = a_entropy;
+
+    std::cout << sizeof(a_entropy);
+
     m_mnemonic = bc::wallet::create_mnemonic(m_entropy);
+    
     m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(m_mnemonic));
+    std::cout << "seed " << m_seed << std::endl;
     m_privateKey = bc::wallet::hd_private(m_seed);
     m_publicKey = m_privateKey.to_public();
 }
@@ -27,17 +33,17 @@ bc::wallet::payment_address Wallet::childAddress(int index)
 
 void Wallet::showPrivateKey()
 {
-    std::cout << m_privateKey.encoded() << std::endl;
+    std::cout << "priv key " << m_privateKey.encoded() << std::endl;
 }
 
 void Wallet::showChildPrivateKey(int index)
 {
-    std::cout << childPrivateKey(index).encoded() << std::endl;
+    std::cout << "child priv key " << childPrivateKey(index).encoded() << std::endl;
 }
 
 void Wallet::showAddress(int index)
 {
-    std::cout << childAddress(index).encoded() << std::endl;
+    std::cout << "first address " << childAddress(index).encoded() << std::endl;
 }
 
 void Wallet::showAllAddresses()

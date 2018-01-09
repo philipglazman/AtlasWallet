@@ -5,6 +5,7 @@ g++ -std=c++11 -o wallet atlas.cpp wallet.cpp $(pkg-config --cflags libbitcoin -
 
 #include "stdafx.h"
 #include "Wallet.h"
+#include "Error.h"
 
 /**/
 /*

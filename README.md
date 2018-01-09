@@ -9,3 +9,5 @@ C++ implementation of a bitcoin wallet.
  - Timelock Contracts
  - Lightening Network Dashboard
  
+# Status
+In development. Do not use with real money.

@@ -1,6 +1,8 @@
 /*
 Contains bloom filter implementation following BIP-37.
 Bloom filter provides plausible-deniability privacy.
+More on the implementation details: https://github.com/bitcoin/bips/blob/master/bip-0037.mediawiki
+Bitcoin.org python implementation details: https://bitcoin.org/en/developer-examples#creating-a-bloom-filter
 */
 #ifndef _BLOOMFILTER_H      
 #define _BLOOMFILTER_H
@@ -13,6 +15,7 @@ public:
     BloomFilter();
     ~BloomFilter();
 
+    void bloomFilterHash();
     //filterLoad();
     //filterAdd();
     //filterClear();

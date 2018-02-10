@@ -18,7 +18,7 @@ public:
 
     ~Wallet() {}
 
-    void createMnemonicCodeWords(const std::string& a_passphrase);
+    void createMnemonicCodeWords();
 
     bc::wallet::hd_private childPrivateKey(int index);
 
@@ -26,17 +26,27 @@ public:
 
     bc::wallet::payment_address childAddress(int index);
 
-    void showPrivateKey();
+    bc::wallet::hd_private showPrivateKey();
 
-    void showChildPrivateKey(int index);
+    bc::wallet::hd_private showChildPrivateKey(int index);
 
-    void showAddress(int index);
+    // Show bitcoin address at index.
+    bc::wallet::payment_address showAddress(int index);
 
-    void showAllAddresses();
+    bc::wallet::payment_address showNextAddress();
 
+    // Show all addresses.
+    bc::wallet::payment_address showAllAddresses();
+
+    // Show mnemonic codes.
     void showMnemonicCodes();
 
+    // Debug function to get all keys.
     void showKeys();
+
+    void setIndex(int a_index);
+    // TODO: Send transaction.
+    //void sendTx();
     
 private:
     bc::data_chunk m_entropy;
@@ -44,6 +54,10 @@ private:
     bc::wallet::word_list m_mnemonic;
     bc::wallet::hd_private m_privateKey;
     bc::wallet::hd_public m_publicKey;
+
+    // Cursor to latest index.
+    // TODO replace index with m_index.
+    int m_index = 0;
 };
 
 #endif

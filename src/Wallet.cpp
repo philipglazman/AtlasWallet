@@ -4,71 +4,37 @@
 
 /**/
 /*
-Wallet::Wallet()
-NAME
-Wallet::Wallet()
-SYNOPSIS
-Wallet::Wallet()
 DESCRIPTION
 Constructor
-RETURNS
-Returns nothing
-AUTHOR
-Philip Glazman
-DATE
-1/8/2018
 */
 /**/
 Wallet::Wallet()
 {
-    std::string passphrase = "test";
-    createMnemonicCodeWords(passphrase);
+    createMnemonicCodeWords();
 }
 
 /**/
 /*
-Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
-NAME
-Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
-SYNOPSIS
-Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
 DESCRIPTION
 Generate wallet using 12-word mnemonic code words.
-RETURNS
-Returns nothing
-AUTHOR
-Philip Glazman
-DATE
-1/8/2018
 */
 /**/
 Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
 {
     m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(a_mnemonicSeed));
     m_mnemonic = a_mnemonicSeed;
-    m_privateKey = bc::wallet::hd_private(m_seed);
+    m_privateKey = bc::wallet::hd_private(m_seed,bc::wallet::hd_private::testnet);
     m_publicKey = m_privateKey.to_public();
 }
 
 /**/
 /*
-Wallet::createMnemonicCodeWords()
-NAME
-Wallet::createMnemonicCodeWords()
-SYNOPSIS
-void Wallet::createMnemonicCodeWords()
 DESCRIPTION
-Creates Mnemonic Code Words following BIP-39 Standards
-RETURNS
-Returns nothing
-AUTHOR
-Philip Glazman
-DATE
-1/8/2018
+Creates Mnemonic Code Words following BIP-39 Standard
 */
 /**/
 void
-Wallet::createMnemonicCodeWords(const std::string& a_passphrase)
+Wallet::createMnemonicCodeWords()
 {
     // Create vector<uint8_t> to store 128 bits.
     std::vector<std::uint8_t> m_entropy(16); 
@@ -84,7 +50,7 @@ Wallet::createMnemonicCodeWords(const std::string& a_passphrase)
     m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(m_mnemonic));
 
     // Create master 256-bit Private Key.
-    m_privateKey = bc::wallet::hd_private(m_seed);
+    m_privateKey = bc::wallet::hd_private(m_seed,bc::wallet::hd_private::testnet);
 
     // Create master 264-bit Public Key.
     m_publicKey = m_privateKey.to_public(); 
@@ -103,30 +69,42 @@ bc::wallet::hd_public Wallet::childPublicKey(int index)
 
 bc::wallet::payment_address Wallet::childAddress(int index)
 {
-    return bc::wallet::ec_public(childPublicKey(index).point()).to_payment_address();
+    return bc::wallet::payment_address(bc::wallet::ec_public(childPublicKey(index).point()), 0x6f);
+    //return bc::wallet::ec_public(childPublicKey(index).point(),0x6f);//.to_payment_address();
 }
 
-void Wallet::showPrivateKey()
+// Reveal BIP32 Root Key.
+bc::wallet::hd_private Wallet::showPrivateKey()
 {
-    std::cout << "priv key " << m_privateKey.encoded() << std::endl;
+    return m_privateKey.encoded();
 }
 
-void Wallet::showChildPrivateKey(int index)
+// Reveal child private key at index n.
+bc::wallet::hd_private Wallet::showChildPrivateKey(int index)
 {
-    std::cout << "child priv key " << childPrivateKey(index).encoded() << std::endl;
+    return childPrivateKey(index).encoded();
 }
 
-void Wallet::showAddress(int index)
+// Show address n.
+bc::wallet::payment_address Wallet::showAddress(int index)
 {
-    std::cout << "first address " << childAddress(index).encoded() << std::endl;
+    return childAddress(index).encoded();
 }
 
-void Wallet::showAllAddresses()
+bc::wallet::payment_address Wallet::showNextAddress()
+{
+    m_index++;
+    return childAddress(m_index).encoded();
+}
+
+// Show all addresses.
+bc::wallet::payment_address Wallet::showAllAddresses()
 {
     //TODO cycle thru all addresses
     std::cout << "to do" << std::endl;
 }
 
+// Reveal mnemonic codes.
 void Wallet::showMnemonicCodes()
 {
     if(bc::wallet::validate_mnemonic(m_mnemonic))
@@ -142,7 +120,14 @@ void Wallet::showMnemonicCodes()
 void Wallet::showKeys()
 {
     showMnemonicCodes();
-    showPrivateKey();
-    showChildPrivateKey(1);
-    showAddress(1);
+    std::cout << "BIP 32 Root Key: " << showPrivateKey() << std::endl;
+    std::cout << "Address: " << showAddress(1) << std::endl;
+    std::cout << "Address: " << showNextAddress() << std::endl;
+    std::cout << "Address: " << showAddress(2) << std::endl;
+    std::cout << "Address: " << showNextAddress() << std::endl;
+}
+
+void Wallet::setIndex(int a_index)
+{
+    m_index = a_index;
 }

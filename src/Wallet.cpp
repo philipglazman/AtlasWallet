@@ -41,7 +41,7 @@ Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
 }
 
 /**
- * @brief Generates mnemonic bits using user machine's entropy.
+ * @brief Generates mnemonic bits using user machine's entropy. BIP-39 Standard.
  * 
  * @return bc::wallet::word_list. List of 12 words representing seed of wallet.
  */
@@ -108,7 +108,7 @@ bc::wallet::payment_address Wallet::childAddress(int a_index)
  */
 bc::wallet::hd_private Wallet::showPrivateKey()
 {
-    return m_masterPublicKey.encoded();
+    return m_masterPrivateKey.encoded();
 }
 
 /**

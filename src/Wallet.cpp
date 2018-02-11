@@ -2,132 +2,162 @@
 #include "Wallet.h"
 #include "Error.h"
 
-/**/
-/*
-DESCRIPTION
-Constructor
-*/
-/**/
+/**
+ * @brief Creates new wallet using user entropy (256 bits). 
+ * 
+ */
 Wallet::Wallet()
 {
-    createMnemonicCodeWords();
+    bc::wallet::word_list mnemonicSeed = generateMnemonicCode();
+
+    m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(mnemonicSeed));
+
+    m_mnemonic = mnemonicSeed;
+
+    // Master 256-bit Private Key.
+    m_masterPrivateKey = bc::wallet::hd_private(m_seed,bc::wallet::hd_private::testnet);
+    
+    // Master 264-bit Public Key.
+    m_masterPublicKey = m_masterPrivateKey.to_public();
 }
 
-/**/
-/*
-DESCRIPTION
-Generate wallet using 12-word mnemonic code words.
-*/
-/**/
+/**
+ * @brief Creates new wallet by import 12 word phrase.
+ * 
+ * @param a_mnemonicSeed, bc::wallet::word_list. List of 12 word seed phrase.
+ */
 Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
 {
+    // 512 bit seed is derived from mnemonic bits.
     m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(a_mnemonicSeed));
+    
     m_mnemonic = a_mnemonicSeed;
-    m_privateKey = bc::wallet::hd_private(m_seed,bc::wallet::hd_private::testnet);
-    m_publicKey = m_privateKey.to_public();
+
+    // Master 256-bit Private Key.
+    m_masterPrivateKey = bc::wallet::hd_private(m_seed,bc::wallet::hd_private::testnet);
+    
+    // Master 264-bit Public Key.
+    m_masterPublicKey = m_masterPrivateKey.to_public();
 }
 
-/**/
-/*
-DESCRIPTION
-Creates Mnemonic Code Words following BIP-39 Standard
-*/
-/**/
-void
-Wallet::createMnemonicCodeWords()
+/**
+ * @brief Generates mnemonic bits using user machine's entropy.
+ * 
+ * @return bc::wallet::word_list. List of 12 words representing seed of wallet.
+ */
+bc::wallet::word_list
+Wallet::generateMnemonicCode()
 {
-    // Create vector<uint8_t> to store 128 bits.
-    std::vector<std::uint8_t> m_entropy(16); 
+    // Store 128 bits for entropy.
+    m_entropy = new std::vector<std::uint8_t>(16); 
 
-    // Create entropy of 128 bits. 
-    bc::pseudo_random_fill(m_entropy);
+    // Entropy is generated using local machine.
+    bc::pseudo_random_fill(*m_entropy);
 
-    // Create mnemonic words. 
-    m_mnemonic = bc::wallet::create_mnemonic(m_entropy);
+    // Entropy is included in bits to generate mnemonic words.
+    bc::wallet::word_list mnemonicSeed =  bc::wallet::create_mnemonic(*m_entropy);
+
+    delete m_entropy;
+
+    return mnemonicSeed;
 
     // Create 512-bit seed using mnemonic code wirds and a_passphrase as Salt.
-    // TODO - add ICU to library dependency to make it work with passphrase
-    m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(m_mnemonic));
+    // TODO - add ICU to library dependency to make it work with passphrase    
+};
 
-    // Create master 256-bit Private Key.
-    m_privateKey = bc::wallet::hd_private(m_seed,bc::wallet::hd_private::testnet);
-
-    // Create master 264-bit Public Key.
-    m_publicKey = m_privateKey.to_public(); 
-    
-}
-
-bc::wallet::hd_private Wallet::childPrivateKey(int index)
+/**
+ * @brief Selector for child private key at index n of keychain.
+ * 
+ * @param a_index, integer.
+ * @return bc::wallet::hd_private 
+ */
+bc::wallet::hd_private
+Wallet::childPrivateKey(int a_index)
 {
-    return m_privateKey.derive_private(index);
+    return m_masterPrivateKey.derive_private(a_index);
 }
 
-bc::wallet::hd_public Wallet::childPublicKey(int index)
+/**
+ * @brief Selector for child public key at index n of keychain.
+ * 
+ * @param a_index, integer.
+ * @return bc::wallet::hd_public 
+ */
+bc::wallet::hd_public
+Wallet::childPublicKey(int a_index)
 {
-    return m_publicKey.derive_public(index);
+    return m_masterPublicKey.derive_public(a_index);
 }
 
-bc::wallet::payment_address Wallet::childAddress(int index)
+/**
+ * @brief Return the Bitcoin Address (Base58 encoded address) at index n of keychain.
+ * 
+ * @param a_index, integer.
+ * @return bc::wallet::payment_address 
+ */
+bc::wallet::payment_address Wallet::childAddress(int a_index)
 {
-    return bc::wallet::payment_address(bc::wallet::ec_public(childPublicKey(index).point()), 0x6f);
-    //return bc::wallet::ec_public(childPublicKey(index).point(),0x6f);//.to_payment_address();
+    // Testnet payment address.
+    return bc::wallet::payment_address(bc::wallet::ec_public(childPublicKey(a_index).point()), 0x6f);
 }
 
-// Reveal BIP32 Root Key.
+/**
+ * @brief Returns BIP-32 root key.
+ * 
+ * @return bc::wallet::hd_private 
+ */
 bc::wallet::hd_private Wallet::showPrivateKey()
 {
-    return m_privateKey.encoded();
+    return m_masterPublicKey.encoded();
 }
 
-// Reveal child private key at index n.
-bc::wallet::hd_private Wallet::showChildPrivateKey(int index)
+/**
+ * @brief Returns child private key at index n of keychain.
+ * 
+ * @param index 
+ * @return bc::wallet::hd_private 
+ */
+bc::wallet::hd_private Wallet::showChildPrivateKey(int a_index)
 {
-    return childPrivateKey(index).encoded();
+    return childPrivateKey(a_index).encoded();
 }
 
-// Show address n.
-bc::wallet::payment_address Wallet::showAddress(int index)
+/**
+ * @brief Return bitcoin address (Base58 encoded) at index n of keychain.
+ * 
+ * @param a_index 
+ * @return bc::wallet::payment_address 
+ */
+bc::wallet::payment_address Wallet::showAddress(int a_index)
 {
-    return childAddress(index).encoded();
+    return childAddress(a_index).encoded();
 }
 
-bc::wallet::payment_address Wallet::showNextAddress()
-{
-    m_index++;
-    return childAddress(m_index).encoded();
-}
-
-// Show all addresses.
-bc::wallet::payment_address Wallet::showAllAddresses()
-{
-    //TODO cycle thru all addresses
-    std::cout << "to do" << std::endl;
-}
-
-// Reveal mnemonic codes.
+/**
+ * @brief Outputs to console the list of mnemonic code phrases.
+ * 
+ */
 void Wallet::showMnemonicCodes()
 {
+    // Validate the mnemonic phrase before sharing it with user.
     if(bc::wallet::validate_mnemonic(m_mnemonic))
     {
         std::string mnemonicString = bc::join(m_mnemonic);
-        std::cout << "\n" << mnemonicString << std::endl;
+        std::cout << mnemonicString << std::endl;
  
     }else{
-        std::cout << "mnemonic invalid!" << std::endl;
+        std::cout << "Mnemonic Invalid!" << std::endl;
     }
 }
 
+/**
+ * @brief Shows relevant keys to the user in console.
+ * 
+ */
 void Wallet::showKeys()
 {
     showMnemonicCodes();
     std::cout << "BIP 32 Root Key: " << showPrivateKey() << std::endl;
     std::cout << "Address: " << showAddress(1) << std::endl;
-    std::cout << "Address: " << showNextAddress() << std::endl;
     std::cout << "Address: " << showAddress(2) << std::endl;
-    std::cout << "Address: " << showNextAddress() << std::endl;
-}
-
-void Wallet::setIndex(int a_index)
-{
-    m_index = a_index;
 }

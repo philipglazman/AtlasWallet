@@ -24,7 +24,6 @@ main(int argc, char * argv[])
     //std::vector<std::uint8_t> entropyChunk(16); //) = bc::data_chunk(16);
     //bc::pseudo_random_fill(entropyChunk);
     Wallet wallet;
-    std::cout << wallet.showNextAddress() << std::endl;
     //wallet.showKeys();
 }
 

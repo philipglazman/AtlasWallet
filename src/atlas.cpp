@@ -23,7 +23,9 @@ main(int argc, char * argv[])
     
     //std::vector<std::uint8_t> entropyChunk(16); //) = bc::data_chunk(16);
     //bc::pseudo_random_fill(entropyChunk);
-    Wallet wallet;
+
+    std::vector< std::string > wordList = {"scatter", "found", "issue", "friend", "front", "glare", "blanket", "mother", "frequent", "acid", "shaft", "loud"};
+    Wallet wallet(wordList);
     wallet.showKeys();
 }
 

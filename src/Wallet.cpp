@@ -1,6 +1,5 @@
 #include "stdafx.h"
-#include "Wallet.h"
-#include "Error.h"
+
 
 /**
  * @brief Creates new wallet using user entropy (256 bits). 

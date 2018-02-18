@@ -15,7 +15,7 @@ public:
 	static void InitErrorReporting();
 
 	// Records an error message.
-	static void RecordError(std::string &a_emsg);
+	static void RecordError(std::string a_emsg);
 
 	// Displays the collected error message.
 	static void DisplayErrors();

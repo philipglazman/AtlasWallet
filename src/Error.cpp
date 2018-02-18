@@ -3,7 +3,6 @@
 */
 
 #include "stdafx.h"
-#include "Error.h"
 
 // Initializes error reports.
 
@@ -52,7 +51,7 @@ DATE
 */
 /**/
 void
-Error::RecordError(std::string &a_emsg)
+Error::RecordError(std::string a_emsg)
 {
 	m_ErrorMsgs.push(a_emsg);
 }

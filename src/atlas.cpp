@@ -4,8 +4,6 @@ g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp $(pkg-config --cflags li
 */
 
 #include "stdafx.h"
-#include "Wallet.h"
-#include "Error.h"
 
 int
 main(int argc, char * argv[])

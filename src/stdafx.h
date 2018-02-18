@@ -19,3 +19,7 @@ g++ -c stdafx.h -o stdafx.h.gch -std=c++11 -lboostsystem -lbitcoin
 #include <vector>
 #include <iomanip>
 #include <random>
+
+#include "error.h"
+#include "network.h"
+#include "wallet.h"

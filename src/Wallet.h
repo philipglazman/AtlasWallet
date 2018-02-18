@@ -41,10 +41,10 @@ private:
     // List of 12 words used for wallet creation.
     bc::wallet::word_list m_mnemonic;
 
-    // Master private key.
+    // 256 bits - Master private key - m
     bc::wallet::hd_private m_masterPrivateKey;
 
-    // Master public key.
+    // 264 bits - Master public key - M
     bc::wallet::hd_public m_masterPublicKey;
 
     // Creates the Mnemonic Code Words.

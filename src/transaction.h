@@ -5,14 +5,15 @@
 
 #ifndef _TRANSACTIONS_H
 #define _TRANSACTIONS_H
-
 #include "stdafx.h"
-#include "wallet.h"
 
-class Transactions : public Wallet {
+class Transactions {
     public:
         Transactions();
         ~Transactions();
+
+        bool payToPublicKeyHash(bc::payment_address destinationAddress);
+
     protected:
     private:
         // get list of blocks associated with this transaction

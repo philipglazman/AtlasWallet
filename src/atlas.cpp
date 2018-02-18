@@ -6,7 +6,6 @@ g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp $(pkg-config --cflags li
 #include "stdafx.h"
 #include "Wallet.h"
 #include "Error.h"
-#include <random>
 
 int
 main(int argc, char * argv[])
@@ -17,13 +16,8 @@ main(int argc, char * argv[])
     // asynchronously check for utxo matching addresses
 
     // TODO add better entropy (mouse cursor mvmt?)
-//     std::random_device engine;
-//     unsigned x = engine();
-//     std::cout << x << std::endl;
+    // std::random_device engine;
     
-    //std::vector<std::uint8_t> entropyChunk(16); //) = bc::data_chunk(16);
-    //bc::pseudo_random_fill(entropyChunk);
-
     std::vector< std::string > wordList = {"scatter", "found", "issue", "friend", "front", "glare", "blanket", "mother", "frequent", "acid", "shaft", "loud"};
     Wallet wallet(wordList);
     wallet.showKeys();

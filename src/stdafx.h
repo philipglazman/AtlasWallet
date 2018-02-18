@@ -18,3 +18,4 @@ g++ -c stdafx.h -o stdafx.h.gch -std=c++11 -lboostsystem -lbitcoin
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <random>

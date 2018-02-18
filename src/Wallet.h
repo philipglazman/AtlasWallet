@@ -21,12 +21,12 @@ public:
     ~Wallet() {}
 
     // Show bitcoin address at index.
-    bc::wallet::payment_address showAddress(int index);
+    bc::wallet::payment_address showAddress(int a_index);
 
     // Show mnemonic codes.
     void showMnemonicCodes();
 
-    // Debug function to get all keys.
+    // Debug Helper - reveals all keys to output.
     void showKeys();
 
 protected:
@@ -50,14 +50,19 @@ private:
     // Creates the Mnemonic Code Words.
     bc::wallet::word_list generateMnemonicCode();
  
-    bc::wallet::hd_private childPrivateKey(int index);
+    // Returns private key at index n of keychain.
+    bc::wallet::hd_private childPrivateKey(int a_index);
 
+    // Returns public key at index n of keychain.
     bc::wallet::hd_public childPublicKey(int index);
 
+    // Returns address at index n of keychain.
     bc::wallet::payment_address childAddress(int index);
 
+    // Debug Helper - Reveals Private Key to output.
     bc::wallet::hd_private showPrivateKey();
 
+    // Debbug Helper - Reveals private key at index n in keychain to output.
     bc::wallet::hd_private showChildPrivateKey(int index);  
 };
 

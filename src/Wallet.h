@@ -21,7 +21,7 @@ public:
     ~Wallet() {}
 
     // Show bitcoin address at index.
-    bc::wallet::payment_address showAddress(int a_index);
+    bc::wallet::payment_address getAddress(int a_index);
 
     // Show mnemonic codes.
     void showMnemonicCodes();

@@ -8,24 +8,27 @@
 
 #include "stdafx.h"
 
-namespace network
+class Network
 {
-    // Connect to Bitcoin network (libbitcion servers).
-    bool connect();
+    public:
+        Network();
+        ~Network();
 
-    // Exception Handling lambda function for network calls.
-    static const auto on_error = [](const bc::code ec) 
-    {
-		Error::RecordError(std::string("Error connecting to bitcoin network."));
-	};
+        // Broadcast raw transaction to Bitcoin.
+        bool broadcastTranaction();
 
-    // Broadcast raw transaction to Bitcoin.
-    bool broadcastTranaction();
+        // Connect to Bitcoin network (libbitcion servers).
+        // Returns address of obelisk_client.
+        bc::client::obelisk_client& connect();
 
-    // Obelisk Client object. This object will use rpc to talk to Bitcoin network.
-    static bc::client::obelisk_client * m_client;
+        // Disconnect from network.
+        bool disconnect();
 
-
-}
+    protected:
+    
+    private:
+        // Obelisk Client object. This object will use rpc to talk to Bitcoin network.
+        bc::client::obelisk_client * m_client;
+};
 
 #endif

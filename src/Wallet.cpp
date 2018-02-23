@@ -127,7 +127,7 @@ bc::wallet::hd_private Wallet::showChildPrivateKey(int a_index)
  * @param a_index 
  * @return bc::wallet::payment_address 
  */
-bc::wallet::payment_address Wallet::showAddress(int a_index)
+bc::wallet::payment_address Wallet::getAddress(int a_index)
 {
     return childAddress(a_index).encoded();
 }
@@ -157,6 +157,6 @@ void Wallet::showKeys()
 {
     showMnemonicCodes();
     std::cout << "BIP 32 Root Key: " << showPrivateKey() << std::endl;
-    std::cout << "Address: " << showAddress(1) << std::endl;
-    std::cout << "Address: " << showAddress(2) << std::endl;
+    std::cout << "Address: " << getAddress(1) << std::endl;
+    std::cout << "Address: " << getAddress(2) << std::endl;
 }

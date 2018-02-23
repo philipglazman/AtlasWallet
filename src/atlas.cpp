@@ -1,6 +1,6 @@
 /*
 * Main program for Atlas.
-g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp $(pkg-config --cflags libbitcoin --libs libbitcoin libbitcoin-client)
+g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp transaction.cpp network.cpp $(pkg-config --cflags libbitcoin --libs libbitcoin libbitcoin-client)
 */
 
 #include "stdafx.h"
@@ -19,6 +19,15 @@ main(int argc, char * argv[])
     std::vector< std::string > wordList = {"scatter", "found", "issue", "friend", "front", "glare", "blanket", "mother", "frequent", "acid", "shaft", "loud"};
     Wallet wallet(wordList);
     wallet.showKeys();
+
+    Transaction transactions;
+
+    bc::wallet::payment_address addy = wallet.getAddress(1);
+    bc::wallet::payment_address destinationAddy = wallet.getAddress(2);
+
+    std::cout << transactions.getBalance(addy) << std::endl;
+
+    transactions.P2PKH(destinationAddy, 1000);
 }
 
 

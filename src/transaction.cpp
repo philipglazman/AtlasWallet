@@ -11,9 +11,17 @@ Transaction::~Transaction()
     delete network;
 }
 
+/**
+ * @brief Vasic P2PKH transaction setup.
+ * 
+ * @param destinationAddress 
+ * @param satoshis 
+ * @return true 
+ * @return false 
+ */
 bool Transaction::P2PKH(bc::wallet::payment_address destinationAddress, unsigned long long satoshis)
 { 
-    // Create output script.
+    // Create output script - OP_DUP OP_HASH160 <PKH> OP_EQUALVERIFY OP_CHECKSIG
     bc::chain::script outputScript = bc::chain::script().to_pay_key_hash_pattern(destinationAddress.hash());
 
     //decode_base10(satoshis, BTC, 8);
@@ -23,6 +31,12 @@ bool Transaction::P2PKH(bc::wallet::payment_address destinationAddress, unsigned
     return true;
 };
 
+/**
+ * @brief Returns balanace of n payment address.
+ * 
+ * @param a_address, payment address.
+ * @return unsigned long long 
+ */
 unsigned long long Transaction::getBalance(bc::wallet::payment_address a_address)
 {
     std::cout << a_address << std::endl;
@@ -58,4 +72,41 @@ unsigned long long Transaction::getBalance(bc::wallet::payment_address a_address
 
     // Return utxo for a_address.
     return utxo;
+};
+
+/**
+ * @brief 
+ * 
+ * @param a_address, payment address to check UTXO for. 
+ * @param a_amount, minimum value of satoshis needed in UTXO.
+ * @return bc::chain::points_value 
+ */
+bc::chain::points_value Transaction::getUTXOs(bc::wallet::payment_address a_address, unsigned long long a_amount)
+{
+    // Connect to libbitcoin servers.
+    bc::client::obelisk_client &rpc = network->connect();
+ 
+    bc::chain::points_value val1;
+    static const auto on_done = [&val1](const bc::chain::points_value& vals) {
+ 
+        std::cout << "Success: " << vals.value() << std::endl;
+        val1 = vals;
+         
+ 
+    };
+ 
+    static const auto on_error = [](const bc::code& ec) {
+ 
+        std::cout << "Error Code: " << ec.message() << std::endl;
+ 
+    };
+ 
+    rpc.blockchain_fetch_unspent_outputs(on_error, on_done, a_address, a_amount, bc::wallet::select_outputs::algorithm::greedy);
+     
+    rpc.wait();
+    
+    network -> disconnect();
+     
+    //return allPoints;
+    return val1;
 };

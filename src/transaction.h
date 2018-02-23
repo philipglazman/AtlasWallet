@@ -20,6 +20,8 @@ class Transaction {
         // Returns balance of n bitcoin address.
         unsigned long long getBalance(bc::wallet::payment_address a_address);
 
+        bc::chain::points_value getUTXOs(bc::wallet::payment_address Addy, unsigned long long amount);
+
     protected:
     private:
         

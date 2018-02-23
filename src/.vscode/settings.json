@@ -23,6 +23,7 @@
         "unordered_map": "cpp",
         "vector": "cpp",
         "__mutex_base": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "memory": "cpp"
     }
 }

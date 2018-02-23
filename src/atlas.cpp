@@ -28,6 +28,7 @@ main(int argc, char * argv[])
     std::cout << transactions.getBalance(addy) << std::endl;
 
     transactions.P2PKH(destinationAddy, 1000);
+    transactions.getUTXOs(addy, 100000000);
 }
 
 

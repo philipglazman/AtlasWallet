@@ -52,8 +52,18 @@ unsigned long long Transaction::getBalance(bc::wallet::payment_address a_address
         // For each row in chain history, check for balance.
         for(const auto& row: rows)
         {
+            //bc::hash_digest test = row.output.hash();
+            std::cout << row.output.to_data() << std::endl;
             if (row.spend.hash() == bc::null_hash)
+            {    
                 utxo += row.value;
+                bc::hash_digest utxoHash = row.output.hash();
+                uint32_t index = 0;
+                bc::chain::output_point utxo(utxoHash, index);
+                //std::string hashString 
+                bc::encode_hash(utxoHash);
+                std::cout << bc::encode_hash(utxoHash) << std::endl;
+            }
         }
     };
 

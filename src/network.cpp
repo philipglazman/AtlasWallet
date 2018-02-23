@@ -43,6 +43,7 @@ bc::client::obelisk_client& Network::connect()
 
 bool Network::disconnect()
 {
+    std::cout << "Disconnected from Libbitcoin.net" << std::endl;
     delete m_client;
     m_client = NULL;
 };

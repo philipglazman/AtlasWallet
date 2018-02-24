@@ -25,7 +25,7 @@ class Network
         bool disconnect();
 
     protected:
-    
+
     private:
         // Obelisk Client object. This object will use rpc to talk to Bitcoin network.
         bc::client::obelisk_client * m_client;

@@ -26,6 +26,12 @@ public:
     // Show mnemonic codes.
     void showMnemonicCodes();
 
+    // Returns public key at index n of keychain.
+    bc::wallet::hd_public childPublicKey(int index);
+
+    // Returns private key at index n of keychain.
+    bc::wallet::hd_private childPrivateKey(int a_index);
+
     // Debug Helper - reveals all keys to output.
     void showKeys();
 
@@ -50,11 +56,6 @@ private:
     // Creates the Mnemonic Code Words.
     bc::wallet::word_list generateMnemonicCode();
  
-    // Returns private key at index n of keychain.
-    bc::wallet::hd_private childPrivateKey(int a_index);
-
-    // Returns public key at index n of keychain.
-    bc::wallet::hd_public childPublicKey(int index);
 
     // Returns address at index n of keychain.
     bc::wallet::payment_address childAddress(int index);

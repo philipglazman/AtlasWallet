@@ -27,8 +27,10 @@ main(int argc, char * argv[])
 
     std::cout << transactions.getBalance(addy) << std::endl;
 
-    transactions.P2PKH(destinationAddy, 1000);
-    transactions.getUTXOs(addy, 100000000);
+    bc::data_chunk publicKey = bc::to_chunk(wallet.childPublicKey(1).point());
+
+    transactions.P2PKH(publicKey,wallet.childPrivateKey(1).secret(),destinationAddy, 1000000);
+    transactions.getUTXOs(addy, 10000000);
 }
 
 

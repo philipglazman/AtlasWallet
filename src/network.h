@@ -24,10 +24,25 @@ class Network
         // Disconnect from network.
         bool disconnect();
 
+        // Get fee recommendations from bitcoinfees.earn.co
+        void refreshFeeRecommendations();
+        int getFastestFee();
+        int getHalfHourFee();
+        int getHourFee();
+
 
     protected:
 
     private:
+
+        struct 
+        {
+            int fastestFee;
+            int halfHourFee;
+            int hourFee;
+        } fees;
+
+
         // Obelisk Client object. This object will use rpc to talk to Bitcoin network.
         bc::client::obelisk_client * m_client;
 };

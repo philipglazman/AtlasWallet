@@ -39,6 +39,9 @@ main(int argc, char * argv[])
     std::cout << addressIndex << std::endl;
     std::cout << transactions.getBalance() << std::endl;
 
+    Network net;
+
+    net.refreshFeeRecommendations();
     // bc::wallet::payment_address addy = wallet.getAddress(1);
     // bc::wallet::payment_address destinationAddy = wallet.getAddress(2);
 

@@ -20,6 +20,7 @@ g++ -c stdafx.h -o stdafx.h.gch -std=c++11 -lboostsystem -lbitcoin
 #include <iomanip>
 #include <random>
 #include <unordered_map>
+#include <boost/asio.hpp>
 
 #include "error.h"
 #include "network.h"

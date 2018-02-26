@@ -47,3 +47,25 @@ bool Network::disconnect()
     delete m_client;
     m_client = NULL;
 };
+
+void Network::refreshFeeRecommendations()
+{
+    boost::system::error_code ec;
+    boost::asio::io_service svc;
+    boost::asio::ip::tcp::socket sock(svc);
+    
+    // Send request.
+    std::string request("GET https://bitcoinfees.earn.com/api/v1/fees/recommended HTTP/1.1\r\n\r\n");
+    sock.send(boost::asio::buffer(request));
+    
+    // Read response.
+    std::string response;
+    do {
+        char buf[1024];
+        size_t bytes_transferred = sock.receive(boost::asio::buffer(buf), {}, ec);
+        if (!ec) response.append(buf, buf + bytes_transferred);
+    } while (!ec);
+
+    // print and exit
+    std::cout << "Response received: '" << response << "'\n";
+};

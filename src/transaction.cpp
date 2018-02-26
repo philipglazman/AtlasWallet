@@ -12,7 +12,7 @@ Transaction::~Transaction()
 }
 
 /**
- * @brief Vasic P2PKH transaction setup.
+ * @brief Basic P2PKH transaction setup.
  * 
  * @param destinationAddress 
  * @param satoshis 
@@ -219,6 +219,13 @@ bool Transaction::broadcastTransaction(bc::chain::transaction tx)
     return true;
 };
 
+/**
+ * @brief Checks if the given payment address has recieved any bitcoin in its history.
+ * 
+ * @param a_address, address to check.
+ * @return true, payment address has recieved bitcoin.
+ * @return false, payment address has never recieved bitcoin.
+ */
 bool Transaction::isAddressUsed(bc::wallet::payment_address a_address)
 {
     // Satoshis recieved.
@@ -262,6 +269,13 @@ bool Transaction::isAddressUsed(bc::wallet::payment_address a_address)
 
 };
 
+/**
+ * @brief Calculates the balance of the wallet. Atlas calls this function until false is returned.
+ * 
+ * @param a_address, payment address to check if address is used, and add any existing balance.
+ * @return true, address is used.
+ * @return false, address is not used.
+ */
 bool Transaction::calculateBalance(bc::wallet::payment_address a_address)
 {
     // Check if address is used.

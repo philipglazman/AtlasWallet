@@ -8,30 +8,47 @@ g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp transaction.cpp network.
 int
 main(int argc, char * argv[])
 {
-    // load config file, create new one if not available
-    // If new config file create, suggest to user that they either check config.
-    // if first time loading wallet, go through steps to creating HD keys
-    // asynchronously check for utxo matching addresses
-
     // TODO add better entropy (mouse cursor mvmt?)
     // std::random_device engine;
     
+    // Load wallet.
     std::vector< std::string > wordList = {"scatter", "found", "issue", "friend", "front", "glare", "blanket", "mother", "frequent", "acid", "shaft", "loud"};
+    // Wallet object.
     Wallet wallet(wordList);
+
+    // Reveal keys.
     wallet.showKeys();
 
+    // Transactions object.
     Transaction transactions;
 
-    bc::wallet::payment_address addy = wallet.getAddress(1);
-    bc::wallet::payment_address destinationAddy = wallet.getAddress(2);
+    // Check balance.
+    int addressIndex = 1;
+    while(true)
+    {
+        if(transactions.calculateBalance(wallet.getAddress(addressIndex)))
+        {
+            addressIndex++;
+        }
+        else
+        {
+            break;
+        }
+    };
 
-    std::cout << transactions.getBalance(addy) << std::endl;
+    std::cout << addressIndex << std::endl;
+    std::cout << transactions.getBalance() << std::endl;
 
-    bc::data_chunk publicKey = bc::to_chunk(wallet.childPublicKey(1).point());
+    // bc::wallet::payment_address addy = wallet.getAddress(1);
+    // bc::wallet::payment_address destinationAddy = wallet.getAddress(2);
 
-    transactions.P2PKH(publicKey,wallet.childPrivateKey(1).secret(),destinationAddy, 1000000);
-    transactions.getUTXOs(addy, 10000000);
-}
+    // std::cout << transactions.getBalance(addy) << std::endl;
+
+    // bc::data_chunk publicKey = bc::to_chunk(wallet.childPublicKey(1).point());
+
+    // transactions.P2PKH(publicKey,wallet.childPrivateKey(1).secret(),destinationAddy, 1000000);
+    // transactions.getUTXOs(addy, 10000000);
+};
 
 
 

@@ -24,6 +24,7 @@ class Network
         // Disconnect from network.
         bool disconnect();
 
+
     protected:
 
     private:

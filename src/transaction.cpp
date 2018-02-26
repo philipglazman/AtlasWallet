@@ -101,9 +101,8 @@ bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKe
  * @param a_address, payment address.
  * @return unsigned long long 
  */
-unsigned long long Transaction::getBalance(bc::wallet::payment_address a_address)
+unsigned long long Transaction::getBalanceForAddress(bc::wallet::payment_address a_address)
 {
-    std::cout << a_address << std::endl;
 
     unsigned long long utxo = 0;
     bc::hash_digest utxo_hash;
@@ -205,12 +204,12 @@ bool Transaction::broadcastTransaction(bc::chain::transaction tx)
 
 	};
 
-	static const auto on_error = [](const bc::code& ec) {
+    static const auto on_error = [](const bc::code& ec) {
 
 		std::cout << "Error Code: " << ec.message() << std::endl;
 
 	};
- 
+
     rpc.transaction_pool_broadcast(on_error, on_done, tx);
      
     rpc.wait();
@@ -218,4 +217,62 @@ bool Transaction::broadcastTransaction(bc::chain::transaction tx)
     network -> disconnect();
 
     return true;
+};
+
+bool Transaction::isAddressUsed(bc::wallet::payment_address a_address)
+{
+    // Satoshis recieved.
+    unsigned long long recieved = 0;
+
+    // Connect to libbitcoin servers.
+    bc::client::obelisk_client &rpc = network->connect();
+
+    // Lambda callback function for getting utxo for addy.
+    static const auto on_done = [&recieved](const bc::chain::history::list& rows)
+    {
+        // For each row in chain history, check for balance.
+        for(const auto& row: rows)
+        {  
+            recieved += row.value;
+        }
+    };
+
+    static const auto on_error = [](const bc::code ec) 
+    {
+        Error::RecordError(std::string("Error connecting to bitcoin network."));
+    };
+
+    // Get Blockchain history on this address.
+    rpc.blockchain_fetch_history3(on_error, on_done, a_address);
+
+    // Wait for history to be fetched.
+    rpc.wait();
+    
+    network -> disconnect();
+
+    // If address recieved any bitcoin, than it is used.
+    if(recieved > 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+};
+
+bool Transaction::calculateBalance(bc::wallet::payment_address a_address)
+{
+    // Check if address is used.
+    if(isAddressUsed(a_address))
+    {
+        // Get balance for the address. Add it to the sum.
+        m_utxoSum += getBalanceForAddress(a_address);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 };

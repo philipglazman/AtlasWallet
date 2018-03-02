@@ -1,6 +1,6 @@
 /*
 * Main program for Atlas.
-g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp transaction.cpp network.cpp $(pkg-config --cflags libbitcoin --libs libbitcoin libbitcoin-client)
+g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp transaction.cpp network.cpp $(pkg-config --cflags libbitcoin --libs libbitcoin libbitcoin-client libcurl)
 */
 
 #include "stdafx.h"
@@ -20,24 +20,24 @@ main(int argc, char * argv[])
     wallet.showKeys();
 
     // Transactions object.
-    Transaction transactions;
+    // Transaction transactions;
 
-    // Check balance.
-    int addressIndex = 1;
-    while(true)
-    {
-        if(transactions.calculateBalance(wallet.getAddress(addressIndex)))
-        {
-            addressIndex++;
-        }
-        else
-        {
-            break;
-        }
-    };
+    // // Check balance.
+    // int addressIndex = 1;
+    // while(true)
+    // {
+    //     if(transactions.calculateBalance(wallet.getAddress(addressIndex)))
+    //     {
+    //         addressIndex++;
+    //     }
+    //     else
+    //     {
+    //         break;
+    //     }
+    // };
 
-    std::cout << addressIndex << std::endl;
-    std::cout << transactions.getBalance() << std::endl;
+    // std::cout << addressIndex << std::endl;
+    // std::cout << transactions.getBalance() << std::endl;
 
     Network net;
 

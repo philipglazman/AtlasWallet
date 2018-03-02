@@ -20,6 +20,12 @@ g++ -c stdafx.h -o stdafx.h.gch -std=c++11 -lboostsystem -lbitcoin
 #include <iomanip>
 #include <random>
 #include <unordered_map>
+#include <curl/curl.h>
+#include <json/json.h>
+
+// Boost Libraries
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include <boost/asio.hpp>
 
 #include "error.h"

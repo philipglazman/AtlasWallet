@@ -35,16 +35,17 @@ class Network
 
     private:
 
-        struct 
+        struct feeEstimation
         {
             int fastestFee;
             int halfHourFee;
             int hourFee;
-        } fees;
+        };
 
 
         // Obelisk Client object. This object will use rpc to talk to Bitcoin network.
         bc::client::obelisk_client * m_client;
+        feeEstimation * m_fees;
 };
 
 #endif

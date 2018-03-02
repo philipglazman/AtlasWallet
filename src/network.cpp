@@ -4,11 +4,13 @@
 Network::Network()
 {
     m_client = NULL;
+    m_fees = new feeEstimation;
 }
 
 Network::~Network()
 {
     delete m_client;
+    delete m_fees;
 }
 
 /**
@@ -48,24 +50,71 @@ bool Network::disconnect()
     m_client = NULL;
 };
 
+// from stackoverflow
+std::size_t callback(const char* in, std::size_t size, std::size_t num, std::string* out)
+{
+    const std::size_t totalBytes(size * num);
+    out->append(in, totalBytes);
+    return totalBytes;
+};
+
+
 void Network::refreshFeeRecommendations()
 {
-    boost::system::error_code ec;
-    boost::asio::io_service svc;
-    boost::asio::ip::tcp::socket sock(svc);
+    // Instantiate curl objects.
+    CURL *curl;
+    CURLcode res;
+    std::string buffer;
     
-    // Send request.
-    std::string request("GET https://bitcoinfees.earn.com/api/v1/fees/recommended HTTP/1.1\r\n\r\n");
-    sock.send(boost::asio::buffer(request));
-    
-    // Read response.
-    std::string response;
-    do {
-        char buf[1024];
-        size_t bytes_transferred = sock.receive(boost::asio::buffer(buf), {}, ec);
-        if (!ec) response.append(buf, buf + bytes_transferred);
-    } while (!ec);
+    // Init curl.
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    curl = curl_easy_init();
 
-    // print and exit
-    std::cout << "Response received: '" << response << "'\n";
+    if(curl)
+    {
+        // Request fee recommendations from bitcoinfees.earn.com (trusted recommendation).
+        // TODO: internal free recommendation tool.
+        curl_easy_setopt(curl, CURLOPT_URL, "https://bitcoinfees.earn.com/api/v1/fees/recommended");
+        
+        // Timeout after 10 seconds.
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
+        
+        std::unique_ptr<std::string> httpData(new std::string());
+        
+        // Response.
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get());
+        res = curl_easy_perform(curl);
+
+        // Error checking.
+        if(res != CURLE_OK)
+        {
+            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        }
+        else
+        {
+            Json::Value jsonData;
+            Json::Reader jsonReader;
+
+            // Parse JSON.
+            if (jsonReader.parse(*httpData, jsonData))
+            {
+                std::cout << "Successfully parsed JSON data" << std::endl;
+                std::cout << "\nJSON data received:" << std::endl;
+                std::cout << jsonData.toStyledString() << std::endl;
+
+                // Load fees into feeEstimation struct.
+                m_fees -> fastestFee = jsonData["fastestFee"].asUInt64();
+                m_fees -> halfHourFee = jsonData["halfHourFee"].asUInt64();
+                m_fees -> hourFee = jsonData["hourFee"].asUInt64();
+            };
+        };
+
+        // Clean-up. 
+        curl_easy_cleanup(curl);
+    };
+
+    // Clean-up
+    curl_global_cleanup();
+
 };

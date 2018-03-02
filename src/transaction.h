@@ -36,6 +36,9 @@ class Transaction {
 
     private:
         
+        //
+        int calculateTxSize();
+        
         // UTXO Balance
         unsigned long long m_utxoSum;
 

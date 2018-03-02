@@ -24,6 +24,20 @@
         "vector": "cpp",
         "__mutex_base": "cpp",
         "future": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "__bit_reference": "cpp",
+        "__functional_base": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "limits": "cpp",
+        "random": "cpp",
+        "ratio": "cpp",
+        "system_error": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "__locale": "cpp",
+        "ios": "cpp"
     }
 }

@@ -24,7 +24,10 @@ bc::client::obelisk_client& Network::connect()
     bc::client::connection_type connection = {};
 	connection.retries = 3;
 	connection.timeout_seconds = 8;
-	connection.server = bc::config::endpoint("tcp://testnet.libbitcoin.net:19091");
+	connection.server = bc::config::endpoint("tcp://testnet3.libbitcoin.net:19091");
+
+    //TODO Timeouts?
+    //List of servers: https://github.com/libbitcoin/libbitcoin-server/wiki/Community-Servers
     
     // Initialize obelisk.
     m_client = new bc::client::obelisk_client(connection);

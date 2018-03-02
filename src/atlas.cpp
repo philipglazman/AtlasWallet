@@ -1,6 +1,6 @@
 /*
 * Main program for Atlas.
-g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp transaction.cpp network.cpp $(pkg-config --cflags libbitcoin --libs libbitcoin libbitcoin-client libcurl)
+g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp transaction.cpp network.cpp $(pkg-config --cflags libbitcoin --libs libbitcoin libbitcoin-client libcurl jsoncpp)
 */
 
 #include "stdafx.h"
@@ -19,38 +19,35 @@ main(int argc, char * argv[])
     // Reveal keys.
     wallet.showKeys();
 
-    // Transactions object.
-    // Transaction transactions;
+    // Transactions object;
+    Transaction transactions;
 
-    // // Check balance.
-    // int addressIndex = 1;
-    // while(true)
-    // {
-    //     if(transactions.calculateBalance(wallet.getAddress(addressIndex)))
-    //     {
-    //         addressIndex++;
-    //     }
-    //     else
-    //     {
-    //         break;
-    //     }
-    // };
+    // Check balance.
+    int addressIndex = 1;
+    while(true)
+    {
+        if(transactions.calculateBalance(wallet.getAddress(addressIndex)))
+        {
+            addressIndex++;
+        }
+        else
+        {
+            break;
+        }
+    };
 
-    // std::cout << addressIndex << std::endl;
-    // std::cout << transactions.getBalance() << std::endl;
+    std::cout << addressIndex << std::endl;
+    std::cout << transactions.getBalance() << std::endl;
 
-    Network net;
+    bc::wallet::payment_address addy = wallet.getAddress(1);
+    bc::wallet::payment_address destinationAddy = wallet.getAddress(2);
+    bc::data_chunk publicKey = bc::to_chunk(wallet.childPublicKey(1).point());
+    transactions.P2PKH(publicKey,wallet.childPrivateKey(1).secret(),destinationAddy, 1000000);
 
-    net.refreshFeeRecommendations();
-    // bc::wallet::payment_address addy = wallet.getAddress(1);
-    // bc::wallet::payment_address destinationAddy = wallet.getAddress(2);
+    // // Fees
+    // Network net;
+    // net.refreshFeeRecommendations();
 
-    // std::cout << transactions.getBalance(addy) << std::endl;
-
-    // bc::data_chunk publicKey = bc::to_chunk(wallet.childPublicKey(1).point());
-
-    // transactions.P2PKH(publicKey,wallet.childPrivateKey(1).secret(),destinationAddy, 1000000);
-    // transactions.getUTXOs(addy, 10000000);
 };
 
 

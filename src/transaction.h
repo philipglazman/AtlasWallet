@@ -36,9 +36,15 @@ class Transaction {
 
     private:
         
-        //
+        // Calculates the transaction size of the 
         int calculateTxSize();
-        
+
+        // Creates output for P2PKH transaction.
+        bc::chain::output createOutputP2PKH(bc::wallet::payment_address a_address, unsigned long long a_satoshis);
+
+        // Show output for transaction output.
+        void showTxOutput(bc::chain::output output);
+
         // UTXO Balance
         unsigned long long m_utxoSum;
 
@@ -53,9 +59,6 @@ class Transaction {
         // Checks if the given address is used.
         bool isAddressUsed(bc::wallet::payment_address a_address);
 
-        // get list of blocks associated with this transaction
-        // call bloom filter.
-        // get list of utxo.
 };
 
 #endif

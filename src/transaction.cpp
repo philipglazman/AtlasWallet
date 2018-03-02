@@ -11,6 +11,22 @@ Transaction::~Transaction()
     delete network;
 }
 
+bc::chain::output Transaction::createOutputP2PKH(bc::wallet::payment_address a_address, unsigned long long a_satoshis)
+{
+    // Hash the Public Key of the Address. OP_DUP OP_HASH160 <PKH> OP_EQUALVERIFY OP_CHECKSIG
+    bc::chain::script outputScript  = bc::chain::script().to_pay_key_hash_pattern(a_address.hash());
+
+    bc::chain::output out(a_satoshis,outputScript);
+    return out;
+};
+
+void Transaction::showTxOutput(bc::chain::output output)
+{
+    std::cout << "Sending Bitcoin: \nAmount: " << bc::encode_base10(output.value(), 8) << "BTC : Output Script: " << output.script().to_string(0) << std::endl;
+};
+
+
+
 /**
  * @brief Basic P2PKH transaction setup.
  * 
@@ -20,20 +36,17 @@ Transaction::~Transaction()
  * @return false 
  */
 bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKey, bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis)
-{ 
-    // Create output script - OP_DUP OP_HASH160 <PKH> OP_EQUALVERIFY OP_CHECKSIG
-    bc::chain::script outputScript = bc::chain::script().to_pay_key_hash_pattern(a_destinationAddress.hash());
+{   
+    //TODO: output to send should be output - fees.
+    bc::chain::output output1 = createOutputP2PKH(a_destinationAddress,a_satoshis);
 
-    //decode_base10(satoshis, BTC, 8);
-    
-    bc::chain::output output1(a_satoshis, outputScript);
-    std::cout << "\nAmount: " << bc::encode_base10(output1.value(), 8) << "BTC : Output Script: " << output1.script().to_string(0) << "\n" << std::endl;
+    // Display to user output amount and script.
+    showTxOutput(output1);
 
     //UTXO
     bc::chain::output_point utxo(m_utxoMap.at(bc::wallet::payment_address("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG")).first,0);
 
     //Locking Script
-    //data_chunk pubkey1 = to_chunk(wallet1.childPublicKey(child).point());
     bc::chain::script lockingScript = bc::chain::script().to_pay_key_hash_pattern(bc::bitcoin_short_hash(a_publicKey));
 
     // Make input.
@@ -91,7 +104,10 @@ bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKe
     std::cout << "Raw Transaction: " << std::endl;
 	std::cout << bc::encode_base16(tx.to_data()) << std::endl;
 
-    broadcastTransaction(tx);
+    std::cout << "Input size:" << sizeof(tx.inputs()) << std::endl;
+    std::cout << "Ouput size:" << sizeof(tx.outputs()) << std::endl;
+    std::cout << "TX size:" << sizeof(tx) << std::endl;
+    //broadcastTransaction(tx);
     return true;
 };
 
@@ -278,6 +294,8 @@ bool Transaction::isAddressUsed(bc::wallet::payment_address a_address)
  */
 bool Transaction::calculateBalance(bc::wallet::payment_address a_address)
 {
+    std::cout << "Checking balance for " << a_address << std::endl;
+
     // Check if address is used.
     if(isAddressUsed(a_address))
     {

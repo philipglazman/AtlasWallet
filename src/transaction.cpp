@@ -105,6 +105,7 @@ bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKe
     showTxOutput(output1);
 
     //Get UTXO to spend
+    unspent_output -> find_utxo(1);
     bc::chain::output_point utxo(m_utxoMap.at(bc::wallet::payment_address("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG")).first,0);
     int inputValue = m_utxoMap.at(bc::wallet::payment_address("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG")).second;
 
@@ -140,28 +141,6 @@ bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKe
     //broadcastTransaction(tx);
     return true;
 };
-
-// void record_transaction(const bc::chain::history::list& rows)
-// {
-//     // For each row in chain history, check for balance.
-//     for(const auto& row: rows)
-//     {
-//         std::cout << row.output.to_data() << std::endl;
-//         //bc::hash_digest test = row.output.hash();
-//         if (row.spend.hash() == bc::null_hash)
-//         {    
-//             std::cout<<"test"<<std::endl;
-//             // unspent_output += row.value;
-//             //unspent_output -> add_transaction(row.value, row.output.hash(), a_address);
-//             // uint32_t index = 0;
-//             // bc::chain::output_point utxo(utxo_hash, index);
-//         }
-//     }
-
-// };
-
-
-
 
 /**
  * @brief Returns balanace of n payment address.

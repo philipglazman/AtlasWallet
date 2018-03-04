@@ -36,14 +36,18 @@ class Transaction {
 
     private:
         
-        // Calculates the transaction size of the 
-        int calculateTxSize();
+        // Calculates the size in bytes of the transaction. Uses primitive formula. 
+        // TODO: Need more dynamic way to test. (including regression tests)
+        int calculateTxSize(int inputs, int outputs);
 
         // Creates output for P2PKH transaction.
         bc::chain::output createOutputP2PKH(bc::wallet::payment_address a_address, unsigned long long a_satoshis);
 
         // Show output for transaction output.
         void showTxOutput(bc::chain::output output);
+
+        // Show raw transaction in hex.
+        void showTxRaw(bc::chain::transaction a_transaction);
 
         // UTXO Balance
         unsigned long long m_utxoSum;

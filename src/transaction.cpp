@@ -3,6 +3,7 @@
 Transaction::Transaction()
 {
     network = new Network();
+    unspent_output = new utxo();
     m_utxoSum = 0;
 };
 
@@ -140,6 +141,28 @@ bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKe
     return true;
 };
 
+// void record_transaction(const bc::chain::history::list& rows)
+// {
+//     // For each row in chain history, check for balance.
+//     for(const auto& row: rows)
+//     {
+//         std::cout << row.output.to_data() << std::endl;
+//         //bc::hash_digest test = row.output.hash();
+//         if (row.spend.hash() == bc::null_hash)
+//         {    
+//             std::cout<<"test"<<std::endl;
+//             // unspent_output += row.value;
+//             //unspent_output -> add_transaction(row.value, row.output.hash(), a_address);
+//             // uint32_t index = 0;
+//             // bc::chain::output_point utxo(utxo_hash, index);
+//         }
+//     }
+
+// };
+
+
+
+
 /**
  * @brief Returns balanace of n payment address.
  * 
@@ -156,7 +179,7 @@ unsigned long long Transaction::getBalanceForAddress(bc::wallet::payment_address
     bc::client::obelisk_client &rpc = network->connect();
 
     // Lambda callback function for getting utxo for addy.
-    static const auto on_done = [&utxo,&a_address,&utxo_hash](const bc::chain::history::list& rows)
+    static const auto on_done = [this, &utxo,&a_address,&utxo_hash](const bc::chain::history::list& rows)
     {
         // For each row in chain history, check for balance.
         for(const auto& row: rows)
@@ -167,10 +190,10 @@ unsigned long long Transaction::getBalanceForAddress(bc::wallet::payment_address
                 utxo += row.value;
 
                 utxo_hash = row.output.hash();
-                uint32_t index = 0;
-                bc::chain::output_point utxo(utxo_hash, index);
-                //bc::encode_hash(utxoHash);
-                //std::cout << bc::encode_hash(utxoHash) << std::endl;
+                std::cout << bc::encode_hash(utxo_hash) << std::endl;
+                unspent_output -> add_transaction(row.value, utxo_hash, a_address);
+                // uint32_t index = 0;
+                // bc::chain::output_point utxo(utxo_hash, index);
             }
         }
     };

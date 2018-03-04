@@ -60,6 +60,10 @@ class Transaction {
         // Network object.
         Network * network;
 
+        // Utxo object.
+        utxo * unspent_output;
+
+
         // Checks if the given address is used.
         bool isAddressUsed(bc::wallet::payment_address a_address);
 

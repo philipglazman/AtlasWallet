@@ -1,0 +1,35 @@
+#ifndef _UTXO_H
+#define _UTXO_H
+#include "stdafx.h"
+
+class utxo {
+    public:
+        utxo();
+        ~utxo();
+
+        unsigned long long get_value(bc::hash_digest utxo_hash);
+        
+        // Adds an unspent transaction output.
+        void add_transaction(unsigned long long a_satoshis, bc::hash_digest a_utxo_hash, bc::wallet::payment_address a_address) const;
+
+        //select sepecific hash from utxo
+
+    protected:
+
+    private:
+        
+        // Fields.
+        typedef unsigned long long m_satoshis;
+        typedef bc::hash_digest m_utxo_hash;
+        typedef bc::wallet::payment_address m_address;
+
+        // Iterator
+        typedef std::vector< std::tuple <m_satoshis, m_utxo_hash, m_satoshis> >::const_iterator m_iterator;
+
+        // UTXO object.
+        std::vector < std::tuple <m_satoshis, m_utxo_hash, m_satoshis> > * m_tx_output;
+
+
+};
+
+#endif

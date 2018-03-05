@@ -24,6 +24,8 @@ bc::hash_digest utxo::find_utxo(unsigned long long m_satoshis)
     m_iterator m_end_iter = m_tx_output->end();
 
     // Min heap on values.
+    // TODO: heap
+    // TODO: comp func
     //std::make_heap(m_begin_iter, m_end_iter);
 
     for(const auto&i : *m_tx_output)

@@ -1,6 +1,6 @@
 /*
 * Main program for Atlas.
-g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp transaction.cpp network.cpp $(pkg-config --cflags libbitcoin --libs libbitcoin libbitcoin-client libcurl jsoncpp)
+g++ -std=c++11 -o wallet atlas.cpp wallet.cpp error.cpp transaction.cpp network.cpp utxo.cpp $(pkg-config --cflags libbitcoin --libs libbitcoin libbitcoin-client libcurl jsoncpp)
 */
 
 #include "stdafx.h"

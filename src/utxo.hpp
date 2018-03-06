@@ -28,7 +28,10 @@ class utxo {
         typedef std::vector< std::tuple <m_satoshis, m_utxo_hash, m_address> >::const_iterator m_iterator;
 
         // UTXO object.
-        std::vector < std::tuple <m_satoshis, m_utxo_hash, m_address> > * m_tx_output;
+        typedef std::tuple <m_satoshis, m_utxo_hash, m_address> utxo_tuple;
+        typedef std::vector < utxo_tuple > utxo_data;
+        
+        utxo_data * m_tx_output;
 
         bool min_utxo();
 

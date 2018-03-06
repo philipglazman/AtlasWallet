@@ -17,8 +17,8 @@ bc::chain::output Transaction::createOutputP2PKH(bc::wallet::payment_address a_a
     // Hash the Public Key of the Address. OP_DUP OP_HASH160 <PKH> OP_EQUALVERIFY OP_CHECKSIG
     bc::chain::script outputScript  = bc::chain::script().to_pay_key_hash_pattern(a_address.hash());
 
-    bc::chain::output out(a_satoshis,outputScript);
-    return out;
+    bc::chain::output output(a_satoshis,outputScript);
+    return output;
 };
 
 void Transaction::showTxOutput(bc::chain::output output)
@@ -92,48 +92,68 @@ bc::endorsement createSignature(bc::chain::script a_lockingScript,bc::ec_secret 
  */
 bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKey, bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis)
 {   
-    // Fees
+    unsigned long long input_value = 0;
+    unsigned long long change_value = 0;
+
+    // Start building Transaction.
+    bc::chain::transaction tx = bc::chain::transaction();
+
+    // Find unspent output.
+    m_utxo utxo_to_spend = unspent_output -> find_utxo(a_satoshis);
+
+    // Create inputs.
+    // For each input, point to unspent transaction output.
+    for( const auto &utxo : utxo_to_spend)
+    {
+        // Create input.
+        bc::chain::input input = bc::chain::input();
+        bc::hash_digest utxo_hash = std::get<1>(utxo);
+        bc::chain::output_point previous_output(utxo_hash,0);
+
+        input.set_previous_output(previous_output);
+        input.set_sequence(0xffffffff);
+        tx.inputs().push_back(input);
+
+        input_value += std::get<0>(utxo);
+    };
+
+    change_value = input_value - a_satoshis;
+
+    // Find recommended fee.
     // TODO: inputs will be variable.
     // TODO: fee/byte will be variable
-    int estimatedBytes = calculateTxSize(1,2);
-    int fees = estimatedBytes*30;
+    int estimated_tx_bytes = calculateTxSize(tx.inputs().size(), 2); 
+    unsigned long long fees = (unsigned long long)estimated_tx_bytes*30;
 
-    //TODO: output to send should be output - fees.
-    bc::chain::output output1 = createOutputP2PKH(a_destinationAddress,a_satoshis);
+    // Subtract fees from the change.
+    if( change_value - fees > 0)
+    {
+        change_value -= fees;
+        bc::wallet::payment_address change_address= std::get<2>(utxo_to_spend[0]);
+        tx.outputs().push_back(createOutputP2PKH(change_address,change_value));
+    }
+    // If fees are greater than change, make change 0.
+    else if (change_value - fees <= 0)
+    {
+        change_value = 0;
+    }
 
-    // Display to user output amount and script.
-    showTxOutput(output1);
+    // Create output.
+    tx.outputs().push_back(createOutputP2PKH(a_destinationAddress,a_satoshis));
 
-    //Get UTXO to spend
-    unspent_output -> find_utxo(1);
-    bc::chain::output_point utxo(m_utxoMap.at(bc::wallet::payment_address("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG")).first,0);
-    int inputValue = m_utxoMap.at(bc::wallet::payment_address("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG")).second;
+    //bc::chain::output_point utxo(m_utxoMap.at(bc::wallet::payment_address("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG")).first,0);
+    //int inputValue = m_utxoMap.at(bc::wallet::payment_address("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG")).second;
 
     // Create Output to return change.
-    bc::wallet::payment_address addy("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG");
-    bc::chain::output changeOutput = createOutputP2PKH(addy,inputValue-(a_satoshis+fees));
-    
-    // Locking Script using public key of utxo to spend.
-    bc::chain::script lockingScript = bc::chain::script().to_pay_key_hash_pattern(bc::bitcoin_short_hash(a_publicKey));
-
-    // Creating new input.
-    bc::chain::input transactionInput = bc::chain::input();
-    
-    // Input will point to the output of the previous transaction.
-    transactionInput.set_previous_output(utxo);
-    transactionInput.set_sequence(0xffffffff);
-    
-    // Previous Locking Script.
-    std::cout << "\nPrevious Locking Script: " << std::endl;
-	std::cout << lockingScript.to_string(0xffffffff) << "\n" << std::endl;
-
+    //bc::wallet::payment_address addy("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG");
+    //bc::chain::output changeOutput = createOutputP2PKH(addy,inputValue-(a_satoshis+fees));
+            
     // Build the transaction.
-    bc::chain::transaction tx = bc::chain::transaction();
     // Input.
-    tx.inputs().push_back(transactionInput);
+    
     // output.
-    tx.outputs().push_back(output1);
-    tx.outputs().push_back(changeOutput);
+    // tx.outputs().push_back(output1);
+    // tx.outputs().push_back(changeOutput);
 
     // Show transaction.
     showTxRaw(tx);
@@ -171,8 +191,6 @@ unsigned long long Transaction::getBalanceForAddress(bc::wallet::payment_address
                 utxo_hash = row.output.hash();
                 std::cout << bc::encode_hash(utxo_hash) << std::endl;
                 unspent_output -> add_transaction(row.value, utxo_hash, a_address);
-                // uint32_t index = 0;
-                // bc::chain::output_point utxo(utxo_hash, index);
             }
         }
     };

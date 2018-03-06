@@ -35,6 +35,8 @@ class Transaction {
     protected:
 
     private:
+
+        typedef std::vector < std::tuple <unsigned long long, bc::hash_digest, bc::wallet::payment_address> > m_utxo;
         
         // Calculates the size in bytes of the transaction. Uses primitive formula. 
         // TODO: Need more dynamic way to test. (including regression tests)

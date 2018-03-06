@@ -7,18 +7,6 @@ class utxo {
         utxo();
         ~utxo();
 
-        unsigned long long get_value(bc::hash_digest utxo_hash);
-        
-        // Adds an unspent transaction output.
-        void add_transaction(unsigned long long a_satoshis, bc::hash_digest a_utxo_hash, bc::wallet::payment_address a_address) const;
-
-        // Built list of utxo to be used in tx.
-        bc::hash_digest find_utxo(unsigned long long m_satoshis);
-
-    protected:
-
-    private:
-        
         // Fields.
         typedef unsigned long long m_satoshis;
         typedef bc::hash_digest m_utxo_hash;
@@ -30,8 +18,22 @@ class utxo {
         // UTXO object.
         typedef std::tuple <m_satoshis, m_utxo_hash, m_address> utxo_tuple;
         typedef std::vector < utxo_tuple > utxo_data;
+
+        unsigned long long get_value(bc::hash_digest utxo_hash);
+        
+        // Adds an unspent transaction output.
+        void add_transaction(unsigned long long a_satoshis, bc::hash_digest a_utxo_hash, bc::wallet::payment_address a_address) const;
+
+        // Built list of utxo to be used in tx.
+        utxo_data find_utxo(unsigned long long m_satoshis);
+
+    protected:
+
+    private:
         
         utxo_data * m_tx_output;
+
+        void show_available_utxo();
 
         bool min_utxo();
 

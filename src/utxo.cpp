@@ -35,23 +35,37 @@ struct compare_utxo
     }
 };
 
+void utxo::show_available_utxo()
+{
+    for(const auto&tx : *m_tx_output)
+    {
+        std::cout << "Payment Address: " << std::get<2>(tx) << " Value: " << std::get<0>(tx) << " UTXO Hash: " << bc::encode_hash(std::get<1>(tx)) << std::endl;
+    };
+};
+
 // finds the minimum utxo to satisfy need
 // returns stack of utxos which conntains tuple of payment address, utxo hash, and value
-bc::hash_digest utxo::find_utxo(unsigned long long m_satoshis)
+utxo::utxo_data utxo::find_utxo(unsigned long long a_satoshis)
 {
-    // Iterators.
-    m_iterator m_begin_iter = m_tx_output->begin();
-    m_iterator m_end_iter = m_tx_output->end();
+    // Used to sum each utxo value
+    unsigned long long value = 0;
+    utxo_data utxo_to_return;
 
     // Sort vector in ascending order (min to max) according to utxo value.
     std::sort(m_tx_output->begin(), m_tx_output->end(),compare_utxo());
-    
-    for(const auto&i : *m_tx_output)
+
+    show_available_utxo(); 
+
+    for(const auto&tx : *m_tx_output)
     {
-        std::cout << std::get<0>(i) << std::get<2>(i) << std::endl;
+        if(value > a_satoshis)
+        {
+            break;
+        }
+        utxo_to_return.push_back(tx);
+        value += std::get<0>(tx);
     };
 
-    // TODO: stack data structure for sharing utxo
-
+    return utxo_to_return;
 };
 // get utxo based on what to spend - get lowest 

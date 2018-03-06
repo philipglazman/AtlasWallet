@@ -40,7 +40,7 @@ main(int argc, char * argv[])
     std::cout << transactions.getBalance() << std::endl;
 
     bc::wallet::payment_address addy = wallet.getAddress(1);
-    bc::wallet::payment_address destinationAddy = wallet.getAddress(2);
+    bc::wallet::payment_address destinationAddy = wallet.getAddress(3);
     bc::data_chunk publicKey = bc::to_chunk(wallet.childPublicKey(1).point());
     transactions.P2PKH(publicKey,wallet.childPrivateKey(1).secret(),destinationAddy, 1000000);
 

@@ -46,6 +46,7 @@
         "set": "cpp",
         "unordered_set": "cpp",
         "__tuple": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "stack": "cpp"
     }
 }

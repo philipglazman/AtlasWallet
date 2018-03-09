@@ -42,6 +42,8 @@ class Transaction {
         // TODO: Need more dynamic way to test. (including regression tests)
         int calculateTxSize(int inputs, int outputs);
 
+        unsigned long long calculate_tx_fee(int estimated_tx_size);
+
         // Creates output for P2PKH transaction.
         bc::chain::output createOutputP2PKH(bc::wallet::payment_address a_address, unsigned long long a_satoshis);
 

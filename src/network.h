@@ -26,9 +26,9 @@ class Network
 
         // Get fee recommendations from bitcoinfees.earn.co
         void refreshFeeRecommendations();
-        int getFastestFee();
-        int getHalfHourFee();
-        int getHourFee();
+        unsigned long long getFastestFee() const { return m_fees -> fastestFee; };
+        unsigned long long getHalfHourFee() const { return m_fees -> halfHourFee; };
+        unsigned long long getHourFee() const { return m_fees -> hourFee; };
 
 
     protected:
@@ -37,9 +37,9 @@ class Network
 
         struct feeEstimation
         {
-            int fastestFee;
-            int halfHourFee;
-            int hourFee;
+            unsigned long long fastestFee;
+            unsigned long long halfHourFee;
+            unsigned long long hourFee;
         };
 
 

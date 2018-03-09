@@ -46,6 +46,15 @@ int Transaction::calculateTxSize(int inputs, int outputs)
     return inputs*181+outputs*34+10;
 };
 
+unsigned long long Transaction::calculate_tx_fee(int estimated_tx_size)
+{
+    std::cout << "Bytes: " << estimated_tx_size << std::endl;
+    network->refreshFeeRecommendations();
+    unsigned long long fees = (unsigned long long)(estimated_tx_size * network->getHourFee());
+    std::cout <<"Fees in calculate_tx_fee: " << network->getHourFee() << std::endl;
+    return fees;
+};
+
 bool createMetaDataTx()
 {
     // OP Return tx
@@ -120,15 +129,14 @@ bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKe
     change_value = input_value - a_satoshis;
 
     // Find recommended fee.
-    // TODO: inputs will be variable.
-    // TODO: fee/byte will be variable
     int estimated_tx_bytes = calculateTxSize(tx.inputs().size(), 2); 
-    unsigned long long fees = (unsigned long long)estimated_tx_bytes*30;
+    unsigned long long fees = calculate_tx_fee(estimated_tx_bytes);
 
     // Subtract fees from the change.
     if( change_value - fees > 0)
     {
         change_value -= fees;
+        std::cout << "fees to send: " <<fees << "change value" << change_value <<std::endl;
         bc::wallet::payment_address change_address= std::get<2>(utxo_to_spend[0]);
         tx.outputs().push_back(createOutputP2PKH(change_address,change_value));
     }
@@ -140,20 +148,6 @@ bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKe
 
     // Create output.
     tx.outputs().push_back(createOutputP2PKH(a_destinationAddress,a_satoshis));
-
-    //bc::chain::output_point utxo(m_utxoMap.at(bc::wallet::payment_address("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG")).first,0);
-    //int inputValue = m_utxoMap.at(bc::wallet::payment_address("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG")).second;
-
-    // Create Output to return change.
-    //bc::wallet::payment_address addy("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG");
-    //bc::chain::output changeOutput = createOutputP2PKH(addy,inputValue-(a_satoshis+fees));
-            
-    // Build the transaction.
-    // Input.
-    
-    // output.
-    // tx.outputs().push_back(output1);
-    // tx.outputs().push_back(changeOutput);
 
     // Show transaction.
     showTxRaw(tx);

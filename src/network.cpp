@@ -110,6 +110,7 @@ void Network::refreshFeeRecommendations()
                 m_fees -> fastestFee = jsonData["fastestFee"].asUInt64();
                 m_fees -> halfHourFee = jsonData["halfHourFee"].asUInt64();
                 m_fees -> hourFee = jsonData["hourFee"].asUInt64();
+                std::cout<<m_fees<<std::endl;
             };
         };
 

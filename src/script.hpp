@@ -18,9 +18,14 @@ class Script
 
 
     private:
-        //include stack
+        
+        // Input Script.
         template <typename T> 
-        std::stack <T> stack;
+        std::stack <T> input_script_stack;
+
+        // Output Script.
+        template <typename T> 
+        std::stack <T> output_script_stack;
 
         //instructions
         //stack rules

@@ -16,7 +16,7 @@ bc::chain::output Transaction::createOutputP2PKH(bc::wallet::payment_address a_a
 {
     // Hash the Public Key of the Address. OP_DUP OP_HASH160 <PKH> OP_EQUALVERIFY OP_CHECKSIG
     bc::chain::script outputScript  = bc::chain::script().to_pay_key_hash_pattern(a_address.hash());
-
+    // to_pay_key_hash_pattern creates an operation::list. Assignment constructor makes assigns it to outputScript.
     bc::chain::output output(a_satoshis,outputScript);
     return output;
 };

@@ -28,8 +28,8 @@ g++ -c stdafx.h -o stdafx.h.gch -std=c++11 -lboostsystem -lbitcoin
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/asio.hpp>
 
-#include "error.h"
-#include "network.h"
-#include "wallet.h"
+#include "error.hpp"
+#include "../network/network.hpp"
+#include "wallet.hpp"
 #include "utxo.hpp"
 #include "transaction.hpp"

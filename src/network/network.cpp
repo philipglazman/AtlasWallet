@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../wallet/stdafx.h"
 
 
 Network::Network()

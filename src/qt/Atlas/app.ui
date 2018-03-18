@@ -14,7 +14,7 @@
    <string>app</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -39,6 +39,19 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="debuggerLabel">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>180</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

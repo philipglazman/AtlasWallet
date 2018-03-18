@@ -2,6 +2,7 @@
 #define APP_H
 
 #include <QMainWindow>
+#include "restore_wallet.h"
 
 namespace Ui {
 class app;
@@ -22,6 +23,7 @@ private slots:
 
 private:
     Ui::app *ui;
+    restore_wallet *restore_wallet;
 };
 
 #endif // APP_H

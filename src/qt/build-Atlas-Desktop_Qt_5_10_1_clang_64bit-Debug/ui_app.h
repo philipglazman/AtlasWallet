@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -28,10 +29,11 @@ class Ui_app
 {
 public:
     QWidget *centralWidget;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton;
     QPushButton *restore_existing_wallet;
+    QLabel *debuggerLabel;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -43,24 +45,27 @@ public:
         app->resize(400, 300);
         centralWidget = new QWidget(app);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(50, 50, 291, 111));
-        verticalLayout = new QVBoxLayout(widget);
+        layoutWidget = new QWidget(centralWidget);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(50, 50, 291, 111));
+        verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        pushButton = new QPushButton(widget);
+        pushButton = new QPushButton(layoutWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
 
         verticalLayout->addWidget(pushButton);
 
-        restore_existing_wallet = new QPushButton(widget);
+        restore_existing_wallet = new QPushButton(layoutWidget);
         restore_existing_wallet->setObjectName(QStringLiteral("restore_existing_wallet"));
 
         verticalLayout->addWidget(restore_existing_wallet);
 
+        debuggerLabel = new QLabel(centralWidget);
+        debuggerLabel->setObjectName(QStringLiteral("debuggerLabel"));
+        debuggerLabel->setGeometry(QRect(160, 180, 60, 16));
         app->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(app);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -83,6 +88,7 @@ public:
         app->setWindowTitle(QApplication::translate("app", "app", nullptr));
         pushButton->setText(QApplication::translate("app", "Create New Wallet", nullptr));
         restore_existing_wallet->setText(QApplication::translate("app", "Restore Existing Wallet", nullptr));
+        debuggerLabel->setText(QApplication::translate("app", "TextLabel", nullptr));
     } // retranslateUi
 
 };

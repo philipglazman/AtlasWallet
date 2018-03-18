@@ -58,7 +58,7 @@
     <bool>false</bool>
    </property>
    <property name="inputMethodHints">
-    <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+    <set>Qt::ImhNone</set>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_13">
     <item>
@@ -71,7 +71,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>1.</string>
@@ -84,7 +84,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -107,7 +107,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>2.</string>
@@ -120,7 +120,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -143,7 +143,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>3.</string>
@@ -156,7 +156,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -179,7 +179,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>4.</string>
@@ -192,7 +192,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -215,7 +215,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>5.</string>
@@ -228,7 +228,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -251,7 +251,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>6.</string>
@@ -264,7 +264,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -291,7 +291,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>7.</string>
@@ -304,7 +304,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -327,7 +327,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>8.</string>
@@ -340,7 +340,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -363,7 +363,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>9.</string>
@@ -376,7 +376,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -399,7 +399,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>10.</string>
@@ -412,7 +412,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -435,7 +435,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>11.</string>
@@ -448,7 +448,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>
@@ -471,7 +471,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="text">
            <string>12.</string>
@@ -484,7 +484,7 @@
            <bool>false</bool>
           </property>
           <property name="inputMethodHints">
-           <set>Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly</set>
+           <set>Qt::ImhNone</set>
           </property>
           <property name="maxLength">
            <number>50</number>

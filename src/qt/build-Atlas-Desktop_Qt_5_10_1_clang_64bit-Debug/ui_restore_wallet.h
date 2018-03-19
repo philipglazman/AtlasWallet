@@ -88,7 +88,7 @@ public:
         widget->setObjectName(QStringLiteral("widget"));
         widget->setGeometry(QRect(40, 30, 312, 218));
         widget->setAutoFillBackground(false);
-        widget->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        widget->setInputMethodHints(Qt::ImhNone);
         horizontalLayout_13 = new QHBoxLayout(widget);
         horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
         horizontalLayout_13->setContentsMargins(0, 0, 0, 0);
@@ -99,14 +99,14 @@ public:
         label = new QLabel(widget);
         label->setObjectName(QStringLiteral("label"));
         label->setAutoFillBackground(false);
-        label->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout->addWidget(label);
 
         word_1 = new QLineEdit(widget);
         word_1->setObjectName(QStringLiteral("word_1"));
         word_1->setAutoFillBackground(false);
-        word_1->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_1->setInputMethodHints(Qt::ImhNone);
         word_1->setMaxLength(50);
         word_1->setClearButtonEnabled(false);
 
@@ -120,14 +120,14 @@ public:
         label_2 = new QLabel(widget);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setAutoFillBackground(false);
-        label_2->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_2->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_2->addWidget(label_2);
 
         word_2 = new QLineEdit(widget);
         word_2->setObjectName(QStringLiteral("word_2"));
         word_2->setAutoFillBackground(false);
-        word_2->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_2->setInputMethodHints(Qt::ImhNone);
         word_2->setMaxLength(50);
         word_2->setClearButtonEnabled(false);
 
@@ -141,14 +141,14 @@ public:
         label_3 = new QLabel(widget);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setAutoFillBackground(false);
-        label_3->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_3->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_3->addWidget(label_3);
 
         word_3 = new QLineEdit(widget);
         word_3->setObjectName(QStringLiteral("word_3"));
         word_3->setAutoFillBackground(false);
-        word_3->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_3->setInputMethodHints(Qt::ImhNone);
         word_3->setMaxLength(50);
         word_3->setClearButtonEnabled(false);
 
@@ -162,14 +162,14 @@ public:
         label_4 = new QLabel(widget);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setAutoFillBackground(false);
-        label_4->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_4->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_4->addWidget(label_4);
 
         word_4 = new QLineEdit(widget);
         word_4->setObjectName(QStringLiteral("word_4"));
         word_4->setAutoFillBackground(false);
-        word_4->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_4->setInputMethodHints(Qt::ImhNone);
         word_4->setMaxLength(50);
         word_4->setClearButtonEnabled(false);
 
@@ -183,14 +183,14 @@ public:
         label_5 = new QLabel(widget);
         label_5->setObjectName(QStringLiteral("label_5"));
         label_5->setAutoFillBackground(false);
-        label_5->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_5->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_5->addWidget(label_5);
 
         word_5 = new QLineEdit(widget);
         word_5->setObjectName(QStringLiteral("word_5"));
         word_5->setAutoFillBackground(false);
-        word_5->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_5->setInputMethodHints(Qt::ImhNone);
         word_5->setMaxLength(50);
         word_5->setClearButtonEnabled(false);
 
@@ -204,14 +204,14 @@ public:
         label_6 = new QLabel(widget);
         label_6->setObjectName(QStringLiteral("label_6"));
         label_6->setAutoFillBackground(false);
-        label_6->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_6->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_6->addWidget(label_6);
 
         word_6 = new QLineEdit(widget);
         word_6->setObjectName(QStringLiteral("word_6"));
         word_6->setAutoFillBackground(false);
-        word_6->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_6->setInputMethodHints(Qt::ImhNone);
         word_6->setMaxLength(50);
         word_6->setClearButtonEnabled(false);
 
@@ -230,14 +230,14 @@ public:
         label_7 = new QLabel(widget);
         label_7->setObjectName(QStringLiteral("label_7"));
         label_7->setAutoFillBackground(false);
-        label_7->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_7->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_7->addWidget(label_7);
 
         word_7 = new QLineEdit(widget);
         word_7->setObjectName(QStringLiteral("word_7"));
         word_7->setAutoFillBackground(false);
-        word_7->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_7->setInputMethodHints(Qt::ImhNone);
         word_7->setMaxLength(50);
         word_7->setClearButtonEnabled(false);
 
@@ -251,14 +251,14 @@ public:
         label_8 = new QLabel(widget);
         label_8->setObjectName(QStringLiteral("label_8"));
         label_8->setAutoFillBackground(false);
-        label_8->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_8->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_8->addWidget(label_8);
 
         word_8 = new QLineEdit(widget);
         word_8->setObjectName(QStringLiteral("word_8"));
         word_8->setAutoFillBackground(false);
-        word_8->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_8->setInputMethodHints(Qt::ImhNone);
         word_8->setMaxLength(50);
         word_8->setClearButtonEnabled(false);
 
@@ -272,14 +272,14 @@ public:
         label_9 = new QLabel(widget);
         label_9->setObjectName(QStringLiteral("label_9"));
         label_9->setAutoFillBackground(false);
-        label_9->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_9->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_9->addWidget(label_9);
 
         word_9 = new QLineEdit(widget);
         word_9->setObjectName(QStringLiteral("word_9"));
         word_9->setAutoFillBackground(false);
-        word_9->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_9->setInputMethodHints(Qt::ImhNone);
         word_9->setMaxLength(50);
         word_9->setClearButtonEnabled(false);
 
@@ -293,14 +293,14 @@ public:
         label_10 = new QLabel(widget);
         label_10->setObjectName(QStringLiteral("label_10"));
         label_10->setAutoFillBackground(false);
-        label_10->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_10->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_10->addWidget(label_10);
 
         word_10 = new QLineEdit(widget);
         word_10->setObjectName(QStringLiteral("word_10"));
         word_10->setAutoFillBackground(false);
-        word_10->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_10->setInputMethodHints(Qt::ImhNone);
         word_10->setMaxLength(50);
         word_10->setClearButtonEnabled(false);
 
@@ -314,14 +314,14 @@ public:
         label_11 = new QLabel(widget);
         label_11->setObjectName(QStringLiteral("label_11"));
         label_11->setAutoFillBackground(false);
-        label_11->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_11->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_11->addWidget(label_11);
 
         word_11 = new QLineEdit(widget);
         word_11->setObjectName(QStringLiteral("word_11"));
         word_11->setAutoFillBackground(false);
-        word_11->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_11->setInputMethodHints(Qt::ImhNone);
         word_11->setMaxLength(50);
         word_11->setClearButtonEnabled(false);
 
@@ -335,14 +335,14 @@ public:
         label_12 = new QLabel(widget);
         label_12->setObjectName(QStringLiteral("label_12"));
         label_12->setAutoFillBackground(false);
-        label_12->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        label_12->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_12->addWidget(label_12);
 
         word_12 = new QLineEdit(widget);
         word_12->setObjectName(QStringLiteral("word_12"));
         word_12->setAutoFillBackground(false);
-        word_12->setInputMethodHints(Qt::ImhDialableCharactersOnly|Qt::ImhLatinOnly|Qt::ImhLowercaseOnly);
+        word_12->setInputMethodHints(Qt::ImhNone);
         word_12->setMaxLength(50);
         word_12->setClearButtonEnabled(false);
 

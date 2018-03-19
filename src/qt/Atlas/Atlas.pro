@@ -26,12 +26,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         app.cpp \
-    restore_wallet.cpp
+    restore_wallet.cpp \
+    start_menu.cpp
 
 HEADERS += \
         app.h \
-    restore_wallet.h
+    restore_wallet.h \
+    start_menu.h
 
 FORMS += \
         app.ui \
-    restore_wallet.ui
+    restore_wallet.ui \
+    start_menu.ui

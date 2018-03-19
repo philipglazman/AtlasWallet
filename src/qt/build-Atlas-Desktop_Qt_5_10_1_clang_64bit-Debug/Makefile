@@ -52,13 +52,17 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../Atlas/main.cpp \
 		../Atlas/app.cpp \
-		../Atlas/restore_wallet.cpp moc_app.cpp \
-		moc_restore_wallet.cpp
+		../Atlas/restore_wallet.cpp \
+		../Atlas/start_menu.cpp moc_app.cpp \
+		moc_restore_wallet.cpp \
+		moc_start_menu.cpp
 OBJECTS       = main.o \
 		app.o \
 		restore_wallet.o \
+		start_menu.o \
 		moc_app.o \
-		moc_restore_wallet.o
+		moc_restore_wallet.o \
+		moc_start_menu.o
 DIST          = /Users/mango/Qt/5.10.1/clang_64/mkspecs/features/spec_pre.prf \
 		/Users/mango/Qt/5.10.1/clang_64/mkspecs/qdevice.pri \
 		/Users/mango/Qt/5.10.1/clang_64/mkspecs/features/device_config.prf \
@@ -223,9 +227,11 @@ DIST          = /Users/mango/Qt/5.10.1/clang_64/mkspecs/features/spec_pre.prf \
 		/Users/mango/Qt/5.10.1/clang_64/mkspecs/features/yacc.prf \
 		/Users/mango/Qt/5.10.1/clang_64/mkspecs/features/lex.prf \
 		../Atlas/Atlas.pro ../Atlas/app.h \
-		../Atlas/restore_wallet.h ../Atlas/main.cpp \
+		../Atlas/restore_wallet.h \
+		../Atlas/start_menu.h ../Atlas/main.cpp \
 		../Atlas/app.cpp \
-		../Atlas/restore_wallet.cpp
+		../Atlas/restore_wallet.cpp \
+		../Atlas/start_menu.cpp
 QMAKE_TARGET  = Atlas
 DESTDIR       = 
 TARGET        = Atlas.app/Contents/MacOS/Atlas
@@ -239,7 +245,7 @@ EXPORT_ARCH_ARGS = $(foreach arch, $(if $(EXPORT_ACTIVE_ARCHS), $(EXPORT_ACTIVE_
 first: all
 ####### Build rules
 
-$(TARGET): ui_app.h ui_restore_wallet.h $(OBJECTS)  
+$(TARGET): ui_app.h ui_restore_wallet.h ui_start_menu.h $(OBJECTS)  
 	@test -d Atlas.app/Contents/MacOS/ || mkdir -p Atlas.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -608,9 +614,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /Users/mango/Qt/5.10.1/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Atlas/app.h ../Atlas/restore_wallet.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Atlas/main.cpp ../Atlas/app.cpp ../Atlas/restore_wallet.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Atlas/app.ui ../Atlas/restore_wallet.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../Atlas/app.h ../Atlas/restore_wallet.h ../Atlas/start_menu.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Atlas/main.cpp ../Atlas/app.cpp ../Atlas/restore_wallet.cpp ../Atlas/start_menu.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Atlas/app.ui ../Atlas/restore_wallet.ui ../Atlas/start_menu.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -642,11 +648,14 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /Users/mango/Qt/5.10.1/clang_64/mkspecs/features/data/dummy.cpp
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -g -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -mmacosx-version-min=10.10 -Wall -W -dM -E -o moc_predefs.h /Users/mango/Qt/5.10.1/clang_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_app.cpp moc_restore_wallet.cpp
+compiler_moc_header_make_all: moc_app.cpp moc_restore_wallet.cpp moc_start_menu.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_app.cpp moc_restore_wallet.cpp
+	-$(DEL_FILE) moc_app.cpp moc_restore_wallet.cpp moc_start_menu.cpp
 moc_app.cpp: /Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		../Atlas/restore_wallet.h \
+		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../Atlas/app.h \
 		moc_predefs.h \
 		/Users/mango/Qt/5.10.1/clang_64/bin/moc
@@ -659,13 +668,20 @@ moc_restore_wallet.cpp: /Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/
 		/Users/mango/Qt/5.10.1/clang_64/bin/moc
 	/Users/mango/Qt/5.10.1/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/mango/Qt/5.10.1/clang_64/mkspecs/macx-clang -I/Users/mango/Desktop/AtlasWallet/src/qt/Atlas -I/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/mango/Qt/5.10.1/clang_64/lib/QtGui.framework/Headers -I/Users/mango/Qt/5.10.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/Users/mango/Qt/5.10.1/clang_64/lib ../Atlas/restore_wallet.h -o moc_restore_wallet.cpp
 
+moc_start_menu.cpp: /Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
+		../Atlas/start_menu.h \
+		moc_predefs.h \
+		/Users/mango/Qt/5.10.1/clang_64/bin/moc
+	/Users/mango/Qt/5.10.1/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/mango/Qt/5.10.1/clang_64/mkspecs/macx-clang -I/Users/mango/Desktop/AtlasWallet/src/qt/Atlas -I/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/mango/Qt/5.10.1/clang_64/lib/QtGui.framework/Headers -I/Users/mango/Qt/5.10.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include -F/Users/mango/Qt/5.10.1/clang_64/lib ../Atlas/start_menu.h -o moc_start_menu.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_app.h ui_restore_wallet.h
+compiler_uic_make_all: ui_app.h ui_restore_wallet.h ui_start_menu.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_app.h ui_restore_wallet.h
+	-$(DEL_FILE) ui_app.h ui_restore_wallet.h ui_start_menu.h
 ui_app.h: ../Atlas/app.ui \
 		/Users/mango/Qt/5.10.1/clang_64/bin/uic
 	/Users/mango/Qt/5.10.1/clang_64/bin/uic ../Atlas/app.ui -o ui_app.h
@@ -673,6 +689,10 @@ ui_app.h: ../Atlas/app.ui \
 ui_restore_wallet.h: ../Atlas/restore_wallet.ui \
 		/Users/mango/Qt/5.10.1/clang_64/bin/uic
 	/Users/mango/Qt/5.10.1/clang_64/bin/uic ../Atlas/restore_wallet.ui -o ui_restore_wallet.h
+
+ui_start_menu.h: ../Atlas/start_menu.ui \
+		/Users/mango/Qt/5.10.1/clang_64/bin/uic
+	/Users/mango/Qt/5.10.1/clang_64/bin/uic ../Atlas/start_menu.ui -o ui_start_menu.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
@@ -689,13 +709,20 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 main.o: ../Atlas/main.cpp ../Atlas/app.h \
 		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		../Atlas/restore_wallet.h \
+		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QApplication \
-		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qapplication.h
+		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
+		../Atlas/start_menu.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Atlas/main.cpp
 
 app.o: ../Atlas/app.cpp ../Atlas/app.h \
 		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		../Atlas/restore_wallet.h \
+		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		ui_app.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o app.o ../Atlas/app.cpp
 
@@ -705,11 +732,20 @@ restore_wallet.o: ../Atlas/restore_wallet.cpp ../Atlas/restore_wallet.h \
 		ui_restore_wallet.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o restore_wallet.o ../Atlas/restore_wallet.cpp
 
+start_menu.o: ../Atlas/start_menu.cpp ../Atlas/start_menu.h \
+		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		/Users/mango/Qt/5.10.1/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
+		ui_start_menu.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o start_menu.o ../Atlas/start_menu.cpp
+
 moc_app.o: moc_app.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_app.o moc_app.cpp
 
 moc_restore_wallet.o: moc_restore_wallet.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_restore_wallet.o moc_restore_wallet.cpp
+
+moc_start_menu.o: moc_start_menu.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_start_menu.o moc_start_menu.cpp
 
 ####### Install
 

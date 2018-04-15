@@ -6,46 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>953</width>
+    <height>467</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>app</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>50</y>
-      <width>291</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>Create New Wallet</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="restore_existing_wallet">
-       <property name="text">
-        <string>Restore Existing Wallet</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QLabel" name="debuggerLabel">
     <property name="geometry">
      <rect>
       <x>160</x>
       <y>180</y>
-      <width>60</width>
+      <width>381</width>
       <height>16</height>
      </rect>
     </property>
@@ -59,7 +33,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>953</width>
      <height>22</height>
     </rect>
    </property>

@@ -1,5 +1,6 @@
 /**
  * @brief Provides basic features, error checking of bitcoin script language.
+ *  User inputs string opcode, script checks if valid opcode, appends it to stack. 
  * 
  */
 
@@ -19,21 +20,13 @@ class Script
 
     private:
         
-        // Input Script.
-        template <typename T> 
-        std::stack <T> input_script_stack;
-
-        // Output Script.
+        // Locking Script.
         template <typename T> 
         std::stack <T> output_script_stack;
 
         //instructions
         //stack rules
         //op codes
-
-        std::vector <std::string> opCodes = {"op_0","op_false","op_pushdata1","op_pushdata2","op_pushdata4","op_1negate"}; 
-
-
 };
 
 #endif 

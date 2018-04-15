@@ -41,7 +41,7 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         debuggerLabel = new QLabel(centralWidget);
         debuggerLabel->setObjectName(QStringLiteral("debuggerLabel"));
-        debuggerLabel->setGeometry(QRect(160, 180, 60, 16));
+        debuggerLabel->setGeometry(QRect(160, 180, 381, 16));
         app->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(app);
         menuBar->setObjectName(QStringLiteral("menuBar"));

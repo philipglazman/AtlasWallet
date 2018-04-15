@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "restore_wallet.h"
+#include "start_menu.h"
+#include "../../wallet/stdafx.h"
 
 namespace Ui {
 class app;
@@ -16,14 +18,21 @@ public:
     explicit app(QWidget *parent = 0);
     ~app();
 
-private slots:
-    void on_pushButton_2_clicked();
-
-    void on_restore_existing_wallet_clicked();
-
 private:
+    Wallet * wallet;
+
+    std::string menu_choice;
+
     Ui::app *ui;
-    restore_wallet *restore_wallet;
+    restore_wallet * restore_wallet;
+    start_menu * start_menu;
+
+    std::vector<std::string> word_list;
+
+    void init_start_menu();
+    void init_wallet();
+
+    void get_mnemonic_phrase();
 };
 
 #endif // APP_H

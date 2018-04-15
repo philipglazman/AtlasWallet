@@ -15,7 +15,20 @@ public:
     explicit start_menu(QWidget *parent = 0);
     ~start_menu();
 
+    std::string get_menu_choice() const;
+
+private slots:
+    void on_create_new_wallet_clicked();
+
+    void on_restore_existing_wallet_clicked();
+
 private:
+
+    const std::string NEW_WALLET = "new";
+    const std::string RESTORE_WALLET = "restore";
+
+    std::string menu_choice;
+
     Ui::start_menu *ui;
 };
 

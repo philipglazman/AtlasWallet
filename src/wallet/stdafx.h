@@ -30,6 +30,6 @@ g++ -c stdafx.h -o stdafx.h.gch -std=c++11 -lboostsystem -lbitcoin
 
 #include "error.hpp"
 #include "../network/network.hpp"
-#include "wallet.hpp"
+#include "Wallet.hpp"
 #include "utxo.hpp"
 #include "transaction.hpp"

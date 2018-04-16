@@ -18,6 +18,11 @@ public:
     explicit app(QWidget *parent = 0);
     ~app();
 
+private slots:
+    void on_tabWidget_tabBarClicked(int index);
+
+    void on_copy_btc_address_clicked();
+
 private:
     Wallet * wallet;
 
@@ -33,6 +38,14 @@ private:
     void init_wallet();
 
     void get_mnemonic_phrase();
+
+    // Change widgets on main tab.
+    void set_main_tab();
+    void set_available_payment_address();
+    void set_btc_recieved();
+    void set_btc_sent();
+    void set_btc_balance();
+
 };
 
 #endif // APP_H

@@ -5,6 +5,7 @@
 #include <vector>
 #include <QDebug>
 #include "../../wallet/stdafx.h"
+#include <QClipboard>
 
 // Constructor
 app::app(QWidget *parent) :
@@ -58,16 +59,55 @@ void app::init_wallet()
 
 void app::get_mnemonic_phrase()
 {
+    // Starts new dialog window which asks users for 12-word mnemonic phrase.
     restore_wallet = new class restore_wallet();
 
     // Main focus of UI will be on new restore_wallet window.
     restore_wallet->setModal(true);
 
+    // Once accepted, get the vector containing phrase.
     if(restore_wallet->exec() == QDialog::Accepted){
         word_list = restore_wallet->get_word_list();
-//        for(int i = 0; i < temp.size();i++)
-//        {
-//            word_list.push_back(temp[i]);
-//        }
     }
+}
+
+
+
+void app::set_available_payment_address()
+{
+    ui->btc_address->setText(QString::fromStdString(wallet->getAddress(1).encoded()));
+};
+
+void app::set_main_tab()
+{
+    this->set_available_payment_address();
+};
+
+void app::on_tabWidget_tabBarClicked(int index)
+{
+    std::cout << ui->tabWidget->currentIndex() << std::endl;
+    std::cout << "index" << index << std::endl;
+
+    switch(index)
+    {
+    case 0:
+        //main
+        this->set_main_tab();
+        break;
+    case 1:
+        //history
+        break;
+    case 3:
+        // fees
+        break;
+    case 4:
+        // script
+        break;
+    }
+}
+
+void app::on_copy_btc_address_clicked()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(ui->btc_address->text());
 }

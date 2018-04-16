@@ -32,7 +32,7 @@ public:
     QAction *actionExit;
     QWidget *centralWidget;
     QTabWidget *tabWidget;
-    QWidget *tab;
+    QWidget *tab_main;
     QGroupBox *groupBox;
     QLabel *label;
     QLabel *label_2;
@@ -41,8 +41,8 @@ public:
     QLabel *label_5;
     QLabel *label_6;
     QGroupBox *groupBox_2;
-    QLabel *label_7;
-    QPushButton *pushButton;
+    QLabel *btc_address;
+    QPushButton *copy_btc_address;
     QWidget *tab_history;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
@@ -72,9 +72,10 @@ public:
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
         tabWidget->setGeometry(QRect(10, 30, 931, 401));
-        tab = new QWidget();
-        tab->setObjectName(QStringLiteral("tab"));
-        groupBox = new QGroupBox(tab);
+        tabWidget->setTabsClosable(false);
+        tab_main = new QWidget();
+        tab_main->setObjectName(QStringLiteral("tab_main"));
+        groupBox = new QGroupBox(tab_main);
         groupBox->setObjectName(QStringLiteral("groupBox"));
         groupBox->setGeometry(QRect(260, 20, 401, 191));
         groupBox->setAutoFillBackground(false);
@@ -96,16 +97,16 @@ public:
         label_6 = new QLabel(groupBox);
         label_6->setObjectName(QStringLiteral("label_6"));
         label_6->setGeometry(QRect(210, 100, 181, 16));
-        groupBox_2 = new QGroupBox(tab);
+        groupBox_2 = new QGroupBox(tab_main);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
         groupBox_2->setGeometry(QRect(260, 240, 391, 80));
-        label_7 = new QLabel(groupBox_2);
-        label_7->setObjectName(QStringLiteral("label_7"));
-        label_7->setGeometry(QRect(10, 30, 341, 16));
-        pushButton = new QPushButton(groupBox_2);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(270, 50, 113, 32));
-        tabWidget->addTab(tab, QString());
+        btc_address = new QLabel(groupBox_2);
+        btc_address->setObjectName(QStringLiteral("btc_address"));
+        btc_address->setGeometry(QRect(10, 30, 341, 16));
+        copy_btc_address = new QPushButton(groupBox_2);
+        copy_btc_address->setObjectName(QStringLiteral("copy_btc_address"));
+        copy_btc_address->setGeometry(QRect(270, 50, 113, 32));
+        tabWidget->addTab(tab_main, QString());
         tab_history = new QWidget();
         tab_history->setObjectName(QStringLiteral("tab_history"));
         scrollArea = new QScrollArea(tab_history);
@@ -163,7 +164,7 @@ public:
 
         retranslateUi(app);
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(app);
@@ -181,9 +182,9 @@ public:
         label_5->setText(QApplication::translate("app", "btc_sent", nullptr));
         label_6->setText(QApplication::translate("app", "btc_balance", nullptr));
         groupBox_2->setTitle(QApplication::translate("app", "Available Payment Address", nullptr));
-        label_7->setText(QApplication::translate("app", "btc_address", nullptr));
-        pushButton->setText(QApplication::translate("app", "Copy", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("app", "Main", nullptr));
+        btc_address->setText(QApplication::translate("app", "btc_address", nullptr));
+        copy_btc_address->setText(QApplication::translate("app", "Copy", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_main), QApplication::translate("app", "Main", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_history), QApplication::translate("app", "History", nullptr));
         debuggerLabel->setText(QApplication::translate("app", "TextLabel", nullptr));
         groupBox_3->setTitle(QApplication::translate("app", "Fees", nullptr));

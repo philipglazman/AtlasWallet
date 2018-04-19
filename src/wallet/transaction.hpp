@@ -6,6 +6,8 @@
 #ifndef _TRANSACTION_H
 #define _TRANSACTION_H
 #include "stdafx.h"
+#include "utxo.hpp"
+#include "../network/network.hpp"
 
 class Transaction {
     public:
@@ -19,7 +21,7 @@ class Transaction {
         bool broadcastTransaction(bc::chain::transaction tx);
 
         // Returns balance of wallet. (total utxo)
-        unsigned long long getBalance() const { return m_utxoSum; };
+        unsigned long long getBalance() const;
 
         // Returns balance of n bitcoin address.
         unsigned long long getBalanceForAddress(bc::wallet::payment_address a_address);

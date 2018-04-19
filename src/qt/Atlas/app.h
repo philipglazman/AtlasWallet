@@ -23,8 +23,11 @@ private slots:
 
     void on_copy_btc_address_clicked();
 
+    void on_horizontalScrollBar_sliderMoved(int position);
+
 private:
     Wallet * wallet;
+    Network * network;
 
     std::string menu_choice;
 
@@ -45,6 +48,13 @@ private:
     void set_btc_recieved();
     void set_btc_sent();
     void set_btc_balance();
+
+    // Change widgets on send tab.
+    void set_send_tab();
+
+    // Change widgets on analytics tab.
+    void set_analytics_tab();
+
 
 };
 

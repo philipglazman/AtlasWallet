@@ -351,3 +351,8 @@ bool Transaction::calculateBalance(bc::wallet::payment_address a_address)
         return false;
     }
 };
+
+unsigned long long Transaction::getBalance() const
+{
+    return m_utxoSum;
+};

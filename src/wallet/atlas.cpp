@@ -23,26 +23,30 @@ main(int argc, char * argv[])
     Transaction transactions;
 
     // Check balance.
-    int addressIndex = 1;
-    while(true)
-    {
-        if(transactions.calculateBalance(wallet.getAddress(addressIndex)))
-        {
-            addressIndex++;
-        }
-        else
-        {
-            break;
-        }
-    };
+    // int addressIndex = 1;
+    // while(true)
+    // {
+    //     if(transactions.calculateBalance(wallet.getAddress(addressIndex)))
+    //     {
+    //         addressIndex++;
+    //     }
+    //     else
+    //     {
+    //         break;
+    //     }
+    // };
 
-    std::cout << addressIndex << std::endl;
-    std::cout << transactions.getBalance() << std::endl;
+    // wallet.set_address_index_to_last_unused_address();
+    std::cout<<wallet.getBalance()<<std::endl;
+    std::cout<<wallet.get_balance_as_string()<<std::endl;
 
-    bc::wallet::payment_address addy = wallet.getAddress(1);
-    bc::wallet::payment_address destinationAddy = wallet.getAddress(3);
-    bc::data_chunk publicKey = bc::to_chunk(wallet.childPublicKey(1).point());
-    transactions.P2PKH(publicKey,wallet.childPrivateKey(1).secret(),destinationAddy, 1000000);
+    // std::cout << addressIndex << std::endl;
+    // std::cout << transactions.getBalance() << std::endl;
+
+    // bc::wallet::payment_address addy = wallet.getAddress(1);
+    // bc::wallet::payment_address destinationAddy = wallet.getAddress(3);
+    // bc::data_chunk publicKey = bc::to_chunk(wallet.childPublicKey(1).point());
+    // transactions.P2PKH(publicKey,wallet.childPrivateKey(1).secret(),destinationAddy, 1000000);
 
     // // Fees
     // Network net;

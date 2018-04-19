@@ -7,6 +7,8 @@
 #define _WALLET_H
 
 #include "stdafx.h"
+#include "transaction.hpp"
+#include "../network/network.hpp"
 
 class Wallet
 {
@@ -32,12 +34,22 @@ public:
     // Returns private key at index n of keychain.
     bc::wallet::hd_private childPrivateKey(int a_index);
 
+    unsigned long long getBalance() const;
+    std::string get_balance_as_string() const;
+    void set_address_index_to_last_unused_address();
+
     // Debug Helper - reveals all keys to output.
     void showKeys();
 
 protected:
     
 private:
+
+    Transaction * transactions;
+    Network * network;
+
+    int m_address_index;
+
     // 128 bit entropy.
     std::vector<std::uint8_t> * m_entropy;
 
@@ -55,7 +67,6 @@ private:
 
     // Creates the Mnemonic Code Words.
     bc::wallet::word_list generateMnemonicCode();
- 
 
     // Returns address at index n of keychain.
     bc::wallet::payment_address childAddress(int index);

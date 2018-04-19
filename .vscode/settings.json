@@ -18,6 +18,7 @@
         "iosfwd": "cpp",
         "iterator": "cpp",
         "vector": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "slist": "cpp"
     }
 }

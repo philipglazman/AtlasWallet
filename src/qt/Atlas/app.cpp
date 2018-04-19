@@ -17,6 +17,9 @@ app::app(QWidget *parent) :
     // Starts immediate dialog box asking user for new/restore wallet.
     init_start_menu();
     init_wallet();
+    set_main_tab();
+
+    network = new Network();
 }
 
 // Destructor
@@ -35,7 +38,6 @@ void app::init_start_menu()
     if(start_menu->close() == true)
     {
         menu_choice = start_menu->get_menu_choice();
-        ui->debuggerLabel->setText(QString::fromStdString(menu_choice));
     }
 };
 
@@ -51,9 +53,7 @@ void app::init_wallet()
     else if(menu_choice =="restore")
     {
         get_mnemonic_phrase();
-//        ui->debuggerLabel->setText(QString::fromStdString(word_list[3]));
         wallet = new Wallet(word_list);
-        ui->debuggerLabel->setText(QString::fromStdString(wallet->getAddress(1).encoded()));
     }
 };
 
@@ -78,10 +78,30 @@ void app::set_available_payment_address()
     ui->btc_address->setText(QString::fromStdString(wallet->getAddress(1).encoded()));
 };
 
+void app::set_btc_balance()
+{
+    ui->btc_balance->setText(QString::fromStdString(wallet->get_balance_as_string()));
+}
+
 void app::set_main_tab()
 {
     this->set_available_payment_address();
+    this->set_btc_balance();
 };
+
+void app::set_analytics_tab()
+{
+    network->refreshFeeRecommendations();
+    ui->fastwait_fee->setText(QString::number(network->getFastestFee()) + " Satoshis per Byte");
+    ui->midwait_fee->setText(QString::number(network->getHalfHourFee()) + " Satoshis per Byte");
+    ui->highwait_fee->setText(QString::number(network->getHourFee()) + " Satoshis per Byte");
+};
+
+void app::void set_send_tab()
+{
+
+};
+
 
 void app::on_tabWidget_tabBarClicked(int index)
 {
@@ -94,11 +114,12 @@ void app::on_tabWidget_tabBarClicked(int index)
         //main
         this->set_main_tab();
         break;
-    case 1:
+    case 2:
         //history
         break;
     case 3:
         // fees
+        this->set_analytics_tab();
         break;
     case 4:
         // script
@@ -110,4 +131,9 @@ void app::on_copy_btc_address_clicked()
 {
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(ui->btc_address->text());
+}
+
+void app::on_horizontalScrollBar_sliderMoved(int position)
+{
+    ui->sat_byte_fee->setText(QString::number(position)+" Satoshis per Byte");
 }

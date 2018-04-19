@@ -18,6 +18,11 @@ Wallet::Wallet()
     
     // Master 264-bit Public Key.
     m_masterPublicKey = m_masterPrivateKey.to_public();
+
+    // Transactions object.
+    transactions = new Transaction();
+    m_address_index=1;
+    set_address_index_to_last_unused_address();
 }
 
 /**
@@ -37,6 +42,11 @@ Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
     
     // Master 264-bit Public Key.
     m_masterPublicKey = m_masterPrivateKey.to_public();
+
+    // Transactions object.
+    transactions = new Transaction();
+    m_address_index=1;
+    set_address_index_to_last_unused_address();
 }
 
 /**
@@ -160,3 +170,30 @@ void Wallet::showKeys()
     std::cout << "Address: " << getAddress(1) << std::endl;
     std::cout << "Address: " << getAddress(2) << std::endl;
 }
+
+
+void Wallet::set_address_index_to_last_unused_address()
+{
+    while(true)
+    {
+        if(transactions->calculateBalance(getAddress(m_address_index)))
+        {
+            m_address_index++;
+        }
+        else
+        {
+            break;
+        }
+    }
+};
+
+unsigned long long Wallet::getBalance() const
+{
+    return transactions->getBalance();
+}
+
+std::string Wallet::get_balance_as_string() const
+{
+    return bc::encode_base10(transactions->getBalance(),8);
+}
+

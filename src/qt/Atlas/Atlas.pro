@@ -53,12 +53,17 @@ SOURCES += \
         app.cpp \
     restore_wallet.cpp \
     start_menu.cpp \
-    ../../wallet/wallet.cpp
+    ../../wallet/wallet.cpp \
+    ../../wallet/transaction.cpp \
+    ../../wallet/utxo.cpp \
+    ../../wallet/error.cpp \
+    ../../network/network.cpp
 
 HEADERS += \
         app.h \
     restore_wallet.h \
-    start_menu.h
+    start_menu.h \
+    ../../wallet/stdafx.h
 
 FORMS += \
         app.ui \

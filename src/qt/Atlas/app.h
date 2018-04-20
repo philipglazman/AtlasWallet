@@ -23,7 +23,9 @@ private slots:
 
     void on_copy_btc_address_clicked();
 
-    void on_horizontalScrollBar_sliderMoved(int position);
+    void on_fee_slider_sliderMoved(int position);
+
+    void on_send_tx_clicked();
 
 private:
     Wallet * wallet;
@@ -51,6 +53,13 @@ private:
 
     // Change widgets on send tab.
     void set_send_tab();
+    bool send_transaction();
+
+    // Change widgets on history tab.
+    void set_history_tab();
+
+    // Input validation for send tab.
+    bool is_valid_address();
 
     // Change widgets on analytics tab.
     void set_analytics_tab();

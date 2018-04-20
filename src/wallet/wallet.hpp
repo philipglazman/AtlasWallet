@@ -34,9 +34,17 @@ public:
     // Returns private key at index n of keychain.
     bc::wallet::hd_private childPrivateKey(int a_index);
 
+    // Getter for current balance of wallet
     unsigned long long getBalance() const;
+
+    // Getter for current balance of wallet, returns string.
     std::string get_balance_as_string() const;
+
+    // Sets the current index of the address keychain.
     void set_address_index_to_last_unused_address();
+
+    // Sends basic transaction.
+    void  build_P2PKH(std::string a_address, unsigned long long a_satoshis);
 
     // Debug Helper - reveals all keys to output.
     void showKeys();

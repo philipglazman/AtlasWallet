@@ -195,5 +195,13 @@ unsigned long long Wallet::getBalance() const
 std::string Wallet::get_balance_as_string() const
 {
     return bc::encode_base10(transactions->getBalance(),8);
+};
+
+void  Wallet::build_P2PKH(std::string a_address, unsigned long long a_satoshis)
+{
+    bc::wallet::payment_address address = bc::wallet::payment_address(a_address);
+    bc::chain::transaction tx = transactions->P2PKH(a_address,a_satoshis);
+
+    transactions->show_raw_tx(tx);
 }
 

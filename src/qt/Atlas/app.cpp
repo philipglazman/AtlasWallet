@@ -97,25 +97,32 @@ void app::set_analytics_tab()
     ui->highwait_fee->setText(QString::number(network->getHourFee()) + " Satoshis per Byte");
 };
 
-void app::void set_send_tab()
+void app::set_send_tab()
 {
-
+    network->refreshFeeRecommendations();
+    ui->fee_slider->setMaximum(network->getFastestFee());
 };
 
+void app::set_history_tab()
+{
+    std::cout << "history tab" << std::endl;
+};
 
 void app::on_tabWidget_tabBarClicked(int index)
 {
-    std::cout << ui->tabWidget->currentIndex() << std::endl;
-    std::cout << "index" << index << std::endl;
-
     switch(index)
     {
     case 0:
         //main
         this->set_main_tab();
         break;
+    case 1:
+        //send
+        this->set_send_tab();
+        break;
     case 2:
         //history
+        this->set_history_tab();
         break;
     case 3:
         // fees
@@ -133,7 +140,63 @@ void app::on_copy_btc_address_clicked()
     clipboard->setText(ui->btc_address->text());
 }
 
-void app::on_horizontalScrollBar_sliderMoved(int position)
+void app::on_fee_slider_sliderMoved(int position)
 {
     ui->sat_byte_fee->setText(QString::number(position)+" Satoshis per Byte");
+}
+
+bool app::is_valid_address()
+{
+    std::string address = ui->send_btc_address->toPlainText().toStdString();
+    std::cout << address << std::endl;
+
+    /** @todo do appropriate address validation using checksum
+     */
+
+    // Bitcoin address is between 26 and 35 characters.
+    // check length
+    if(address.length()<26 || address.length() >35)
+    {
+        std::cout << "bad length" << std::endl;
+        return false;
+    }
+
+
+    /**
+      @todo - check base58 encoding
+      */
+
+    // check prefix
+//    else if(address[0] != 'm' || address[0] != 'n' || address[0] != '2')
+//    {
+//        std::cout << "bad prefix" << std::endl;
+//        return false;
+//    }
+    else
+    {
+        return true;
+    }
+}
+
+void app::on_send_tx_clicked()
+{
+    //validate btc address
+    if(!is_valid_address())
+    {
+        std::cout<<"invalid address"<<std::endl;
+    }
+
+    //validate btc amount
+
+    //send transaction
+    this->send_transaction();
+}
+
+bool app::send_transaction()
+{
+    std::string address = ui->send_btc_address->toPlainText().toStdString();
+    unsigned long long amount = ui->send_btc_amount->toPlainText().toInt()*100000;
+    //unsigned long long fee = ui->fee_slider->value();
+
+    wallet->build_P2PKH(address,amount);
 }

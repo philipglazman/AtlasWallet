@@ -15,7 +15,7 @@ class Transaction {
         ~Transaction();
 
         // Constructs P2PKH script.
-        bool P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKey, bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis);
+        bc::chain::transaction P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis);
 
         // Broadcasts transaction to network.
         bool broadcastTransaction(bc::chain::transaction tx);
@@ -34,6 +34,9 @@ class Transaction {
         // Checks if given payment address has enough utxo to pay the provided # of satoshis.
         bc::chain::points_value getUTXOs(bc::wallet::payment_address Addy, unsigned long long amount);
 
+        // Show raw transaction in hex.
+        void show_raw_tx(bc::chain::transaction a_transaction);
+        
     protected:
 
     private:
@@ -51,9 +54,6 @@ class Transaction {
 
         // Show output for transaction output.
         void showTxOutput(bc::chain::output output);
-
-        // Show raw transaction in hex.
-        void showTxRaw(bc::chain::transaction a_transaction);
 
         // UTXO Balance
         unsigned long long m_utxoSum;

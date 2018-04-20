@@ -11,6 +11,22 @@ main(int argc, char * argv[])
     // TODO add better entropy (mouse cursor mvmt?)
     // std::random_device engine;
     
+    // std::string addy = "mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG";
+    
+    
+
+    // bc::wallet::payment_address pay_addy = bc::wallet::payment_address(addy);
+    
+    // if(pay_addy == bc::wallet::payment_address("1111111111111111111114oLvT2"))
+    // {
+    //     std::cout << "Invalid" <<std::endl;
+    // }
+    // else
+    // {
+    //     std::cout << "valid" <<std::endl;
+    // }
+    
+
     // Load wallet.
     std::vector< std::string > wordList = {"scatter", "found", "issue", "friend", "front", "glare", "blanket", "mother", "frequent", "acid", "shaft", "loud"};
     // Wallet object.
@@ -20,33 +36,36 @@ main(int argc, char * argv[])
     wallet.showKeys();
 
     // Transactions object;
-    Transaction transactions;
+    // Transaction transactions;
 
-    // Check balance.
-    // int addressIndex = 1;
-    // while(true)
-    // {
-    //     if(transactions.calculateBalance(wallet.getAddress(addressIndex)))
-    //     {
-    //         addressIndex++;
-    //     }
-    //     else
-    //     {
-    //         break;
-    //     }
-    // };
+    // // Check balance.
+    // // int addressIndex = 1;
+    // // while(true)
+    // // {
+    // //     if(transactions.calculateBalance(wallet.getAddress(addressIndex)))
+    // //     {
+    // //         addressIndex++;
+    // //     }
+    // //     else
+    // //     {
+    // //         break;
+    // //     }
+    // // };
 
-    // wallet.set_address_index_to_last_unused_address();
-    std::cout<<wallet.getBalance()<<std::endl;
-    std::cout<<wallet.get_balance_as_string()<<std::endl;
+    // // wallet.set_address_index_to_last_unused_address();
+    // std::cout<<wallet.getBalance()<<std::endl;
+    // std::cout<<wallet.get_balance_as_string()<<std::endl;
+
+    // std::cout<<wallet.getAddress(1).is_address()<<std::endl;
 
     // std::cout << addressIndex << std::endl;
     // std::cout << transactions.getBalance() << std::endl;
 
     // bc::wallet::payment_address addy = wallet.getAddress(1);
-    // bc::wallet::payment_address destinationAddy = wallet.getAddress(3);
+    bc::wallet::payment_address destinationAddy = wallet.getAddress(3);
     // bc::data_chunk publicKey = bc::to_chunk(wallet.childPublicKey(1).point());
-    // transactions.P2PKH(publicKey,wallet.childPrivateKey(1).secret(),destinationAddy, 1000000);
+    wallet.build_P2PKH("mmUbEcLMoJsaT6Uy3ZBkvF5i1AJ5xgmZpG",1000000);
+    // transactions.P2PKH(destinationAddy, 1000000);
 
     // // Fees
     // Network net;

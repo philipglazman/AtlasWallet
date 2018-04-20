@@ -26,7 +26,7 @@ void Transaction::showTxOutput(bc::chain::output output)
     std::cout << "Sending Bitcoin: \nAmount: " << bc::encode_base10(output.value(), 8) << "BTC : Output Script: " << output.script().to_string(0) << std::endl;
 };
 
-void Transaction::showTxRaw(bc::chain::transaction a_transaction)
+void Transaction::show_raw_tx(bc::chain::transaction a_transaction)
 {
     std::cout << "Raw Transaction: " << std::endl;
 	std::cout << bc::encode_base16(a_transaction.to_data()) << std::endl;
@@ -99,7 +99,7 @@ bc::endorsement createSignature(bc::chain::script a_lockingScript,bc::ec_secret 
  * @return true 
  * @return false 
  */
-bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKey, bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis)
+bc::chain::transaction Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis)
 {   
     unsigned long long input_value = 0;
     unsigned long long change_value = 0;
@@ -149,11 +149,12 @@ bool Transaction::P2PKH(bc::data_chunk a_publicKey, const bc::ec_secret a_privKe
     // Create output.
     tx.outputs().push_back(createOutputP2PKH(a_destinationAddress,a_satoshis));
 
+    return tx;
+
     // Show transaction.
-    showTxRaw(tx);
+    // show_raw_tx(tx);
 
     //broadcastTransaction(tx);
-    return true;
 };
 
 /**

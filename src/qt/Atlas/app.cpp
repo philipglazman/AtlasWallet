@@ -6,6 +6,8 @@
 #include <QDebug>
 #include "../../wallet/stdafx.h"
 #include <QClipboard>
+#include <QRadioButton>
+#include <qboxlayout.h>
 
 // Constructor
 app::app(QWidget *parent) :
@@ -105,7 +107,48 @@ void app::set_send_tab()
 
 void app::set_history_tab()
 {
-    std::cout << "history tab" << std::endl;
+    const int NUM_TX = 10;
+
+    // Select scrollArea.
+    QScrollArea *list_of_tx = ui->tx_scroll_area;
+    list_of_tx->setBackgroundRole(QPalette::Window);
+    list_of_tx->setFrameShadow(QFrame::Plain);
+    list_of_tx->setFrameShape(QFrame::NoFrame);
+    list_of_tx->setWidgetResizable(true);
+
+    // Array of transactions.
+    QGroupBox * transactions[NUM_TX];
+
+    // Add transaction widget.
+    for (int i = 0;i<NUM_TX;i++)
+    {
+        QGroupBox *groupBox = new QGroupBox(tr("&Transaction"));
+
+        QLabel *date = new QLabel("Date of Transaction");
+        QLabel *hash = new QLabel("Hash of Transaction");
+        QLabel *value = new QLabel("Amount Transacted");
+
+        QVBoxLayout *vbox = new QVBoxLayout;
+        vbox->addWidget(date);
+        vbox->addWidget(hash);
+        vbox->addWidget(value);
+        vbox->addStretch(1);
+        groupBox->setLayout(vbox);
+        transactions[i] = groupBox;
+    }
+
+    // Add box to main scroll area widget.
+    QWidget* boxArea = new QWidget;
+    boxArea->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    boxArea->setLayout(new QVBoxLayout(boxArea));
+    list_of_tx->setWidget(boxArea);
+    QLayout *lay = boxArea->layout();
+
+    // Add transactions to boxArea.
+    for (int i = 0;i<NUM_TX;i++)
+    {
+        lay->addWidget(transactions[i]);
+    }
 };
 
 void app::on_tabWidget_tabBarClicked(int index)

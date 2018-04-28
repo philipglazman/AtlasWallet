@@ -309,7 +309,7 @@
      <attribute name="title">
       <string>History</string>
      </attribute>
-     <widget class="QScrollArea" name="scrollArea">
+     <widget class="QScrollArea" name="tx_scroll_area">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -323,6 +323,9 @@
         <horstretch>0</horstretch>
         <verstretch>100</verstretch>
        </sizepolicy>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
       </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOn</enum>
@@ -341,218 +344,10 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>875</width>
+         <width>873</width>
          <height>339</height>
         </rect>
        </property>
-       <widget class="QGroupBox" name="groupBox_4">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>10</y>
-          <width>851</width>
-          <height>81</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Block Num</string>
-        </property>
-        <widget class="QLabel" name="label_11">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Date</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_12">
-         <property name="geometry">
-          <rect>
-           <x>670</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>+0.2 BTC</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_13">
-         <property name="geometry">
-          <rect>
-           <x>340</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Hash</string>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_5">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>100</y>
-          <width>851</width>
-          <height>81</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Block Num</string>
-        </property>
-        <widget class="QLabel" name="label_14">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Date</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_15">
-         <property name="geometry">
-          <rect>
-           <x>670</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>+0.2 BTC</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_16">
-         <property name="geometry">
-          <rect>
-           <x>340</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Hash</string>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_6">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>190</y>
-          <width>851</width>
-          <height>81</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Block Num</string>
-        </property>
-        <widget class="QLabel" name="label_17">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Date</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_18">
-         <property name="geometry">
-          <rect>
-           <x>670</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>+0.2 BTC</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_19">
-         <property name="geometry">
-          <rect>
-           <x>340</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Hash</string>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_7">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>280</y>
-          <width>851</width>
-          <height>81</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Block Num</string>
-        </property>
-        <widget class="QLabel" name="label_20">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Date</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_21">
-         <property name="geometry">
-          <rect>
-           <x>670</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>+0.2 BTC</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_22">
-         <property name="geometry">
-          <rect>
-           <x>340</x>
-           <y>30</y>
-           <width>161</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Hash</string>
-         </property>
-        </widget>
-       </widget>
       </widget>
      </widget>
     </widget>

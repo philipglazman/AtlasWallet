@@ -271,3 +271,17 @@ Wallet::build_P2PKH(std::string a_address, unsigned long long a_satoshis)
     // @TODO - return tx. 
     transactions->show_raw_tx(tx);
 };
+
+/**
+ * @brief 
+ * 
+ * @return std::vector< Transaction::m_tx > 
+ * 
+ * @author Philip Glazman
+ * date 4/28/18
+ */
+std::vector< Transaction::m_tx >
+Wallet::get_transaction_history()
+{
+    return transactions->get_transaction_history();
+}

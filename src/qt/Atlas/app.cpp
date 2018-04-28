@@ -107,7 +107,9 @@ void app::set_send_tab()
 
 void app::set_history_tab()
 {
-    const int NUM_TX = 10;
+    std::vector< std::tuple<unsigned long long,bc::hash_digest,int> > tx =  wallet-> get_transaction_history();
+
+    const int NUM_TX = tx.size();
 
     // Select scrollArea.
     QScrollArea *list_of_tx = ui->tx_scroll_area;
@@ -124,9 +126,10 @@ void app::set_history_tab()
     {
         QGroupBox *groupBox = new QGroupBox(tr("&Transaction"));
 
-        QLabel *date = new QLabel("Date of Transaction");
-        QLabel *hash = new QLabel("Hash of Transaction");
-        QLabel *value = new QLabel("Amount Transacted");
+        QLabel *date = new QLabel("Block Height: " + QString::number(std::get<2>(tx[i])));
+        QLabel *hash = new QLabel("Transaction Hash: " + QString::fromStdString(bc::encode_hash(std::get<1>(tx[i]))));
+        //bc::encode_base10(output.value(), 8)
+        QLabel *value = new QLabel("Value: " + QString::fromStdString(bc::encode_base10(std::get<0>(tx[i]),8)) + " BTC");
 
         QVBoxLayout *vbox = new QVBoxLayout;
         vbox->addWidget(date);

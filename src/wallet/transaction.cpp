@@ -10,6 +10,7 @@ Transaction::Transaction()
 {
     network = new Network();
     unspent_output = new utxo();
+    
     m_utxoSum = 0;
 };
 
@@ -22,13 +23,14 @@ Transaction::Transaction()
 Transaction::~Transaction()
 {
     delete network;
+    delete unspent_output;
 }
 
 /**
- * @brief 
+ * @brief Creates output for a P2PKH transaction.
  * 
- * @param a_address 
- * @param a_satoshis 
+ * @param a_address bc::wallet::payment_address address that owns output
+ * @param a_satoshis unsigned long long value of output
  * @return bc::chain::output 
  * 
  * @author Philip Glazman
@@ -39,15 +41,17 @@ Transaction::createOutputP2PKH(bc::wallet::payment_address a_address, unsigned l
 {
     // Hash the Public Key of the Address. OP_DUP OP_HASH160 <PKH> OP_EQUALVERIFY OP_CHECKSIG
     bc::chain::script outputScript  = bc::chain::script().to_pay_key_hash_pattern(a_address.hash());
+
     // to_pay_key_hash_pattern creates an operation::list. Assignment constructor makes assigns it to outputScript.
     bc::chain::output output(a_satoshis,outputScript);
+
     return output;
 };
 
 /**
- * @brief 
+ * @brief Shows the transaction output.
  * 
- * @param output
+ * @param output bc::chain::output output point
  *  
  * @author Philip Glazman
  * @date 4/28/18
@@ -59,7 +63,7 @@ Transaction::showTxOutput(bc::chain::output output)
 };
 
 /**
- * @brief 
+ * @brief Outputs raw transaction into hex.
  * 
  * @param a_transaction
  * 
@@ -92,9 +96,9 @@ Transaction::calculateTxSize(int inputs, int outputs)
 };
 
 /**
- * @brief 
+ * @brief Calculates transaction fee for a given transaction size.
  * 
- * @param estimated_tx_size 
+ * @param estimated_tx_size int size of the transaction in bytes.
  * @return unsigned long long 
  * 
  * @author Philip Glazman
@@ -103,10 +107,12 @@ Transaction::calculateTxSize(int inputs, int outputs)
 unsigned long long
 Transaction::calculate_tx_fee(int estimated_tx_size)
 {
-    std::cout << "Bytes: " << estimated_tx_size << std::endl;
+    // Refresh fee recommendations.
     network->refreshFeeRecommendations();
+
+    // Satoshis/Bytes * Bytes
     unsigned long long fees = (unsigned long long)(estimated_tx_size * network->getHourFee());
-    std::cout <<"Fees in calculate_tx_fee: " << network->getHourFee() << std::endl;
+
     return fees;
 };
 
@@ -164,7 +170,7 @@ createSignature(bc::chain::script a_lockingScript,bc::ec_secret a_privKey,bc::ch
         Error::RecordError(std::string("Cannot create signature endorsement."));
         Error::DisplayErrors();
     }
-}
+};
 
 /**
  * @brief Constructs P2PKH script transaction.
@@ -186,7 +192,12 @@ Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned lo
     unsigned long long change_value = 0;
 
     // Start building Transaction.
+    // Instantiate the transaction object.
     bc::chain::transaction tx = bc::chain::transaction();
+
+    // Set transaction version.
+    uint32_t version = 1u;
+    tx.set_version(version);
 
     // Find unspent output.
     m_utxo utxo_to_spend = unspent_output -> find_utxo(a_satoshis);
@@ -230,12 +241,8 @@ Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned lo
     // Create output.
     tx.outputs().push_back(createOutputP2PKH(a_destinationAddress,a_satoshis));
 
+    // Return transaction.
     return tx;
-
-    // Show transaction.
-    // show_raw_tx(tx);
-
-    //broadcastTransaction(tx);
 };
 
 /**
@@ -263,7 +270,8 @@ Transaction::getBalanceForAddress(bc::wallet::payment_address a_address)
         // For each row in chain history, check for balance.
         for(const auto& row: rows)
         {
-            //bc::hash_digest test = row.output.hash();
+              
+            // Unspent transaction output.
             if (row.spend.hash() == bc::null_hash)
             {    
                 utxo += row.value;
@@ -271,6 +279,22 @@ Transaction::getBalanceForAddress(bc::wallet::payment_address a_address)
                 utxo_hash = row.output.hash();
                 std::cout << bc::encode_hash(utxo_hash) << std::endl;
                 unspent_output -> add_transaction(row.value, utxo_hash, a_address);
+                
+            }
+
+            // Spent transaction output.
+           
+            {
+
+                if(row.spend.hash() != bc::null_hash)
+                {
+                    m_transactions.push_back(std::make_tuple(row.value,row.spend.hash(),row.spend_height));
+                }
+                if(row.output.hash() != bc::null_hash)
+                {
+                    m_transactions.push_back(std::make_tuple(row.value,row.output.hash(),row.output_height));
+                }
+                
             }
         }
     };
@@ -450,6 +474,7 @@ Transaction::calculateBalance(bc::wallet::payment_address a_address)
     }
     else
     {
+        show_transaction_history();
         return false;
     }
 };
@@ -460,10 +485,58 @@ Transaction::calculateBalance(bc::wallet::payment_address a_address)
  * @return unsigned long long 
  * 
  * @author Philip Glazman
- * @date 4/28/2018
+ * @date 4/28/18
  */
 unsigned long long 
 Transaction::getBalance() const
 {
     return m_utxoSum;
+};
+
+/**
+ * @brief Get the transaction history.
+ * 
+ * @return std::vector< m_tx > 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+std::vector< Transaction::m_tx >
+Transaction::get_transaction_history() const
+{
+    return m_transactions;
+};
+
+/**
+ * @brief Shows each transaction in transaction history.
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+Transaction::show_transaction_history()
+{
+    std::sort(m_transactions.begin(),m_transactions.end(),compare_block_height);
+
+    for(int i = 0; i < m_transactions.size(); i++)
+    {
+        std::cout << std::get<0>(m_transactions[i]) << bc::encode_hash(std::get<1>(m_transactions[i])) << std::get<2>(m_transactions[i]) << std::endl;
+    }
+};
+
+/**
+ * @brief Comparator function for comparing block height between two transactions. Used for sorting.
+ * 
+ * @param a 
+ * @param b 
+ * @return true 
+ * @return false 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/2018
+ */
+bool
+Transaction::compare_block_height(const m_tx &a, const m_tx &b)
+{
+    return std::get<2>(a) > std::get<2>(b);
 };

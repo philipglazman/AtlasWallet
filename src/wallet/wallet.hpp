@@ -46,6 +46,8 @@ public:
     // Sends basic transaction.
     void  build_P2PKH(std::string a_address, unsigned long long a_satoshis);
 
+    std::vector< Transaction::m_tx > get_transaction_history();
+
     // Debug Helper - reveals all keys to output.
     void showKeys();
 

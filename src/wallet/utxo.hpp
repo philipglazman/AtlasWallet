@@ -30,6 +30,20 @@ class utxo {
     protected:
 
     private:
+
+        struct compare_utxo
+        {
+            typedef unsigned long long m_satoshis;
+            typedef bc::hash_digest m_utxo_hash;
+            typedef bc::wallet::payment_address m_address;
+            typedef std::tuple <m_satoshis, m_utxo_hash, m_address> utxo_tuple;
+
+            // Returns smallest utxo.
+            bool operator()(const utxo_tuple &lhs, const utxo_tuple &rhs) const
+            {
+                return std::get<0>(lhs) < std::get<0>(rhs);
+            }
+        };
         
         utxo_data * m_tx_output;
 

@@ -4,6 +4,8 @@
 /**
  * @brief Creates new wallet using user entropy (256 bits). 
  * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
 Wallet::Wallet()
 {
@@ -29,6 +31,9 @@ Wallet::Wallet()
  * @brief Creates new wallet by import 12 word phrase.
  * 
  * @param a_mnemonicSeed, bc::wallet::word_list. List of 12 word seed phrase.
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
 Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
 {
@@ -53,6 +58,9 @@ Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
  * @brief Generates mnemonic bits using user machine's entropy. BIP-39 Standard.
  * 
  * @return bc::wallet::word_list. List of 12 words representing seed of wallet.
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
 bc::wallet::word_list
 Wallet::generateMnemonicCode()
@@ -79,6 +87,9 @@ Wallet::generateMnemonicCode()
  * 
  * @param a_index, integer.
  * @return bc::wallet::hd_private 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
 bc::wallet::hd_private
 Wallet::childPrivateKey(int a_index)
@@ -91,6 +102,9 @@ Wallet::childPrivateKey(int a_index)
  * 
  * @param a_index, integer.
  * @return bc::wallet::hd_public 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
 bc::wallet::hd_public
 Wallet::childPublicKey(int a_index)
@@ -103,6 +117,9 @@ Wallet::childPublicKey(int a_index)
  * 
  * @param a_index, integer.
  * @return bc::wallet::payment_address 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
 bc::wallet::payment_address Wallet::childAddress(int a_index)
 {
@@ -114,6 +131,9 @@ bc::wallet::payment_address Wallet::childAddress(int a_index)
  * @brief Returns BIP-32 root key.
  * 
  * @return bc::wallet::hd_private 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
 bc::wallet::hd_private Wallet::showPrivateKey()
 {
@@ -124,7 +144,10 @@ bc::wallet::hd_private Wallet::showPrivateKey()
  * @brief Returns child private key at index n of keychain.
  * 
  * @param index 
- * @return bc::wallet::hd_private 
+ * @return bc::wallet::hd_private
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
 bc::wallet::hd_private Wallet::showChildPrivateKey(int a_index)
 {
@@ -136,8 +159,12 @@ bc::wallet::hd_private Wallet::showChildPrivateKey(int a_index)
  * 
  * @param a_index 
  * @return bc::wallet::payment_address 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
-bc::wallet::payment_address Wallet::getAddress(int a_index)
+bc::wallet::payment_address
+Wallet::getAddress(int a_index)
 {
     return childAddress(a_index).encoded();
 }
@@ -145,8 +172,11 @@ bc::wallet::payment_address Wallet::getAddress(int a_index)
 /**
  * @brief Outputs to console the list of mnemonic code phrases.
  * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
-void Wallet::showMnemonicCodes()
+void
+Wallet::showMnemonicCodes()
 {
     // Validate the mnemonic phrase before sharing it with user.
     if(bc::wallet::validate_mnemonic(m_mnemonic))
@@ -157,25 +187,34 @@ void Wallet::showMnemonicCodes()
     }else{
         std::cout << "Mnemonic Invalid!" << std::endl;
     }
-}
+};
 
 /**
- * @brief Shows relevant keys to the user in console.
- * 
+ * @brief Shows relevant keys to the user in console. Used for debugging.
+ * @author Philip Glazman
+ * @date 4/28/18
  */
-void Wallet::showKeys()
+void
+Wallet::showKeys()
 {
     showMnemonicCodes();
     std::cout << "BIP 32 Root Key: " << showPrivateKey() << std::endl;
     std::cout << "Address: " << getAddress(1) << std::endl;
     std::cout << "Address: " << getAddress(2) << std::endl;
-}
+};
 
-
-void Wallet::set_address_index_to_last_unused_address()
+/**
+ * @brief Sets the current address index to the last unused address. Prevents address reuse.
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+Wallet::set_address_index_to_last_unused_address()
 {
     while(true)
     {
+        // Check if the given address was used.
         if(transactions->calculateBalance(getAddress(m_address_index)))
         {
             m_address_index++;
@@ -187,21 +226,48 @@ void Wallet::set_address_index_to_last_unused_address()
     }
 };
 
-unsigned long long Wallet::getBalance() const
+/**
+ * @brief Returns balance as unsigned long long.
+ * 
+ * @return unsigned long long represents balance value of wallet. 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+unsigned long long
+Wallet::getBalance() const
 {
     return transactions->getBalance();
 }
 
-std::string Wallet::get_balance_as_string() const
+/**
+ * @brief Returns balance as string.
+ * 
+ * @return std::string string that represents balance value of wallet.
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+std::string
+Wallet::get_balance_as_string() const
 {
     return bc::encode_base10(transactions->getBalance(),8);
 };
 
-void  Wallet::build_P2PKH(std::string a_address, unsigned long long a_satoshis)
+/**
+ * @brief Creates a P2PKH transaction
+ * 
+ * @param a_address string Address to send value to.
+ * @param a_satoshis unsigned long long Satoshi value to send.
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+Wallet::build_P2PKH(std::string a_address, unsigned long long a_satoshis)
 {
+    // Build tx.
     bc::wallet::payment_address address = bc::wallet::payment_address(a_address);
     bc::chain::transaction tx = transactions->P2PKH(a_address,a_satoshis);
-
+    
+    // Show tx.
+    // @TODO - return tx. 
     transactions->show_raw_tx(tx);
-}
-
+};

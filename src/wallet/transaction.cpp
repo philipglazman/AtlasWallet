@@ -1,5 +1,11 @@
 #include "stdafx.h"
 
+/**
+ * @brief Construct a new Transaction:: Transaction object
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
 Transaction::Transaction()
 {
     network = new Network();
@@ -7,12 +13,29 @@ Transaction::Transaction()
     m_utxoSum = 0;
 };
 
+/**
+ * @brief Destroy the Transaction:: Transaction object
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
 Transaction::~Transaction()
 {
     delete network;
 }
 
-bc::chain::output Transaction::createOutputP2PKH(bc::wallet::payment_address a_address, unsigned long long a_satoshis)
+/**
+ * @brief 
+ * 
+ * @param a_address 
+ * @param a_satoshis 
+ * @return bc::chain::output 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+bc::chain::output
+Transaction::createOutputP2PKH(bc::wallet::payment_address a_address, unsigned long long a_satoshis)
 {
     // Hash the Public Key of the Address. OP_DUP OP_HASH160 <PKH> OP_EQUALVERIFY OP_CHECKSIG
     bc::chain::script outputScript  = bc::chain::script().to_pay_key_hash_pattern(a_address.hash());
@@ -21,12 +44,30 @@ bc::chain::output Transaction::createOutputP2PKH(bc::wallet::payment_address a_a
     return output;
 };
 
-void Transaction::showTxOutput(bc::chain::output output)
+/**
+ * @brief 
+ * 
+ * @param output
+ *  
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+Transaction::showTxOutput(bc::chain::output output)
 {
     std::cout << "Sending Bitcoin: \nAmount: " << bc::encode_base10(output.value(), 8) << "BTC : Output Script: " << output.script().to_string(0) << std::endl;
 };
 
-void Transaction::show_raw_tx(bc::chain::transaction a_transaction)
+/**
+ * @brief 
+ * 
+ * @param a_transaction
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18 
+ */
+void
+Transaction::show_raw_tx(bc::chain::transaction a_transaction)
 {
     std::cout << "Raw Transaction: " << std::endl;
 	std::cout << bc::encode_base16(a_transaction.to_data()) << std::endl;
@@ -38,15 +79,29 @@ void Transaction::show_raw_tx(bc::chain::transaction a_transaction)
  * @param inputs, integer. Number of inputs in the transaction.
  * @param outputs, integer. Number of outputs in the transaction.
  * @return int, Number of bytes.
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
-int Transaction::calculateTxSize(int inputs, int outputs)
+int
+Transaction::calculateTxSize(int inputs, int outputs)
 {
     // Conservative case, inputs are 181 bytes. Uncompressed public keys vary in size.
     // Outputs are 34 bytes.
     return inputs*181+outputs*34+10;
 };
 
-unsigned long long Transaction::calculate_tx_fee(int estimated_tx_size)
+/**
+ * @brief 
+ * 
+ * @param estimated_tx_size 
+ * @return unsigned long long 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+unsigned long long
+Transaction::calculate_tx_fee(int estimated_tx_size)
 {
     std::cout << "Bytes: " << estimated_tx_size << std::endl;
     network->refreshFeeRecommendations();
@@ -55,7 +110,17 @@ unsigned long long Transaction::calculate_tx_fee(int estimated_tx_size)
     return fees;
 };
 
-bool createMetaDataTx()
+/**
+ * @brief Create a Meta Data Tx object
+ * 
+ * @return true 
+ * @return false 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+bool
+createMetaDataTx()
 {
     // OP Return tx
     std::string messageString = "helloworld";
@@ -72,7 +137,19 @@ bool createMetaDataTx()
     return true;
 };
 
-bc::endorsement createSignature(bc::chain::script a_lockingScript,bc::ec_secret a_privKey,bc::chain::transaction a_transaction)
+/**
+ * @brief Create a Signature object
+ * 
+ * @param a_lockingScript 
+ * @param a_privKey 
+ * @param a_transaction 
+ * @return bc::endorsement 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+bc::endorsement
+createSignature(bc::chain::script a_lockingScript,bc::ec_secret a_privKey,bc::chain::transaction a_transaction)
 {
     bc::endorsement signature;
 
@@ -98,8 +175,12 @@ bc::endorsement createSignature(bc::chain::script a_lockingScript,bc::ec_secret 
  * @param a_satoshis 
  * @return true 
  * @return false 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
-bc::chain::transaction Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis)
+bc::chain::transaction
+Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis)
 {   
     unsigned long long input_value = 0;
     unsigned long long change_value = 0;
@@ -162,8 +243,12 @@ bc::chain::transaction Transaction::P2PKH(bc::wallet::payment_address a_destinat
  * 
  * @param a_address, payment address.
  * @return unsigned long long 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
-unsigned long long Transaction::getBalanceForAddress(bc::wallet::payment_address a_address)
+unsigned long long
+Transaction::getBalanceForAddress(bc::wallet::payment_address a_address)
 {
 
     unsigned long long utxo = 0;
@@ -215,8 +300,12 @@ unsigned long long Transaction::getBalanceForAddress(bc::wallet::payment_address
  * @param a_address, payment address to check UTXO for. 
  * @param a_amount, minimum value of satoshis needed in UTXO.
  * @return bc::chain::points_value 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
-bc::chain::points_value Transaction::getUTXOs(bc::wallet::payment_address a_address, unsigned long long a_amount)
+bc::chain::points_value
+Transaction::getUTXOs(bc::wallet::payment_address a_address, unsigned long long a_amount)
 {
     // Connect to libbitcoin servers.
     bc::client::obelisk_client &rpc = network->connect();
@@ -252,8 +341,12 @@ bc::chain::points_value Transaction::getUTXOs(bc::wallet::payment_address a_addr
  * @param tx 
  * @return true 
  * @return false 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
-bool Transaction::broadcastTransaction(bc::chain::transaction tx)
+bool
+Transaction::broadcastTransaction(bc::chain::transaction tx)
 {
     // Connect to libbitcoin servers.
     bc::client::obelisk_client &rpc = network->connect();
@@ -285,8 +378,12 @@ bool Transaction::broadcastTransaction(bc::chain::transaction tx)
  * @param a_address, address to check.
  * @return true, payment address has recieved bitcoin.
  * @return false, payment address has never recieved bitcoin.
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
-bool Transaction::isAddressUsed(bc::wallet::payment_address a_address)
+bool
+Transaction::isAddressUsed(bc::wallet::payment_address a_address)
 {
     // Satoshis recieved.
     unsigned long long recieved = 0;
@@ -335,8 +432,12 @@ bool Transaction::isAddressUsed(bc::wallet::payment_address a_address)
  * @param a_address, payment address to check if address is used, and add any existing balance.
  * @return true, address is used.
  * @return false, address is not used.
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
  */
-bool Transaction::calculateBalance(bc::wallet::payment_address a_address)
+bool
+Transaction::calculateBalance(bc::wallet::payment_address a_address)
 {
     std::cout << "Checking balance for " << a_address << std::endl;
 
@@ -353,7 +454,16 @@ bool Transaction::calculateBalance(bc::wallet::payment_address a_address)
     }
 };
 
-unsigned long long Transaction::getBalance() const
+/**
+ * @brief Selector for current balance of utxo.
+ * 
+ * @return unsigned long long 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/2018
+ */
+unsigned long long 
+Transaction::getBalance() const
 {
     return m_utxoSum;
 };

@@ -196,8 +196,8 @@ Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned lo
     bc::chain::transaction tx = bc::chain::transaction();
 
     // Set transaction version.
-    uint32_t version = 1u;
-    tx.set_version(version);
+    // uint32_t version = 1u;
+    // tx.set_version(version);
 
     // Find unspent output.
     m_utxo utxo_to_spend = unspent_output -> find_utxo(a_satoshis);
@@ -223,6 +223,80 @@ Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned lo
     // Find recommended fee.
     int estimated_tx_bytes = calculateTxSize(tx.inputs().size(), 2); 
     unsigned long long fees = calculate_tx_fee(estimated_tx_bytes);
+
+    // Subtract fees from the change.
+    if( change_value - fees > 0)
+    {
+        change_value -= fees;
+        std::cout << "fees to send: " <<fees << "change value" << change_value <<std::endl;
+        bc::wallet::payment_address change_address= std::get<2>(utxo_to_spend[0]);
+        tx.outputs().push_back(createOutputP2PKH(change_address,change_value));
+    }
+    // If fees are greater than change, make change 0.
+    else if (change_value - fees <= 0)
+    {
+        change_value = 0;
+    }
+
+    // Create output.
+    tx.outputs().push_back(createOutputP2PKH(a_destinationAddress,a_satoshis));
+
+    // Return transaction.
+    return tx;
+};
+
+/**
+ * @brief Constructs P2PKH script transaction.
+ * 
+ * @param a_publicKey, public key address of bitcoin payment address to use.
+ * @param a_privKey
+ * @param a_destinationAddress 
+ * @param a_satoshis 
+ * @param a_fees
+ * @return true 
+ * @return false 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+bc::chain::transaction
+Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis, unsigned long long a_fees)
+{   
+    unsigned long long input_value = 0;
+    unsigned long long change_value = 0;
+
+    // Start building Transaction.
+    // Instantiate the transaction object.
+    bc::chain::transaction tx = bc::chain::transaction();
+
+    // Set transaction version.
+    // uint32_t version = 1u;
+    // tx.set_version(version);
+
+    // Find unspent output.
+    m_utxo utxo_to_spend = unspent_output -> find_utxo(a_satoshis);
+
+    // Create inputs.
+    // For each input, point to unspent transaction output.
+    for( const auto &utxo : utxo_to_spend)
+    {
+        // Create input.
+        bc::chain::input input = bc::chain::input();
+        bc::hash_digest utxo_hash = std::get<1>(utxo);
+        bc::chain::output_point previous_output(utxo_hash,0);
+
+        input.set_previous_output(previous_output);
+        input.set_sequence(0xffffffff);
+        tx.inputs().push_back(input);
+
+        input_value += std::get<0>(utxo);
+    };
+
+    change_value = input_value - a_satoshis;
+
+    // Find recommended fee.
+    int estimated_tx_bytes = calculateTxSize(tx.inputs().size(), 2); 
+    unsigned long long fees = estimated_tx_bytes * a_fees;
 
     // Subtract fees from the change.
     if( change_value - fees > 0)

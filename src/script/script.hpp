@@ -14,12 +14,22 @@ class Script
     public:
         Script();
         ~Script();
+
+        void run_script();
+        
+        // Builds script programatically using operation codes.
+        bc::machine::program build_script();
     
     protected:
 
 
     private:
-        
+
+        // Configuration for which fork rules the script will run on.
+        uint32_t fork_rules;
+
+        // bc::machine:::operation::list script;
+
         // Unlocking Script
         // OR Witness
         template <typename T> 

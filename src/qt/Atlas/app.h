@@ -1,6 +1,7 @@
 #ifndef APP_H
 #define APP_H
 
+#include <QErrorMessage>
 #include <QMainWindow>
 #include "restore_wallet.h"
 #include "start_menu.h"
@@ -19,29 +20,41 @@ public:
     ~app();
 
 private slots:
+
+    // Tab is changed on main application menu.
     void on_tabWidget_tabBarClicked(int index);
 
+    // Copy bitcoin address is clicked.
     void on_copy_btc_address_clicked();
 
+    // Fee slider is moved on send transaction tab.
     void on_fee_slider_sliderMoved(int position);
 
+    // Send transaction button is clicked on send transaction tab.
     void on_send_tx_clicked();
 
 private:
+
+    // Error Dialog
+    QErrorMessage error_msg;
+
+    // Wallet objects.
     Wallet * wallet;
     Network * network;
 
+    // New or Restore Wallet.
     std::string menu_choice;
 
     Ui::app *ui;
     restore_wallet * restore_wallet;
     start_menu * start_menu;
 
+    // Mnemonic word list.
     std::vector<std::string> word_list;
 
+    // Initialize wallet.
     void init_start_menu();
     void init_wallet();
-
     void get_mnemonic_phrase();
 
     // Change widgets on main tab.
@@ -59,6 +72,7 @@ private:
     void set_history_tab();
 
     // Input validation for send tab.
+    bool is_validate_tx();
     bool is_valid_address();
 
     // Change widgets on analytics tab.
@@ -66,7 +80,6 @@ private:
 
     // Change widgets on script tab.
     void set_script_tab();
-
 
 };
 

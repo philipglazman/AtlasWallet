@@ -191,6 +191,7 @@ Wallet::showMnemonicCodes()
 
 /**
  * @brief Shows relevant keys to the user in console. Used for debugging.
+ * 
  * @author Philip Glazman
  * @date 4/28/18
  */
@@ -230,6 +231,7 @@ Wallet::set_address_index_to_last_unused_address()
  * @brief Returns balance as unsigned long long.
  * 
  * @return unsigned long long represents balance value of wallet. 
+ * 
  * @author Philip Glazman
  * @date 4/28/18
  */
@@ -257,6 +259,7 @@ Wallet::get_balance_as_string() const
  * 
  * @param a_address string Address to send value to.
  * @param a_satoshis unsigned long long Satoshi value to send.
+ * 
  * @author Philip Glazman
  * @date 4/28/18
  */
@@ -269,7 +272,31 @@ Wallet::build_P2PKH(std::string a_address, unsigned long long a_satoshis)
     
     // Show tx.
     // @TODO - return tx. 
-    transactions->show_raw_tx(tx);
+    // transactions->show_raw_tx(tx);
+    transactions->broadcastTransaction(tx);
+};
+
+/**
+ * @brief Creates a P2PKH transaction with a given tx fee.
+ * 
+ * @param a_address string Address to send value to.
+ * @param a_satoshis unsigned long long Satoshi value to send.
+ * @param a_fees 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+Wallet::build_P2PKH(std::string a_address, unsigned long long a_satoshis, unsigned long long a_fees)
+{
+    // Build tx.
+    bc::wallet::payment_address address = bc::wallet::payment_address(a_address);
+    bc::chain::transaction tx = transactions->P2PKH(a_address,a_satoshis,a_fees);
+
+    //transactions->show_raw_tx(tx);
+
+    // Broadcast tx.
+    transactions->broadcastTransaction(tx);
 };
 
 /**

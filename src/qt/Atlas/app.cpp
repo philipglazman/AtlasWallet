@@ -9,7 +9,13 @@
 #include <QRadioButton>
 #include <qboxlayout.h>
 
-// Constructor
+/**
+ * @brief Constructor for app::app
+ * @param parent
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
 app::app(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::app)
@@ -21,29 +27,56 @@ app::app(QWidget *parent) :
     init_wallet();
     set_main_tab();
 
+    // Initialize network.
     network = new Network();
 }
 
-// Destructor
+/**
+ * @brief Desturctor for app::~app
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
 app::~app()
 {
     delete ui;
 }
 
-// Asks user if they would like to start new wallet or restore wallet.
-void app::init_start_menu()
+/**
+ * @brief Asks user if they would like to start a new wallet or restore wallet. Creates new dialog window.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::init_start_menu()
 {
+
+    // Start new dialog box.
     start_menu = new class start_menu();
     start_menu -> setModal(true);
     start_menu->exec();
 
+    // Get choice from dialog box.
     if(start_menu->close() == true)
     {
         menu_choice = start_menu->get_menu_choice();
     }
+    else
+    {
+        menu_choice = "new";
+    }
+
 };
 
-void app::init_wallet()
+/**
+ * @brief Starts new wallet using menmonic seed phrase or restoring an old one from a word list.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::init_wallet()
 {
     // Create new wallet.
     if(menu_choice == "new")
@@ -51,6 +84,7 @@ void app::init_wallet()
         bc::wallet::word_list mnemonicSeed;
         wallet = new Wallet();
     }
+
     // Restore existing wallet.
     else if(menu_choice =="restore")
     {
@@ -59,7 +93,14 @@ void app::init_wallet()
     }
 };
 
-void app::get_mnemonic_phrase()
+/**
+ * @brief Gets mnemonic phrase from the restore wallet dialog box.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::get_mnemonic_phrase()
 {
     // Starts new dialog window which asks users for 12-word mnemonic phrase.
     restore_wallet = new class restore_wallet();
@@ -71,44 +112,94 @@ void app::get_mnemonic_phrase()
     if(restore_wallet->exec() == QDialog::Accepted){
         word_list = restore_wallet->get_word_list();
     }
-}
+};
 
-
-
-void app::set_available_payment_address()
+/**
+ * @brief Sets the text of the availabe payment address.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::set_available_payment_address()
 {
     ui->btc_address->setText(QString::fromStdString(wallet->getAddress(1).encoded()));
 };
 
-void app::set_btc_balance()
+/**
+ * @brief Sets the text of the available balance of the bitcoin wallet.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::set_btc_balance()
 {
     ui->btc_balance->setText(QString::fromStdString(wallet->get_balance_as_string()));
-}
+};
 
-void app::set_main_tab()
+/**
+ * @brief Refreshes the main tab including the payment addresses and balance.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::set_main_tab()
 {
     this->set_available_payment_address();
     this->set_btc_balance();
 };
 
-void app::set_analytics_tab()
+/**
+ * @brief Refreshes the analytics tab including the fee recommendations.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::set_analytics_tab()
 {
+    // Get network fee recommendations.
     network->refreshFeeRecommendations();
+
+    // Change text for fee recommendations.
     ui->fastwait_fee->setText(QString::number(network->getFastestFee()) + " Satoshis per Byte");
     ui->midwait_fee->setText(QString::number(network->getHalfHourFee()) + " Satoshis per Byte");
     ui->highwait_fee->setText(QString::number(network->getHourFee()) + " Satoshis per Byte");
 };
 
-void app::set_send_tab()
+/**
+ * @brief Refreshes the send transaction tab including the maximum fee that user can send.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::set_send_tab()
 {
+    // Get network free recommendations.
     network->refreshFeeRecommendations();
+
+    // Set a maximum fee user can send so that the user is not overpaying a fee.
+    // This reduces the flexibility of the wallet but places greater important on protecting user from overpaying fees.
     ui->fee_slider->setMaximum(network->getFastestFee());
 };
 
-void app::set_history_tab()
+/**
+ * @brief Refreshes the history tab by showing all the last transactions involving wallet's addresses.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::set_history_tab()
 {
+
+    // Vector holding last history of transactions.
     std::vector< std::tuple<unsigned long long,bc::hash_digest,int> > tx =  wallet-> get_transaction_history();
 
+    // Number of transactions.
     const int NUM_TX = tx.size();
 
     // Select scrollArea.
@@ -154,52 +245,91 @@ void app::set_history_tab()
     }
 };
 
-void app::set_script_tab()
+/**
+ * @brief Refreshes the script tab.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::set_script_tab()
 {
     ui->is_valid_script_label->setText("Valid!");
     ui->is_valid_script_label->setStyleSheet("QLabel { color : green; }");
     ui->is_valid_script_label->setVisible(false);
 };
 
-void app::on_tabWidget_tabBarClicked(int index)
+/**
+ * @brief Refreshes a given tab that has been clicked.
+ * @param index
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::on_tabWidget_tabBarClicked(int index)
 {
     switch(index)
     {
-    case 0:
-        //main
-        this->set_main_tab();
-        break;
-    case 1:
-        //send
-        this->set_send_tab();
-        break;
-    case 2:
-        //history
-        this->set_history_tab();
-        break;
-    case 3:
-        // fees
-        this->set_analytics_tab();
-        break;
-    case 4:
-        // script
-        this->set_script_tab();
-        break;
+        case 0:
+            //main
+            this->set_main_tab();
+            break;
+        case 1:
+            //send
+            this->set_send_tab();
+            break;
+        case 2:
+            //history
+            this->set_history_tab();
+            break;
+        case 3:
+            // fees
+            this->set_analytics_tab();
+            break;
+        case 4:
+            // script
+            this->set_script_tab();
+            break;
     }
-}
+};
 
-void app::on_copy_btc_address_clicked()
+/**
+ * @brief User clicked on copy bitcoin address. Bitcoin address is copied to computer's clipboard.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::on_copy_btc_address_clicked()
 {
+    // Access clipboard.
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(ui->btc_address->text());
-}
+};
 
-void app::on_fee_slider_sliderMoved(int position)
+/**
+ * @brief User slided fee slider on send transaction tab.
+ * @param position
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::on_fee_slider_sliderMoved(int position)
 {
     ui->sat_byte_fee->setText(QString::number(position)+" Satoshis per Byte");
-}
+};
 
-bool app::is_valid_address()
+/**
+ * @brief Performs a check that a given payment address is a legimiate address.
+ * @return boolean
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+bool
+app::is_valid_address()
 {
     std::string address = ui->send_btc_address->toPlainText().toStdString();
     std::cout << address << std::endl;
@@ -211,7 +341,6 @@ bool app::is_valid_address()
     // check length
     if(address.length()<26 || address.length() >35)
     {
-        std::cout << "bad length" << std::endl;
         return false;
     }
 
@@ -219,38 +348,81 @@ bool app::is_valid_address()
     /**
       @todo - check base58 encoding
       */
-
-    // check prefix
-//    else if(address[0] != 'm' || address[0] != 'n' || address[0] != '2')
-//    {
-//        std::cout << "bad prefix" << std::endl;
-//        return false;
-//    }
     else
     {
         return true;
     }
-}
+};
 
-void app::on_send_tx_clicked()
+/**
+ * @brief Sends transaction on send button in send transaction tab. Does validation first.
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+void
+app::on_send_tx_clicked()
+{
+    // validate transaction
+    if(this->is_validate_tx())
+    {
+        //send transaction
+        this->send_transaction();
+    }
+
+};
+
+
+/**
+ * @brief app::is_validate_tx
+ * @return
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+bool
+app::is_validate_tx()
 {
     //validate btc address
     if(!is_valid_address())
     {
-        std::cout<<"invalid address"<<std::endl;
-    }
 
-    //validate btc amount
+        // Show error message.
+        error_msg.showMessage("Invalid address!");
 
-    //send transaction
-    this->send_transaction();
-}
+        return false;
+    };
 
-bool app::send_transaction()
+    // validate btc amount
+    if(wallet->getBalance() < (ui->send_btc_amount->toPlainText().toInt()*100000 + ui->fee_slider->value() ))
+    {
+
+        std::cout << ui->fee_slider->value() << std::endl;
+
+        // Show error message.
+        error_msg.showMessage("Not enough money!");
+
+        return false;
+    };
+
+    return true;
+};
+
+/**
+ * @brief Broadcasts transaction to the network.
+ * @return
+ *
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+bool
+app::send_transaction()
 {
+    // Get address, value, and fee.
     std::string address = ui->send_btc_address->toPlainText().toStdString();
     unsigned long long amount = ui->send_btc_amount->toPlainText().toInt()*100000;
-    //unsigned long long fee = ui->fee_slider->value();
+    unsigned long long fee = ui->fee_slider->value();
 
-    wallet->build_P2PKH(address,amount);
-}
+    // Broadcast transaction.
+    wallet->build_P2PKH(address,amount,fee);
+};

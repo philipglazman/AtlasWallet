@@ -27,7 +27,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>4</number>
     </property>
     <property name="tabsClosable">
      <bool>false</bool>
@@ -455,7 +455,7 @@
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>40</y>
+        <y>10</y>
         <width>821</width>
         <height>101</height>
        </rect>
@@ -478,7 +478,7 @@
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>160</y>
+        <y>120</y>
         <width>821</width>
         <height>101</height>
        </rect>
@@ -501,7 +501,7 @@
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>280</y>
+        <y>220</y>
         <width>113</width>
         <height>32</height>
        </rect>
@@ -514,13 +514,49 @@
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>310</y>
+        <y>250</y>
         <width>91</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
        <string>valid</string>
+      </property>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>300</y>
+        <width>801</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>799</width>
+         <height>69</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>280</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Script Output</string>
       </property>
      </widget>
     </widget>

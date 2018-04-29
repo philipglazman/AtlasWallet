@@ -45,6 +45,7 @@ public:
 
     // Sends basic transaction.
     void  build_P2PKH(std::string a_address, unsigned long long a_satoshis);
+    void  build_P2PKH(std::string a_address, unsigned long long a_satoshis, unsigned long long a_fees);
 
     std::vector< Transaction::m_tx > get_transaction_history();
 

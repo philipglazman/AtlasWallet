@@ -74,6 +74,9 @@ public:
     QTextEdit *witness_script_text_edit;
     QPushButton *run_script_btn;
     QLabel *is_valid_script_label;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents_2;
+    QLabel *label_11;
     QMenuBar *menuBar;
     QMenu *menuAtlas;
     QMenu *menuHistory;
@@ -212,22 +215,33 @@ public:
         tab_script->setObjectName(QStringLiteral("tab_script"));
         witness_box = new QGroupBox(tab_script);
         witness_box->setObjectName(QStringLiteral("witness_box"));
-        witness_box->setGeometry(QRect(60, 40, 821, 101));
+        witness_box->setGeometry(QRect(60, 10, 821, 101));
         witness_text_edit = new QTextEdit(witness_box);
         witness_text_edit->setObjectName(QStringLiteral("witness_text_edit"));
         witness_text_edit->setGeometry(QRect(10, 30, 801, 61));
         witness_script_box = new QGroupBox(tab_script);
         witness_script_box->setObjectName(QStringLiteral("witness_script_box"));
-        witness_script_box->setGeometry(QRect(60, 160, 821, 101));
+        witness_script_box->setGeometry(QRect(60, 120, 821, 101));
         witness_script_text_edit = new QTextEdit(witness_script_box);
         witness_script_text_edit->setObjectName(QStringLiteral("witness_script_text_edit"));
         witness_script_text_edit->setGeometry(QRect(10, 30, 801, 61));
         run_script_btn = new QPushButton(tab_script);
         run_script_btn->setObjectName(QStringLiteral("run_script_btn"));
-        run_script_btn->setGeometry(QRect(60, 280, 113, 32));
+        run_script_btn->setGeometry(QRect(60, 220, 113, 32));
         is_valid_script_label = new QLabel(tab_script);
         is_valid_script_label->setObjectName(QStringLiteral("is_valid_script_label"));
-        is_valid_script_label->setGeometry(QRect(70, 310, 91, 16));
+        is_valid_script_label->setGeometry(QRect(70, 250, 91, 16));
+        scrollArea = new QScrollArea(tab_script);
+        scrollArea->setObjectName(QStringLiteral("scrollArea"));
+        scrollArea->setGeometry(QRect(70, 300, 801, 71));
+        scrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents_2 = new QWidget();
+        scrollAreaWidgetContents_2->setObjectName(QStringLiteral("scrollAreaWidgetContents_2"));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 799, 69));
+        scrollArea->setWidget(scrollAreaWidgetContents_2);
+        label_11 = new QLabel(tab_script);
+        label_11->setObjectName(QStringLiteral("label_11"));
+        label_11->setGeometry(QRect(70, 280, 101, 16));
         tabWidget->addTab(tab_script, QString());
         app->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(app);
@@ -254,7 +268,7 @@ public:
 
         retranslateUi(app);
 
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(4);
 
 
         QMetaObject::connectSlotsByName(app);
@@ -296,6 +310,7 @@ public:
         witness_script_box->setTitle(QApplication::translate("app", "Locking Script (Witness Script)", nullptr));
         run_script_btn->setText(QApplication::translate("app", "Run", nullptr));
         is_valid_script_label->setText(QApplication::translate("app", "valid", nullptr));
+        label_11->setText(QApplication::translate("app", "Script Output", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_script), QApplication::translate("app", "Script", nullptr));
         menuAtlas->setTitle(QApplication::translate("app", "Atlas", nullptr));
         menuHistory->setTitle(QApplication::translate("app", "History", nullptr));

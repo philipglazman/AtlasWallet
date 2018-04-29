@@ -22,6 +22,7 @@ class Transaction {
 
         // Constructs P2PKH script.
         bc::chain::transaction P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis);
+        bc::chain::transaction P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned long long a_satoshis, unsigned long long a_fees);
 
         // Broadcasts transaction to network.
         bool broadcastTransaction(bc::chain::transaction tx);

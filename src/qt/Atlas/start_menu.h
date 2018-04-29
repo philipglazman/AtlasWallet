@@ -18,8 +18,11 @@ public:
     std::string get_menu_choice() const;
 
 private slots:
+
+    // New wallet will be made.
     void on_create_new_wallet_clicked();
 
+    // Restore wallet will be made.s
     void on_restore_existing_wallet_clicked();
 
 private:

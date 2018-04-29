@@ -64,6 +64,9 @@ private:
     // Change widgets on analytics tab.
     void set_analytics_tab();
 
+    // Change widgets on script tab.
+    void set_script_tab();
+
 
 };
 

@@ -154,6 +154,13 @@ void app::set_history_tab()
     }
 };
 
+void app::set_script_tab()
+{
+    ui->is_valid_script_label->setText("Valid!");
+    ui->is_valid_script_label->setStyleSheet("QLabel { color : green; }");
+    ui->is_valid_script_label->setVisible(false);
+};
+
 void app::on_tabWidget_tabBarClicked(int index)
 {
     switch(index)
@@ -176,6 +183,7 @@ void app::on_tabWidget_tabBarClicked(int index)
         break;
     case 4:
         // script
+        this->set_script_tab();
         break;
     }
 }

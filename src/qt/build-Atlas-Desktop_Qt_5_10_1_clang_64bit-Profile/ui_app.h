@@ -68,6 +68,12 @@ public:
     QLabel *midwait_fee;
     QLabel *highwait_fee;
     QWidget *tab_script;
+    QGroupBox *witness_box;
+    QTextEdit *witness_text_edit;
+    QGroupBox *witness_script_box;
+    QTextEdit *witness_script_text_edit;
+    QPushButton *run_script_btn;
+    QLabel *is_valid_script_label;
     QMenuBar *menuBar;
     QMenu *menuAtlas;
     QMenu *menuHistory;
@@ -204,6 +210,24 @@ public:
         tabWidget->addTab(tab_analytics, QString());
         tab_script = new QWidget();
         tab_script->setObjectName(QStringLiteral("tab_script"));
+        witness_box = new QGroupBox(tab_script);
+        witness_box->setObjectName(QStringLiteral("witness_box"));
+        witness_box->setGeometry(QRect(60, 40, 821, 101));
+        witness_text_edit = new QTextEdit(witness_box);
+        witness_text_edit->setObjectName(QStringLiteral("witness_text_edit"));
+        witness_text_edit->setGeometry(QRect(10, 30, 801, 61));
+        witness_script_box = new QGroupBox(tab_script);
+        witness_script_box->setObjectName(QStringLiteral("witness_script_box"));
+        witness_script_box->setGeometry(QRect(60, 160, 821, 101));
+        witness_script_text_edit = new QTextEdit(witness_script_box);
+        witness_script_text_edit->setObjectName(QStringLiteral("witness_script_text_edit"));
+        witness_script_text_edit->setGeometry(QRect(10, 30, 801, 61));
+        run_script_btn = new QPushButton(tab_script);
+        run_script_btn->setObjectName(QStringLiteral("run_script_btn"));
+        run_script_btn->setGeometry(QRect(60, 280, 113, 32));
+        is_valid_script_label = new QLabel(tab_script);
+        is_valid_script_label->setObjectName(QStringLiteral("is_valid_script_label"));
+        is_valid_script_label->setGeometry(QRect(70, 310, 91, 16));
         tabWidget->addTab(tab_script, QString());
         app->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(app);
@@ -230,7 +254,7 @@ public:
 
         retranslateUi(app);
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(app);
@@ -268,6 +292,10 @@ public:
         midwait_fee->setText(QApplication::translate("app", "midwait_fee", nullptr));
         highwait_fee->setText(QApplication::translate("app", "highwait_fee", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_analytics), QApplication::translate("app", "Analytics", nullptr));
+        witness_box->setTitle(QApplication::translate("app", "Unlocking Script (Witness)", nullptr));
+        witness_script_box->setTitle(QApplication::translate("app", "Locking Script (Witness Script)", nullptr));
+        run_script_btn->setText(QApplication::translate("app", "Run", nullptr));
+        is_valid_script_label->setText(QApplication::translate("app", "valid", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_script), QApplication::translate("app", "Script", nullptr));
         menuAtlas->setTitle(QApplication::translate("app", "Atlas", nullptr));
         menuHistory->setTitle(QApplication::translate("app", "History", nullptr));

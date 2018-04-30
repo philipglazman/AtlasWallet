@@ -45,10 +45,19 @@ class Transaction {
         void show_raw_tx(bc::chain::transaction a_transaction);
 
         std::vector< m_tx > get_transaction_history() const;
+
+        bc::wallet::payment_address get_last_utxo_address() const;
+
+        // Creates endorsement signature for a transaction.
+        bc::chain::script create_sig_script(bc::endorsement a_signature, bc::data_chunk a_pubKey);
+
+        bc::endorsement create_signature(bc::data_chunk a_pubKey, bc::ec_secret a_privKey,bc::chain::transaction a_transaction);
         
     protected:
 
     private:
+
+        bc::wallet::payment_address m_last_utxo_address;
 
         // UTXO vector holding tuple of utxo.
         // <0> - value of transaction

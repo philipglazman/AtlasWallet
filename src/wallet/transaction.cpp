@@ -146,20 +146,21 @@ createMetaDataTx()
 /**
  * @brief Create a Signature object
  * 
- * @param a_lockingScript 
+ * @param a_pubKey 
  * @param a_privKey 
  * @param a_transaction 
  * @return bc::endorsement 
  * 
  * @author Philip Glazman
- * @date 4/28/18
+ * @date 4/29/18
  */
 bc::endorsement
-createSignature(bc::chain::script a_lockingScript,bc::ec_secret a_privKey,bc::chain::transaction a_transaction)
+Transaction::create_signature(bc::data_chunk a_pubKey, bc::ec_secret a_privKey,bc::chain::transaction a_transaction)
 {
+    bc::chain::script lockingScript = bc::chain::script().to_pay_key_hash_pattern(bc::bitcoin_short_hash(a_pubKey));
     bc::endorsement signature;
 
-    if(a_lockingScript.create_endorsement(signature, a_privKey, a_lockingScript, a_transaction, 0u, bc::machine::all))
+    if(lockingScript.create_endorsement(signature, a_privKey, lockingScript, a_transaction, 0u, bc::machine::all))
 	{
 		std::cout << "Signature: " << std::endl;
 		std::cout << bc::encode_base16(signature) << "\n" << std::endl; 
@@ -171,6 +172,27 @@ createSignature(bc::chain::script a_lockingScript,bc::ec_secret a_privKey,bc::ch
         Error::DisplayErrors();
     }
 };
+
+
+/**
+ * @brief Create a sig script object
+ * 
+ * @param a_signature 
+ * @param a_pubKey 
+ * @return bc::script 
+ * 
+ * @author Philip Glazman
+ * @date 4/29/18
+ */
+bc::chain::script
+Transaction::create_sig_script(bc::endorsement a_signature, bc::data_chunk a_pubKey)
+{
+    bc::machine::operation::list signature_script;
+    signature_script.push_back(bc::machine::operation(a_signature));
+    signature_script.push_back(bc::machine::operation(a_pubKey));
+    bc::chain::script unlocking_script(signature_script);
+    return unlocking_script;
+}
 
 /**
  * @brief Constructs P2PKH script transaction.
@@ -201,7 +223,7 @@ Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned lo
 
     // Find unspent output.
     m_utxo utxo_to_spend = unspent_output -> find_utxo(a_satoshis);
-
+    
     // Create inputs.
     // For each input, point to unspent transaction output.
     for( const auto &utxo : utxo_to_spend)
@@ -216,6 +238,9 @@ Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned lo
         tx.inputs().push_back(input);
 
         input_value += std::get<0>(utxo);
+
+        // Get pub_key.
+        m_last_utxo_address = std::get<2>(utxo);
     };
 
     change_value = input_value - a_satoshis;
@@ -240,6 +265,11 @@ Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned lo
 
     // Create output.
     tx.outputs().push_back(createOutputP2PKH(a_destinationAddress,a_satoshis));
+
+    // Sign Transaction
+    // bc::endorsement signature = create_signature(pub_key,privKey,tx)
+    // bc::script = create_sig_script(signature,pub_key)
+    // tx.inputs()[0].set_script(unlocking_script)
 
     // Return transaction.
     return tx;
@@ -290,6 +320,8 @@ Transaction::P2PKH(bc::wallet::payment_address a_destinationAddress, unsigned lo
         tx.inputs().push_back(input);
 
         input_value += std::get<0>(utxo);
+
+        m_last_utxo_address = std::get<2>(utxo);
     };
 
     change_value = input_value - a_satoshis;
@@ -614,3 +646,17 @@ Transaction::compare_block_height(const m_tx &a, const m_tx &b)
 {
     return std::get<2>(a) > std::get<2>(b);
 };
+
+/**
+ * @brief Get the last utxo address object
+ * 
+ * @return bc::wallet::payment_address 
+ * 
+ * @author Philip Glazman
+ * @date 4/29/18
+ */
+bc::wallet::payment_address
+Transaction::get_last_utxo_address() const
+{
+    return m_last_utxo_address;
+}

@@ -272,8 +272,8 @@ Wallet::build_P2PKH(std::string a_address, unsigned long long a_satoshis)
     
     // Show tx.
     // @TODO - return tx. 
-    // transactions->show_raw_tx(tx);
-    transactions->broadcastTransaction(tx);
+    transactions->show_raw_tx(tx);
+    // transactions->broadcastTransaction(tx);
 };
 
 /**
@@ -293,10 +293,22 @@ Wallet::build_P2PKH(std::string a_address, unsigned long long a_satoshis, unsign
     bc::wallet::payment_address address = bc::wallet::payment_address(a_address);
     bc::chain::transaction tx = transactions->P2PKH(a_address,a_satoshis,a_fees);
 
-    //transactions->show_raw_tx(tx);
+    transactions->show_raw_tx(tx);
+    std::cout << tx.inputs()[0].address() << std::endl;
+    const bc::wallet::payment_address addy = transactions->get_last_utxo_address();
+    std::cout << addy << std::endl;
+
+
+    bc::endorsement signature = transactions->create_signature(bc::to_chunk(childPublicKey(2).point()),childPrivateKey(2),tx);
+    bc::chain::script unlocking_script = transactions->create_sig_script(signature,bc::to_chunk(childPublicKey(2).point()));
+    tx.inputs()[0].set_script(unlocking_script);
+
+    
+    transactions->show_raw_tx(tx);
+    
 
     // Broadcast tx.
-    transactions->broadcastTransaction(tx);
+    // transactions->broadcastTransaction(tx);
 };
 
 /**

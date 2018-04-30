@@ -34,6 +34,7 @@ public:
         if (start_menu->objectName().isEmpty())
             start_menu->setObjectName(QStringLiteral("start_menu"));
         start_menu->resize(400, 300);
+        start_menu->setAutoFillBackground(false);
         layoutWidget = new QWidget(start_menu);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
         layoutWidget->setGeometry(QRect(40, 80, 291, 111));
@@ -58,7 +59,7 @@ public:
 
     void retranslateUi(QDialog *start_menu)
     {
-        start_menu->setWindowTitle(QApplication::translate("start_menu", "Dialog", nullptr));
+        start_menu->setWindowTitle(QApplication::translate("start_menu", "Atlas", nullptr));
         create_new_wallet->setText(QApplication::translate("start_menu", "Create New Wallet", nullptr));
         restore_existing_wallet->setText(QApplication::translate("start_menu", "Restore Existing Wallet", nullptr));
     } // retranslateUi

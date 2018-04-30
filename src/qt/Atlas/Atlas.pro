@@ -68,5 +68,4 @@ HEADERS += \
 FORMS += \
         app.ui \
     restore_wallet.ui \
-    start_menu.ui \
-    error.ui
+    start_menu.ui

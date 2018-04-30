@@ -264,7 +264,7 @@ EXPORT_ARCH_ARGS = $(foreach arch, $(if $(EXPORT_ACTIVE_ARCHS), $(EXPORT_ACTIVE_
 first: all
 ####### Build rules
 
-$(TARGET): ui_app.h ui_restore_wallet.h ui_start_menu.h ui_error.h $(OBJECTS)  
+$(TARGET): ui_app.h ui_restore_wallet.h ui_start_menu.h $(OBJECTS)  
 	@test -d Atlas.app/Contents/MacOS/ || mkdir -p Atlas.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 	mkdir -p /Users/mango/Desktop/AtlasWallet/src/qt/build-Atlas-Desktop_Qt_5_10_1_clang_64bit-Profile/Atlas.app.dSYM/Contents/Resources/DWARF && dsymutil Atlas.app/Contents/MacOS/Atlas --flat -o Atlas.app.dSYM/Contents/Resources/DWARF/Atlas && strip -S Atlas.app/Contents/MacOS/Atlas
@@ -644,7 +644,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents /Users/mango/Qt/5.10.1/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Atlas/app.h ../Atlas/restore_wallet.h ../Atlas/start_menu.h ../../wallet/stdafx.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../Atlas/main.cpp ../Atlas/app.cpp ../Atlas/restore_wallet.cpp ../Atlas/start_menu.cpp ../../wallet/wallet.cpp ../../wallet/transaction.cpp ../../wallet/utxo.cpp ../../wallet/error.cpp ../../network/network.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Atlas/app.ui ../Atlas/restore_wallet.ui ../Atlas/start_menu.ui ../Atlas/error.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../Atlas/app.ui ../Atlas/restore_wallet.ui ../Atlas/start_menu.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -3506,9 +3506,9 @@ compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_app.h ui_restore_wallet.h ui_start_menu.h ui_error.h
+compiler_uic_make_all: ui_app.h ui_restore_wallet.h ui_start_menu.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_app.h ui_restore_wallet.h ui_start_menu.h ui_error.h
+	-$(DEL_FILE) ui_app.h ui_restore_wallet.h ui_start_menu.h
 ui_app.h: ../Atlas/app.ui \
 		/Users/mango/Qt/5.10.1/clang_64/bin/uic
 	/Users/mango/Qt/5.10.1/clang_64/bin/uic ../Atlas/app.ui -o ui_app.h
@@ -3520,10 +3520,6 @@ ui_restore_wallet.h: ../Atlas/restore_wallet.ui \
 ui_start_menu.h: ../Atlas/start_menu.ui \
 		/Users/mango/Qt/5.10.1/clang_64/bin/uic
 	/Users/mango/Qt/5.10.1/clang_64/bin/uic ../Atlas/start_menu.ui -o ui_start_menu.h
-
-ui_error.h: ../Atlas/error.ui \
-		/Users/mango/Qt/5.10.1/clang_64/bin/uic
-	/Users/mango/Qt/5.10.1/clang_64/bin/uic ../Atlas/error.ui -o ui_error.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:

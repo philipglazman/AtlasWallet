@@ -30,7 +30,7 @@ Script::~Script()
  * @author Philip Glazman
  * @date 4/28/18
  */
-void
+bool
 Script::run_script()
 {
 

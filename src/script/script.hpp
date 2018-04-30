@@ -15,7 +15,7 @@ class Script
         Script();
         ~Script();
 
-        void run_script();
+        bool run_script();
         
         // Builds script programatically using operation codes.
         bc::machine::program build_script();
@@ -40,8 +40,10 @@ class Script
         template <typename T> 
         std::stack <T> witness_script;
 
-        //instructions
-        //stack rules
+        // Execution stack.
+        template <typename T>
+        std::stack <T>> execution_stack;
+
         //op codes
 };
 

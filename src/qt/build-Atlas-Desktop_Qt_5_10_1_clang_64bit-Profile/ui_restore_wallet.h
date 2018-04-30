@@ -29,7 +29,7 @@ class Ui_restore_wallet
 public:
     QDialogButtonBox *buttonBox;
     QLabel *label_13;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QHBoxLayout *horizontalLayout_13;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
@@ -84,26 +84,26 @@ public:
         label_13 = new QLabel(restore_wallet);
         label_13->setObjectName(QStringLiteral("label_13"));
         label_13->setGeometry(QRect(130, 10, 141, 16));
-        widget = new QWidget(restore_wallet);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(40, 30, 312, 218));
-        widget->setAutoFillBackground(false);
-        widget->setInputMethodHints(Qt::ImhNone);
-        horizontalLayout_13 = new QHBoxLayout(widget);
+        layoutWidget = new QWidget(restore_wallet);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(40, 30, 312, 218));
+        layoutWidget->setAutoFillBackground(false);
+        layoutWidget->setInputMethodHints(Qt::ImhNone);
+        horizontalLayout_13 = new QHBoxLayout(layoutWidget);
         horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
         horizontalLayout_13->setContentsMargins(0, 0, 0, 0);
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        label = new QLabel(widget);
+        label = new QLabel(layoutWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setAutoFillBackground(false);
         label->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout->addWidget(label);
 
-        word_1 = new QLineEdit(widget);
+        word_1 = new QLineEdit(layoutWidget);
         word_1->setObjectName(QStringLiteral("word_1"));
         word_1->setAutoFillBackground(false);
         word_1->setInputMethodHints(Qt::ImhNone);
@@ -117,14 +117,14 @@ public:
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        label_2 = new QLabel(widget);
+        label_2 = new QLabel(layoutWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setAutoFillBackground(false);
         label_2->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_2->addWidget(label_2);
 
-        word_2 = new QLineEdit(widget);
+        word_2 = new QLineEdit(layoutWidget);
         word_2->setObjectName(QStringLiteral("word_2"));
         word_2->setAutoFillBackground(false);
         word_2->setInputMethodHints(Qt::ImhNone);
@@ -138,14 +138,14 @@ public:
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        label_3 = new QLabel(widget);
+        label_3 = new QLabel(layoutWidget);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setAutoFillBackground(false);
         label_3->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_3->addWidget(label_3);
 
-        word_3 = new QLineEdit(widget);
+        word_3 = new QLineEdit(layoutWidget);
         word_3->setObjectName(QStringLiteral("word_3"));
         word_3->setAutoFillBackground(false);
         word_3->setInputMethodHints(Qt::ImhNone);
@@ -159,14 +159,14 @@ public:
 
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        label_4 = new QLabel(widget);
+        label_4 = new QLabel(layoutWidget);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setAutoFillBackground(false);
         label_4->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_4->addWidget(label_4);
 
-        word_4 = new QLineEdit(widget);
+        word_4 = new QLineEdit(layoutWidget);
         word_4->setObjectName(QStringLiteral("word_4"));
         word_4->setAutoFillBackground(false);
         word_4->setInputMethodHints(Qt::ImhNone);
@@ -180,14 +180,14 @@ public:
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        label_5 = new QLabel(widget);
+        label_5 = new QLabel(layoutWidget);
         label_5->setObjectName(QStringLiteral("label_5"));
         label_5->setAutoFillBackground(false);
         label_5->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_5->addWidget(label_5);
 
-        word_5 = new QLineEdit(widget);
+        word_5 = new QLineEdit(layoutWidget);
         word_5->setObjectName(QStringLiteral("word_5"));
         word_5->setAutoFillBackground(false);
         word_5->setInputMethodHints(Qt::ImhNone);
@@ -201,14 +201,14 @@ public:
 
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        label_6 = new QLabel(widget);
+        label_6 = new QLabel(layoutWidget);
         label_6->setObjectName(QStringLiteral("label_6"));
         label_6->setAutoFillBackground(false);
         label_6->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_6->addWidget(label_6);
 
-        word_6 = new QLineEdit(widget);
+        word_6 = new QLineEdit(layoutWidget);
         word_6->setObjectName(QStringLiteral("word_6"));
         word_6->setAutoFillBackground(false);
         word_6->setInputMethodHints(Qt::ImhNone);
@@ -227,14 +227,14 @@ public:
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
-        label_7 = new QLabel(widget);
+        label_7 = new QLabel(layoutWidget);
         label_7->setObjectName(QStringLiteral("label_7"));
         label_7->setAutoFillBackground(false);
         label_7->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_7->addWidget(label_7);
 
-        word_7 = new QLineEdit(widget);
+        word_7 = new QLineEdit(layoutWidget);
         word_7->setObjectName(QStringLiteral("word_7"));
         word_7->setAutoFillBackground(false);
         word_7->setInputMethodHints(Qt::ImhNone);
@@ -248,14 +248,14 @@ public:
 
         horizontalLayout_8 = new QHBoxLayout();
         horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
-        label_8 = new QLabel(widget);
+        label_8 = new QLabel(layoutWidget);
         label_8->setObjectName(QStringLiteral("label_8"));
         label_8->setAutoFillBackground(false);
         label_8->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_8->addWidget(label_8);
 
-        word_8 = new QLineEdit(widget);
+        word_8 = new QLineEdit(layoutWidget);
         word_8->setObjectName(QStringLiteral("word_8"));
         word_8->setAutoFillBackground(false);
         word_8->setInputMethodHints(Qt::ImhNone);
@@ -269,14 +269,14 @@ public:
 
         horizontalLayout_9 = new QHBoxLayout();
         horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
-        label_9 = new QLabel(widget);
+        label_9 = new QLabel(layoutWidget);
         label_9->setObjectName(QStringLiteral("label_9"));
         label_9->setAutoFillBackground(false);
         label_9->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_9->addWidget(label_9);
 
-        word_9 = new QLineEdit(widget);
+        word_9 = new QLineEdit(layoutWidget);
         word_9->setObjectName(QStringLiteral("word_9"));
         word_9->setAutoFillBackground(false);
         word_9->setInputMethodHints(Qt::ImhNone);
@@ -290,14 +290,14 @@ public:
 
         horizontalLayout_10 = new QHBoxLayout();
         horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
-        label_10 = new QLabel(widget);
+        label_10 = new QLabel(layoutWidget);
         label_10->setObjectName(QStringLiteral("label_10"));
         label_10->setAutoFillBackground(false);
         label_10->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_10->addWidget(label_10);
 
-        word_10 = new QLineEdit(widget);
+        word_10 = new QLineEdit(layoutWidget);
         word_10->setObjectName(QStringLiteral("word_10"));
         word_10->setAutoFillBackground(false);
         word_10->setInputMethodHints(Qt::ImhNone);
@@ -311,14 +311,14 @@ public:
 
         horizontalLayout_11 = new QHBoxLayout();
         horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
-        label_11 = new QLabel(widget);
+        label_11 = new QLabel(layoutWidget);
         label_11->setObjectName(QStringLiteral("label_11"));
         label_11->setAutoFillBackground(false);
         label_11->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_11->addWidget(label_11);
 
-        word_11 = new QLineEdit(widget);
+        word_11 = new QLineEdit(layoutWidget);
         word_11->setObjectName(QStringLiteral("word_11"));
         word_11->setAutoFillBackground(false);
         word_11->setInputMethodHints(Qt::ImhNone);
@@ -332,14 +332,14 @@ public:
 
         horizontalLayout_12 = new QHBoxLayout();
         horizontalLayout_12->setObjectName(QStringLiteral("horizontalLayout_12"));
-        label_12 = new QLabel(widget);
+        label_12 = new QLabel(layoutWidget);
         label_12->setObjectName(QStringLiteral("label_12"));
         label_12->setAutoFillBackground(false);
         label_12->setInputMethodHints(Qt::ImhNone);
 
         horizontalLayout_12->addWidget(label_12);
 
-        word_12 = new QLineEdit(widget);
+        word_12 = new QLineEdit(layoutWidget);
         word_12->setObjectName(QStringLiteral("word_12"));
         word_12->setAutoFillBackground(false);
         word_12->setInputMethodHints(Qt::ImhNone);
@@ -364,7 +364,7 @@ public:
 
     void retranslateUi(QDialog *restore_wallet)
     {
-        restore_wallet->setWindowTitle(QApplication::translate("restore_wallet", "Dialog", nullptr));
+        restore_wallet->setWindowTitle(QApplication::translate("restore_wallet", "Atlas", nullptr));
         label_13->setText(QApplication::translate("restore_wallet", "Enter 12-word phrase:", nullptr));
         label->setText(QApplication::translate("restore_wallet", "1.", nullptr));
         word_1->setPlaceholderText(QString());

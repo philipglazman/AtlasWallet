@@ -295,12 +295,13 @@ Wallet::build_P2PKH(std::string a_address, unsigned long long a_satoshis, unsign
 
     transactions->show_raw_tx(tx);
     std::cout << tx.inputs()[0].address() << std::endl;
-    const bc::wallet::payment_address addy = transactions->get_last_utxo_address();
-    std::cout << addy << std::endl;
+    const bc::wallet::payment_address utxo_address = transactions->get_last_utxo_address();
 
+    bc::data_chunk public_key = getPublicKey(utxo_address);
+    bc::wallet::hd_private private_key = getPrivateKey(utxo_address);
 
-    bc::endorsement signature = transactions->create_signature(bc::to_chunk(childPublicKey(2).point()),childPrivateKey(2),tx);
-    bc::chain::script unlocking_script = transactions->create_sig_script(signature,bc::to_chunk(childPublicKey(2).point()));
+    bc::endorsement signature = transactions->create_signature(public_key,private_key,tx);
+    bc::chain::script unlocking_script = transactions->create_sig_script(signature,public_key);
     tx.inputs()[0].set_script(unlocking_script);
 
     
@@ -323,4 +324,51 @@ std::vector< Transaction::m_tx >
 Wallet::get_transaction_history()
 {
     return transactions->get_transaction_history();
+}
+
+/**
+ * @brief Returns public key with a given payment address.
+ * 
+ * @param a_address 
+ * @return bc::data_chunk 
+ * 
+ * @author Philip Glazman
+ * @date 4/29/18
+ */
+bc::data_chunk
+Wallet::getPublicKey(bc::wallet::payment_address a_address)
+{
+
+    for(int i = 1 ; i  < INT_MAX; i ++ )
+    {
+        if(childAddress(i) == a_address)
+        {
+            return bc::to_chunk(childPublicKey(i).point());
+        }
+    }
+
+}
+
+/**
+ * @brief Returns private key with a given payment address.
+ * 
+ * @param a_address 
+ * @return bc::wallet::hd_private 
+ * 
+ * @author Philip Glazman
+ * @date 4/28/18
+ */
+bc::wallet::hd_private
+Wallet::getPrivateKey(bc::wallet::payment_address a_address)
+{
+
+    for(int i = 1 ; i  < INT_MAX; i ++ )
+    {
+        if(childAddress(i) == a_address)
+        {
+            //childPrivateKey
+            return childPrivateKey(i);
+        }
+    }
+
 }

@@ -87,6 +87,9 @@ private:
 
     // Debbug Helper - Reveals private key at index n in keychain to output.
     bc::wallet::hd_private showChildPrivateKey(int index);  
+
+    bc::data_chunk getPublicKey(bc::wallet::payment_address a_address);
+    bc::wallet::hd_private getPrivateKey(bc::wallet::payment_address a_address);
 };
 
 #endif

@@ -347,7 +347,7 @@ Wallet::getPublicKey(bc::wallet::payment_address a_address)
         }
     }
 
-}
+};
 
 /**
  * @brief Returns private key with a given payment address.
@@ -371,4 +371,4 @@ Wallet::getPrivateKey(bc::wallet::payment_address a_address)
         }
     }
 
-}
+};

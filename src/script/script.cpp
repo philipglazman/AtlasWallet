@@ -1,4 +1,4 @@
-#include "script.hpp"
+#include "../wallet/stdafx.h"
 
 /**
  * @brief Construct a new script::script object
@@ -18,10 +18,10 @@ Script::Script()
  * @author Philip Glazman
  * @date 4/28/18
  */
-Script::~Script()
-{
+// Script::~Script()
+// {
     
-};
+// };
 
 
 /**
@@ -33,25 +33,72 @@ Script::~Script()
 bool
 Script::run_script()
 {
-
+    return true;
 };
 
 /**
  * @brief 
  * 
- * @return bc::machine::program 
+ * @param witness 
+ * @param witness_script 
+ * @return true 
+ * @return false 
+ * 
+ * @author Philip Glazman
+ * @date 4/30/18
  */
-bc::machine::program
-Script::build_script()
+bool
+Script::build_script(std::string a_witness, std::string a_witness_script)
 {
-    
-    // Build script from operation codes.
-    bc::machine::operation::list operations = {
+    // Use istringstream class to parse witness and witness script.
+    std::istringstream witness (a_witness);
+    std::istringstream witness_script (a_witness_script);
 
+    // Operater/Operand at specific point in script.
+    std::string execution_pointer;
+
+    while(witness)
+    {
+        execution_pointer.clear();
+        witness >> execution_pointer;
+
+        if( execution_pointer != "" )
+        {
+            // Push the witness onto the execution stack.
+            std::cout << execution_pointer << std::endl;
+            execution_stack.push(execution_pointer);
+        }
     };
 
-    // Connct operation codes into Bitcoin script.
-    bc::chain::script script (operations);
+    while(witness_script)
+    {
+        execution_pointer.clear();
+        witness_script >> execution_pointer;
+        
+        if( execution_pointer != "" )
+        {
+            // Add execution operations to queue.
+            std::cout << execution_pointer << std::endl;
+            execution_queue.push(execution_pointer);
+        }
+    };
+};
 
-    //return bc::machine::program script()
+/**
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
+ * 
+ * @author Philip Glazman
+ * @date 4/30/18
+ */
+bool
+Script::eval()
+{
+    while(!execution_queue.empty())
+    {
+        
+    }
+
 };

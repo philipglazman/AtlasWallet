@@ -13,12 +13,14 @@ class Script
 {
     public:
         Script();
-        ~Script();
+        // ~Script();
 
         bool run_script();
         
-        // Builds script programatically using operation codes.
-        bc::machine::program build_script();
+        bool build_script(std::string a_witness, std::string a_witness_script);
+
+        // Evaluate script.
+        bool eval();
     
     protected:
 
@@ -30,21 +32,13 @@ class Script
 
         // bc::machine:::operation::list script;
 
-        // Unlocking Script
-        // OR Witness
-        template <typename T> 
-        std::stack <T> witness;
-
-        // Locking Script
-        // OR Witness Script
-        template <typename T> 
-        std::stack <T> witness_script;
-
         // Execution stack.
-        template <typename T>
-        std::stack <T>> execution_stack;
+        std::stack <std::string> execution_stack;
+
+        // Witness script.
+        std::queue <std::string> execution_queue;
 
         //op codes
 };
 
-#endif 
+#endif

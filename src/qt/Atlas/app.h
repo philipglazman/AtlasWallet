@@ -33,6 +33,8 @@ private slots:
     // Send transaction button is clicked on send transaction tab.
     void on_send_tx_clicked();
 
+    void on_run_script_btn_clicked();
+
 private:
 
     // Error Dialog
@@ -41,6 +43,7 @@ private:
     // Wallet objects.
     Wallet * wallet;
     Network * network;
+    Script * script;
 
     // New or Restore Wallet.
     std::string menu_choice;
@@ -80,6 +83,7 @@ private:
 
     // Change widgets on script tab.
     void set_script_tab();
+    void run_script();
 
 };
 

@@ -29,6 +29,9 @@ app::app(QWidget *parent) :
 
     // Initialize network.
     network = new Network();
+
+    // Initialize script.
+    script = new Script();
 }
 
 /**
@@ -425,4 +428,32 @@ app::send_transaction()
 
     // Broadcast transaction.
     wallet->build_P2PKH(address,amount,fee);
+};
+
+/**
+ * @brief app::on_run_script_btn_clicked
+ *
+ * @author Philip Glazman
+ * @date 4/30/18
+ */
+void
+app::on_run_script_btn_clicked()
+{
+    this->run_script();
+}
+
+/**
+ * @brief app::run_script
+ *
+ * @author Philip Glazman
+ * @date 4/30/18
+ */
+void
+app::run_script()
+{
+    std::string witness = ui->witness_text_edit->toPlainText().toStdString();
+    std::string witness_script = ui->witness_script_text_edit->toPlainText().toStdString();
+
+    script->run_script();
+    script->build_script(witness,witness_script);
 };

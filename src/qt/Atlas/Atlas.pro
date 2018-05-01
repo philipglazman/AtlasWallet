@@ -57,7 +57,8 @@ SOURCES += \
     ../../wallet/transaction.cpp \
     ../../wallet/utxo.cpp \
     ../../wallet/error.cpp \
-    ../../network/network.cpp
+    ../../network/network.cpp \
+    ../../script/script.cpp
 
 HEADERS += \
         app.h \

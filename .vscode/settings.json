@@ -21,6 +21,17 @@
         "random": "cpp",
         "slist": "cpp",
         "__functional_03": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "ios": "cpp",
+        "sstream": "cpp",
+        "strstream": "cpp",
+        "string": "cpp",
+        "__locale": "cpp",
+        "bitset": "cpp",
+        "memory": "cpp",
+        "string_view": "cpp",
+        "system_error": "cpp",
+        "thread": "cpp",
+        "type_traits": "cpp"
     }
 }

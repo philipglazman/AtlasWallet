@@ -4,7 +4,7 @@
 
 bool valid_address::valid(std::string a_address)
 { 
-    unsigned char dec[32], d1[SHA256_DIGEST_LENGTH], d2[SHA256_DIGEST_LENGTH];   
-   
+    unsigned char dec[32], d1[SHA256_DIGEST_LENGTH], d2[SHA256_DIGEST_LENGTH];  
+    
     return true;
 }

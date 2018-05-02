@@ -188,7 +188,7 @@ Operation::OP_NUMNOTEQUAL(std::stack<std::string>& a_stack)
  * @date 5/2/18
  */
 std::stack<std::string>&
-Operatoin::OP_EQUAL(std::stack<std::string>& a_stack)
+Operation::OP_EQUAL(std::stack<std::string>& a_stack)
 {
     std::string x = a_stack.top();
     a_stack.pop();
@@ -446,7 +446,7 @@ Operation::OP_MAX(std::stack<std::string>& a_stack)
  * @date 5/2/18
  */
 std::stack<std::string>&
-Operatoin::OP_WITHIN(std::stack<std::string>& a_stack)
+Operation::OP_WITHIN(std::stack<std::string>& a_stack)
 {
     int x = std::stoi(a_stack.top());
     a_stack.pop();
@@ -459,14 +459,165 @@ Operatoin::OP_WITHIN(std::stack<std::string>& a_stack)
 
     if( z >= y && z < x)
     {
-        a_stack.push(std::to_string("TRUE"));
+        a_stack.push("TRUE");
     }
     else
     {   
-        a_stack.push(std::to_string("FALSE"));
+        a_stack.push("FALSE");
     }
 
     return a_stack;
+};
+
+/**
+ * @brief Operator for popping the top item off the stack
+ * 
+ * @param a_stack 
+ * @return std::stack<std::string>& 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::stack<std::string>&
+Operation::OP_DROP(std::stack<std::string>& a_stack)
+{
+    if(!a_stack.empty())
+    {
+        a_stack.pop();
+    };
+    
+    return a_stack;
+};
+
+/**
+ * @brief Duplicates the tope item in the stack.
+ * 
+ * @param a_stack 
+ * @return std::stack<std::string>& 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::stack<std::string>&
+Operation::OP_DUP(std::stack<std::string>& a_stack)
+{
+    a_stack.push(a_stack.top());
+    return a_stack;
+};
+
+/**
+ * @brief Operator for counting the items on the stack and pushing the result onto the stack
+ * 
+ * @param a_stack 
+ * @return std::stack<std::string>& 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::stack<std::string>&
+Operation::OP_DEPTH(std::stack<std::string>& a_stack)
+{
+    std::string count_stack = std::to_string(a_stack.size());
+    a_stack.push(count_stack);
+    return a_stack;
+};
+
+/**
+ * @brief Operator for pushing RIPEMD160 hash of the top item onto the stack
+ * 
+ * @param a_stack 
+ * @return std::stack<std::string>& 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::stack<std::string>&
+Operation::OP_RIPEMD160(std::stack<std::string>& a_stack)
+{
+    std::string hashed_string = hash_RIPEMD160(a_stack.top());
+
+    a_stack.pop();
+    a_stack.push(hashed_string);
+};
+
+/**
+ * @brief Operator for pushing SHA1 hash of the top item onto the stack
+ * 
+ * @param a_stack 
+ * @return std::stack<std::string>& 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::stack<std::string>& 
+Operation::OP_SHA1(std::stack<std::string>& a_stack)
+{
+    std::string hashed_string = hash_SHA1(a_stack.top());
+
+    a_stack.pop();
+    a_stack.push(hashed_string);
+};
+
+/**
+ * @brief Operator for pushing SHA256 hash of the top item onto the stack
+ * 
+ * @param a_stack 
+ * @return std::stack<std::string>& 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::stack<std::string>& 
+Operation::OP_SHA256(std::stack<std::string>& a_stack)
+{
+    std::string hashed_string = hash_SHA256(a_stack.top());
+
+    a_stack.pop();
+    a_stack.push(hashed_string);
+};
+
+/**
+ * @brief Operator for pushing RIPEMD160(SHA256(n)) hash of the top item onto the stack
+ * 
+ * @param a_stack 
+ * @return std::stack<std::string>& 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::stack<std::string>& 
+Operation::OP_HASH160(std::stack<std::string>& a_stack)
+{
+    // SHA256 hash string
+    std::string sha256_hashed_string = hash_SHA256(a_stack.top());
+    
+    // Double hash with RIPMD160
+    std::string hashed_string = hash_RIPEMD160(sha256_hashed_string);
+
+    a_stack.pop();
+    a_stack.push(hashed_string);
+};
+
+/**
+ * @brief Operator for pushing SHA256(SHA256(n)) hash of the top item onto the stack
+ * 
+ * @param a_stack 
+ * @return std::stack<std::string>& 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::stack<std::string>&
+Operation::OP_HASH256(std::stack<std::string>& a_stack)
+{
+    // SHA256 hash string
+    std::string sha256_hashed_string = hash_SHA256(a_stack.top());
+    
+    // Double SHA256 hash
+    std::string hashed_string = hash_SHA256(sha256_hashed_string);
+
+    a_stack.pop();
+    a_stack.push(hashed_string);
 };
 
 /**
@@ -519,4 +670,92 @@ Operation::call_operation(std::string a_code,std::stack<std::string> &a_stack)
         a_stack = OP_EQUAL(a_stack);
         return a_stack;
     }
+};
+
+/**
+ * @brief Applies SHA256 hash function on a string.
+ * 
+ * @return std::string 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::string
+Operation::hash_SHA256(std::string a_string)
+{
+    // Digest
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+
+    char str[a_string.length()];
+
+    strncpy(str,a_string.c_str(),sizeof(a_string));
+    
+    SHA256((unsigned char*)&str,strlen(str),(unsigned char*)&digest);    
+
+    char mdString[SHA256_DIGEST_LENGTH*2+1];
+
+    for(int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    {
+        sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
+    };
+
+    return  std::string(mdString);
+};
+
+/**
+ * @brief Applies RIPEMD160 hash function a string.
+ * 
+ * @return std::string 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::string 
+Operation::hash_RIPEMD160(std::string a_string)
+{
+    unsigned char digest[RIPEMD160_DIGEST_LENGTH];
+
+    char str[a_string.length()];
+
+    strncpy(str,a_string.c_str(),sizeof(a_string));
+    
+    RIPEMD160((unsigned char*)&str,strlen(str),(unsigned char*)&digest);    
+
+    char mdString[RIPEMD160_DIGEST_LENGTH*2+1];
+
+    for(int i = 0; i < RIPEMD160_DIGEST_LENGTH; i++)
+    {
+         sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
+    }
+
+    return std::string(mdString);
+};
+
+/**
+ * @brief Applies SHA1 hash function on string.
+ * 
+ * @return std::string 
+ * 
+ * @author Philip Glazman
+ * @date 5/2/18
+ */
+std::string
+Operation::hash_SHA1(std::string a_string)
+{
+    unsigned char digest[SHA_DIGEST_LENGTH];
+    
+    char str[a_string.length()];
+
+    strncpy(str,a_string.c_str(),sizeof(a_string));
+    
+    SHA1((unsigned char*)&str,strlen(str),(unsigned char*)&digest);    
+
+    char mdString[SHA_DIGEST_LENGTH*2+1];
+
+    for(int i = 0; i < SHA_DIGEST_LENGTH; i++)
+    {
+        sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
+    }
+
+    return std::string(mdString);
 };

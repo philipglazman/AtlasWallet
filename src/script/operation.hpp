@@ -27,7 +27,10 @@ class Operation
         stack& OP_1(stack);
 
         //Operators for stack manipulation
-
+        stack& OP_DROP(stack);
+        stack& OP_DUP(stack);
+        stack& OP_DEPTH(stack);
+        
         // Operators for binary artithmetic
         stack& OP_EQUAL(stack);  
 
@@ -49,7 +52,16 @@ class Operation
         stack& OP_WITHIN(stack);
 
         // Operators for cryptography
-        
+        stack& OP_RIPEMD160(stack);
+        stack& OP_SHA1(stack);
+        stack& OP_SHA256(stack);
+        stack& OP_HASH160(stack);
+        stack& OP_HASH256(stack);
+
+        // Utilities for cryptography
+        std::string hash_SHA256(std::string);
+        std::string hash_RIPEMD160(std::string);
+        std::string hash_SHA1(std::string);       
 };
 
 #endif

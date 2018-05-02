@@ -4,12 +4,13 @@ int main()
 {
     std::stack<std::string> my_stack;
 
-    my_stack.push("2");
-    my_stack.push("3");
-
     Operation operators;
 
-    operators.call_operation("OP_1",my_stack);
+    operators.call_operation("1",my_stack);
+    operators.call_operation("2",my_stack);
+    operators.call_operation("OP_ADD",my_stack);
+    operators.call_operation("4",my_stack);
+    operators.call_operation("OP_EQUAL",my_stack);
 
     while(!my_stack.empty())
     {

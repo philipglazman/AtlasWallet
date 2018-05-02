@@ -19,6 +19,8 @@
         "iterator": "cpp",
         "vector": "cpp",
         "random": "cpp",
-        "slist": "cpp"
+        "slist": "cpp",
+        "__functional_03": "cpp",
+        "functional": "cpp"
     }
 }

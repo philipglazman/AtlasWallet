@@ -23,6 +23,7 @@ g++ -c stdafx.h -o stdafx.h.gch -std=c++11 -lboostsystem -lbitcoin
 #include <curl/curl.h>
 #include <json/json.h>
 #include <sstream>
+#include <stack>
 
 // Boost Libraries
 #include <boost/property_tree/ptree.hpp>
@@ -32,6 +33,7 @@ g++ -c stdafx.h -o stdafx.h.gch -std=c++11 -lboostsystem -lbitcoin
 #include "error.hpp"
 #include "../network/network.hpp"
 #include "../script/script.hpp"
+#include "../script/operation.hpp"
 #include "Wallet.hpp"
 #include "utxo.hpp"
 #include "transaction.hpp"

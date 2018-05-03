@@ -1,7 +1,9 @@
 /**
- * @brief Provides basic features, error checking of bitcoin script language.
- *  User inputs string opcode, script checks if valid opcode, appends it to stack. 
+ * @brief Script class manipulates a Bitcoin execution stack using Bitcoin script rules.
  * 
+ * @file script.hpp
+ * @author Philip Glazman
+ * @date 5/3/18
  */
 
 #ifndef _SCRIPT_H
@@ -12,33 +14,35 @@
 class Script 
 {
     public:
+
+        // Constructor, initializes consensus rules for the script to comply to.
         Script();
-        // ~Script();
 
-        bool run_script();
-        
+        // Destructor.
+        ~Script();
+
+        // Evaluates sthe script on the current execution stack.
+        bool is_valid();
+
+        // Builds the execution stack using the provided witness and witness script.
         bool build_script(std::string a_witness, std::string a_witness_script);
-
-        // Evaluate script.
-        bool eval();
     
     protected:
 
-
     private:
 
-        // Configuration for which fork rules the script will run on.
-        uint32_t fork_rules;
+        // Creates Operation object.
+        Atlas::Operation * m_operation;
 
-        // bc::machine:::operation::list script;
+        // Configuration for which fork rules the script will run on.
+        uint32_t m_fork_rules;
 
         // Execution stack.
-        std::stack <std::string> execution_stack;
+        std::stack <std::string> m_execution_stack;
 
         // Witness script.
-        std::queue <std::string> execution_queue;
+        std::queue <std::string> m_execution_queue;
 
-        //op codes
 };
 
 #endif

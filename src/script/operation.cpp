@@ -1,4 +1,15 @@
+/**
+ * @brief Implementation of Operation class.
+ * 
+ * @file operation.cpp
+ * @author Philip Glazman
+ * @date 5/3/18
+ */
+
 #include "../wallet/stdafx.h"
+
+namespace Atlas 
+{
 
 /**
  * @brief Construct a new Operation:: Operation object
@@ -790,4 +801,5 @@ Operation::hash_SHA1(std::string a_string)
     }
 
     return std::string(mdString);
+};
 };

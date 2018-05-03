@@ -1,15 +1,27 @@
+/**
+ * @brief Operation class provides functionality for changing the Bitcoin execution stack with operation codes. 
+ * 
+ * @file operation.hpp
+ * @author Philip Glazman
+ * @date 5/3/18
+ */
+
 #ifndef _OPERATION_H
 #define _OPERATION_H
 
 #include "../wallet/stdafx.h"
 
+namespace Atlas 
+{
+
 class Operation 
 {
     public:
         
+        // Constructor, builds the hash map of operation codes and function pointers.
         Operation(); 
 
-        // calls a specific operation
+        // Calls a specific operation to change the stack.
         std::stack<std::string>& call_operation(std::string a_code,std::stack<std::string>&);
     
     protected:
@@ -19,7 +31,11 @@ class Operation
         // Stack representing Bitcoin execution stack.
         typedef std::stack<std::string>& stack;
 
+        // Function pointer associated with operation code.
         typedef stack (*func)(stack);
+        
+        // Hash map for accessing operation codes.
+        // key - operation code, value - function
         typedef std::unordered_map<std::string, func> op_code_map;
 
         op_code_map m_op_code_map;
@@ -65,4 +81,5 @@ class Operation
         static std::string hash_SHA1(std::string);       
 };
 
+}
 #endif

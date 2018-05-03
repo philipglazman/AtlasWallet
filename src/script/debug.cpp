@@ -9,7 +9,7 @@ int main()
     operators.call_operation("1",my_stack);
     operators.call_operation("2",my_stack);
     operators.call_operation("OP_ADD",my_stack);
-    operators.call_operation("4",my_stack);
+    operators.call_operation("3",my_stack);
     operators.call_operation("OP_EQUAL",my_stack);
 
     while(!my_stack.empty())

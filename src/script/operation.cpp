@@ -4,12 +4,44 @@
  * @brief Construct a new Operation:: Operation object
  * 
  * @author Philip Glazman
- * @date 5/2/18
+ * @date 5/3/18
  */
 Operation::Operation()
 {
-    // m_op_code_map.emplace("OP_1",&OP_1);
+    // Operation Codes are loaded into hash map for efficient lookup.
 
+    // Insert operation codes for stack manipulation.
+    m_op_code_map.emplace("OP_DROP",this->OP_DROP);
+    m_op_code_map.emplace("OP_DUP",this->OP_DUP);
+    m_op_code_map.emplace("OP_DEPTH",this->OP_DEPTH);
+    
+    // Insert operation codes for binary arithmetic.
+    m_op_code_map.emplace("OP_EQUAL",this->OP_EQUAL);
+
+    // Insert operation codes for arithmetic.
+    m_op_code_map.emplace("OP_1ADD",this->OP_1ADD);
+    m_op_code_map.emplace("OP_1SUB",this->OP_1SUB);
+    m_op_code_map.emplace("OP_NEGATE",this->OP_NEGATE);
+    m_op_code_map.emplace("OP_ABS",this->OP_ABS);
+    m_op_code_map.emplace("OP_ADD",this->OP_ADD);
+    m_op_code_map.emplace("OP_SUB",this->OP_SUB);
+    m_op_code_map.emplace("OP_NUMEQUAL",this->OP_NUMEQUAL);
+    m_op_code_map.emplace("OP_NUMNOTEQUAL",this->OP_NUMNOTEQUAL);
+    m_op_code_map.emplace("OP_LESSTHAN",this->OP_LESSTHAN);
+    m_op_code_map.emplace("OP_GREATERTHAN",this->OP_GREATERTHAN);
+    m_op_code_map.emplace("OP_LESSTHANOREQUAL",this->OP_LESSTHANOREQUAL);
+    m_op_code_map.emplace("OP_GREATERTHANOREQUAL",this->OP_GREATERTHANOREQUAL);
+    m_op_code_map.emplace("OP_MIN",this->OP_MIN);
+    m_op_code_map.emplace("OP_MAX",this->OP_MAX);
+    m_op_code_map.emplace("OP_WITHIN",this->OP_WITHIN);
+
+    // Insert operation codes for cryptography.
+    m_op_code_map.emplace("OP_RIPEMD160",this->OP_RIPEMD160);
+    m_op_code_map.emplace("OP_SHA1",this->OP_SHA1);
+    m_op_code_map.emplace("OP_SHA256",this->OP_SHA256);
+    m_op_code_map.emplace("OP_HASH160",this->OP_HASH160);
+    m_op_code_map.emplace("OP_HASH256",this->OP_HASH256);
+    
 };
 
 /**
@@ -69,8 +101,8 @@ OP_FALSE(std::stack<std::string>& a_stack)
  * @author Philip Glazman
  * @date 5/2/18
  */
-std::stack<std::string>&
-OP_ADD(std::stack<std::string>& a_stack)
+Operation::stack 
+Operation::OP_ADD(Operation::stack  a_stack)
 {
     int x = std::stoi(a_stack.top());
     a_stack.pop();
@@ -653,23 +685,23 @@ Operation::call_operation(std::string a_code,std::stack<std::string> &a_stack)
         }
     };
 
-    if(a_code == "OP_1")
-    {
-        a_stack = OP_1(a_stack);
-        return a_stack;
-    }
+    
+    // Iterator for op code hash map.
+    std::unordered_map<std::string,func>::iterator iter;
 
-    if(a_code == "OP_ADD")
-    {
-        a_stack = OP_ADD(a_stack);
-        return a_stack;
-    }
+    iter = m_op_code_map.find(a_code);
 
-    if(a_code == "OP_EQUAL")
+    if(iter != m_op_code_map.end())
     {
-        a_stack = OP_EQUAL(a_stack);
-        return a_stack;
+        std::cout << "Operation Code Found" << std::endl;
+        a_stack = (*iter->second)(a_stack);
     }
+    else
+    {
+        std::cout << "Operation Code NOT Found" << std::endl;
+    }
+    
+    return a_stack;
 };
 
 /**

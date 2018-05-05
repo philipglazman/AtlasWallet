@@ -18,7 +18,7 @@ Script::Script()
     // Configure current consensus rules for the stack to comply with.
     m_fork_rules = bc::machine::rule_fork::all_rules;
 
-    m_operation = new Atlas::Operation();
+    m_operation = new Operation::Operation();
 };
 
 /**
@@ -42,7 +42,7 @@ Script::~Script()
 bool
 Script::is_valid()
 {
-    if(m_execution_stack.size()==1 and m_execution_stack.top()=="1")
+    if(m_execution_stack.size()==1 and (m_execution_stack.top()=="1" || m_execution_stack.top()=="True"))
     {
         return true;
     }
@@ -66,7 +66,7 @@ Script::is_valid()
 bool
 Script::build_script(std::string a_witness, std::string a_witness_script)
 {
-    std::string script = a_witness + a_witness_script;
+    std::string script = a_witness +" "+ a_witness_script;
    
     // Use istringstream class to parse witness and witness script.
     std::istringstream execution_item (script);
@@ -87,4 +87,24 @@ Script::build_script(std::string a_witness, std::string a_witness_script)
             m_operation->call_operation(execution_pointer,m_execution_stack);
         }
     };
+};
+
+/**
+ * @brief Clears the current execution stack.
+ * 
+ * @return true 
+ * @return false
+ * 
+ * @author Philip Glazman
+ * @date 5/3/18 
+ */
+bool
+Script::clear_script()
+{
+    while(!m_execution_stack.empty())
+    {
+        m_execution_stack.pop();
+    }
+
+    return true;
 };

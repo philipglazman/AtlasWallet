@@ -11,9 +11,6 @@
 
 #include "../wallet/stdafx.h"
 
-namespace Atlas 
-{
-
 class Operation 
 {
     public:
@@ -81,5 +78,4 @@ class Operation
         static std::string hash_SHA1(std::string);       
 };
 
-}
 #endif

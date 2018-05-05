@@ -18,7 +18,7 @@ int main()
     Script my_script;
 
     std::string witness = "1 2";
-    std::string witness_script = "OP_ADD 3 OP_EQUAL";
+    std::string witness_script = "OP_ADD 4 OP_EQUAL";
     my_script.build_script(witness, witness_script);
     std::cout << my_script.is_valid() << std::endl;
 }

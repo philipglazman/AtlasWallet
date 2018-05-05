@@ -19,22 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
-#PKGCONFIG += \
-#        libbitcoin \
-#        libbitcoin-client \
-#        libcurl \
-#        jsoncpp
-
-#INCLUDEPATH += `pkg-config --cflags libbitcoin`
-#QMAKE_CFLAGS += 'libbitcoin'
-#INCLUDEPATH += \
-#        'pkg-config --cflags libbitcoin' \
-#        '/usr/local/include'
-#LIBS += `pkg-config --libs libbitcoin libbitcoin-client libcurl jsoncpp`
-
-#INCLUDEPATH += '../../wallet/'
-#LIBS += `pkg-config --libs libbitcoin libbitcoin-client libcurl jsoncpp`
-LIBS += $$system(/usr/local/bin/pkg-config --cflags --libs libbitcoin libbitcoin-client libcurl jsoncpp)
+LIBS += $$system(/usr/local/bin/pkg-config --cflags --libs libbitcoin libbitcoin-client libcurl jsoncpp libcrypto)
 
 mac {
     PKG_CONFIG = /usr/local/bin/pkg-config
@@ -58,7 +43,8 @@ SOURCES += \
     ../../wallet/utxo.cpp \
     ../../wallet/error.cpp \
     ../../network/network.cpp \
-    ../../script/script.cpp
+    ../../script/script.cpp \
+    ../../script/operation.cpp
 
 HEADERS += \
         app.h \

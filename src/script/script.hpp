@@ -10,6 +10,7 @@
 #define _SCRIPT_H
 
 #include "../wallet/stdafx.h"
+#include "operation.hpp"
 
 class Script 
 {
@@ -26,13 +27,16 @@ class Script
 
         // Builds the execution stack using the provided witness and witness script.
         bool build_script(std::string a_witness, std::string a_witness_script);
+
+        // Clears the current Bitcoin execution stack.
+        bool clear_script();
     
     protected:
 
     private:
 
         // Creates Operation object.
-        Atlas::Operation * m_operation;
+        Operation * m_operation;
 
         // Configuration for which fork rules the script will run on.
         uint32_t m_fork_rules;

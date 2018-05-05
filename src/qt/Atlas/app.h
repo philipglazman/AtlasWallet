@@ -52,6 +52,8 @@ private:
     restore_wallet * restore_wallet;
     start_menu * start_menu;
 
+    QLayout * script_layout;
+
     // Mnemonic word list.
     std::vector<std::string> word_list;
 
@@ -84,6 +86,7 @@ private:
     // Change widgets on script tab.
     void set_script_tab();
     void run_script();
+    void write_to_script_console(std::string msg);
 
 };
 

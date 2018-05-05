@@ -32,6 +32,19 @@
         "string_view": "cpp",
         "system_error": "cpp",
         "thread": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "__bit_reference": "cpp",
+        "__hash_table": "cpp",
+        "__split_buffer": "cpp",
+        "__tree": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "__string": "cpp",
+        "utility": "cpp"
     }
 }

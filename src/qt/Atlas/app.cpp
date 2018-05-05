@@ -257,9 +257,18 @@ app::set_history_tab()
 void
 app::set_script_tab()
 {
-    ui->is_valid_script_label->setText("Valid!");
-    ui->is_valid_script_label->setStyleSheet("QLabel { color : green; }");
-    ui->is_valid_script_label->setVisible(false);
+    QScrollArea *script_console = ui->script_scrollArea;
+
+    script_console->setBackgroundRole(QPalette::Window);
+    script_console->setFrameShadow(QFrame::Plain);
+    script_console->setFrameShape(QFrame::NoFrame);
+    script_console->setWidgetResizable(true);
+
+    QWidget* boxArea = new QWidget;
+    boxArea->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    boxArea->setLayout(new QVBoxLayout(boxArea));
+    script_console->setWidget(boxArea);
+    script_layout = boxArea->layout();
 };
 
 /**
@@ -454,6 +463,28 @@ app::run_script()
     std::string witness = ui->witness_text_edit->toPlainText().toStdString();
     std::string witness_script = ui->witness_script_text_edit->toPlainText().toStdString();
 
-    script->run_script();
+    script->clear_script();
     script->build_script(witness,witness_script);
+    if(script->is_valid())
+    {
+        this->write_to_script_console("Valid!");
+    }
+    else
+    {
+        this->write_to_script_console("Error - Script is invalid.");
+    }
+};
+
+/**
+ * @brief app::write_to_script_console
+ * @param msg
+ *
+ * @author Philip Glazman
+ * @date 5/3/18
+ */
+void
+app::write_to_script_console(std::string msg)
+{
+    QLabel *console_item = new QLabel(QString::fromStdString(msg));
+    script_layout->addWidget(console_item);
 };
